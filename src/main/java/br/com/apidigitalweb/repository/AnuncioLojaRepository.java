@@ -1,0 +1,17 @@
+package br.com.apidigitalweb.repository;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
+
+@Repository
+
+public interface AnuncioLojaRepository extends JpaRepository<AnuncioLoja, Long> {
+	Page<AnuncioLoja> findByNomeContainingIgnoreCase(String nome,Pageable page);
+ 
+}
