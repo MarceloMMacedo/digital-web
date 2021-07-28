@@ -15,35 +15,33 @@ import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import lombok.Data;
 
 @Data
-public class SampleContratoDto  implements Serializable {
+public class SampleContratoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private long id;
-	 
-	private PessoaSampleDto cliente;
 
+	private PessoaSampleDto cliente;
+	private String nome;
 	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	private Date dataInicio;
 	private int periodo;
 	private int diaLeitura;
 	private double valorFinal;
-	
+
 	public SampleContratoDto(Contrato c) {
 		super();
-		try{
+		try {
 			this.id = c.getId();
-		 
-		this.cliente = new PessoaSampleDto(c.getCliente());
-		this.dataInicio = c.getDataInicio();
-		this.periodo = c.getPeriodo();
-		this.diaLeitura = c.getDiaLeitura();
-		this.valorFinal = c.getValorFinal();
-		}catch (Exception e) {
+			nome = c.getNome();
+			this.cliente = new PessoaSampleDto(c.getCliente());
+			this.dataInicio = c.getDataInicio();
+			this.periodo = c.getPeriodo();
+			this.diaLeitura = c.getDiaLeitura();
+			this.valorFinal = c.getValorFinal();
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	
-	
 
 }

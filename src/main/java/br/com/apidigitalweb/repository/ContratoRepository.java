@@ -15,7 +15,7 @@ import br.com.apidigitalweb.domin.estoque.Produto;
 
 @Repository
 public interface ContratoRepository extends JpaRepository<Contrato, Long>  {
-	Page<Contrato> findByNomeContainingIgnoreCase(String nome,Pageable page);
+	Page<Contrato> findByNomeContainingIgnoreCaseOrNomeIsNull(String nome,Pageable page);
 	
 @Query(value="Select    i.ID , i.FRANQUIA, i.IS_FRANQUADO, i.PATRIMONIO_ID , i.VALOR_FRANQUIA  , i.VALOR_PRE_DETERMINADO , i.VALOR_UNITARIO_FRANQUIA from CONTRATO_ITENSPATRIMONIO  i", nativeQuery = true)
 	List<Object[]> findAllItenspatrimonio();

@@ -1,6 +1,7 @@
 package br.com.apidigitalweb.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apidigitalweb.domin.contratos.Contrato;
+import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.contrato.ContratoDto;
 import br.com.apidigitalweb.dto.contrato.SampleContratoDto;
 import br.com.apidigitalweb.service.ContratoService;
@@ -36,8 +38,12 @@ public class ContratoController extends BaseController<Contrato> implements Seri
 	}
 	@GetMapping(value = "/contrato/{id}")
 	public ResponseEntity<ContratoDto> findbyid(@PathVariable Long id) {
-		
-		
 		return ResponseEntity.ok(service.findbyid(id) );
+	}
+	
+	
+	@GetMapping(value = "/patrimonios")
+	public ResponseEntity<List<SampleDto> > findAllByContratoIsNull() {
+		return ResponseEntity.ok(service.findAllByContratoIsNull());
 	}
 }

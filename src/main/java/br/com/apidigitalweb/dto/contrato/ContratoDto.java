@@ -17,6 +17,7 @@ import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
 import br.com.apidigitalweb.domin.pessoa.Empresa;
 import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.PessoaSampleDto;
+import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.Anuncio.AnuncioDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
@@ -43,10 +44,10 @@ public class ContratoDto implements Serializable {
 	private Date dataInicio;
 	private int periodo;
 	private int diaLeitura;
-	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
+ 
 	private int diaVencimento;
 	private List<ItensContratoPatrimonio> itenspatrimonio = new ArrayList<ItensContratoPatrimonio>();
-	private BaseDto grupoFinanceiro;
+	private SampleDto grupoFinanceiro;
 	private List<FaturasDto> faturaContratos;
 	private double valorFinal;
 	@Transient // To Do
@@ -88,7 +89,7 @@ public class ContratoDto implements Serializable {
 		itenspatrimonio=c.getItenspatrimonio();
 		//this.itenspatrimonio = c.getItenspatrimonio().stream().map(x -> new ItensContratoPatrimonioDTO(x))				.collect(Collectors.toList());
 		try {
-			this.grupoFinanceiro = new BaseDto(c.getGrupoFinanceiro(), "");
+			this.grupoFinanceiro = new SampleDto(c.getGrupoFinanceiro(), "");
 
 		} catch (Exception ew) {
 			// TODO: handle exception

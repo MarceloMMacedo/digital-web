@@ -3,6 +3,7 @@ package br.com.apidigitalweb.dto;
 import java.io.Serializable;
 
 import br.com.apidigitalweb.domin.pessoa.Cliente;
+import br.com.apidigitalweb.domin.pessoa.Contato;
 import br.com.apidigitalweb.domin.pessoa.Empresa;
 import br.com.apidigitalweb.domin.pessoa.Endereco;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class PessoaSampleDto implements Serializable {
 	private String cnpj;
 	private String imagemview;
 	private Endereco endereco = new Endereco();
+	private Contato contato = new Contato();
 
 	public PessoaSampleDto(Empresa e) {
 		super();
@@ -37,6 +39,7 @@ public class PessoaSampleDto implements Serializable {
 			this.cnpj = e.getCnpj();
 			// this.imagemview = e.getImagemview();
 			endereco = e.getEndereco();
+			contato = e.getContato();
 		} catch (Exception er) {
 			// TODO: handle exception
 		}

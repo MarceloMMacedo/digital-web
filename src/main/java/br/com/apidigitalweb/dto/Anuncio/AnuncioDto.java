@@ -15,7 +15,7 @@ public class AnuncioDto  implements Serializable {
 	private Long id;
 	private String nome;
 	private Integer saldo=0;
-	private String imagem;
+	private String imagemView;
 	private BaseDto modelo =new BaseDto(); 
 	private double valor= 0.0;
 	public AnuncioDto(AnuncioContrato a) {
@@ -23,7 +23,7 @@ public class AnuncioDto  implements Serializable {
 		this.id = a.getId();
 		this.nome = a.getNome();
 		this.saldo = a.getSaldo();
-		this.imagem = a.getImagemView();	 
+		this.imagemView = a.getImagemView();	 
 		this.valor = a.getValorFinal();
 	}
 	

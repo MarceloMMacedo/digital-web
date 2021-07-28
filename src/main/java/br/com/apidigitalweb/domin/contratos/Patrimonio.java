@@ -66,7 +66,10 @@ public class Patrimonio extends BaseDomain implements BaseEntity, Serializable {
 	@CollectionTable(joinColumns = @JoinColumn(name = "id"))
 	private List<Medidores> medidores;
 
-	private Long contrato;
+	@JoinColumn
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Contrato contrato;
 
 	@AttributeOverrides({
 			@AttributeOverride(name = "medidorA4Inicial", column = @Column(name = "medidorA4InicialServico")),
