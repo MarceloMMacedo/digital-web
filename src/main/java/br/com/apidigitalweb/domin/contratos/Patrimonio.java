@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.converters.StatusConverter;
@@ -67,6 +68,7 @@ public class Patrimonio extends BaseDomain implements BaseEntity, Serializable {
 	private List<Medidores> medidores;
 
 	@JoinColumn
+	@JsonIgnore
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;

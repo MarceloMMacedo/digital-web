@@ -1,4 +1,4 @@
-package br.com.apidigitalweb.controller;
+package br.com.apidigitalweb.controller.financeiro;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,21 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.apidigitalweb.controller.BaseController;
 import br.com.apidigitalweb.domin.contratos.Contrato;
+import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.contrato.ContratoDto;
 import br.com.apidigitalweb.dto.contrato.SampleContratoDto;
 import br.com.apidigitalweb.service.ContratoService;
 
 @RestController
-@RequestMapping(value = "/contratos")
-public class ContratoController extends BaseController<Contrato> implements Serializable {
+@RequestMapping(value = "/contrato")
+public class ContratosController extends BaseController<Contrato> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,8 +45,18 @@ public class ContratoController extends BaseController<Contrato> implements Seri
 	}
 	
 	
-	@GetMapping(value = "/patrimonios")
+	@GetMapping(value = "/patrimonios/getallsampledto")
 	public ResponseEntity<List<SampleDto> > findAllByContratoIsNull() {
 		return ResponseEntity.ok(service.findAllByContratoIsNull());
+	}
+	@GetMapping(value = "/cep")
+	public ResponseEntity<?> getcep(@RequestParam(defaultValue = "", value = "cep") String cep) {
+		Endereco t = service.getEndereco(cep);
+		return ResponseEntity.ok(t);
+	}
+	@DeleteMapping(value = "/deleteitem/{id}")
+	public ResponseEntity<Void > deleteitem(@PathVariable Long id) {
+		service.deleteItemcontrato(id);
+		return ResponseEntity.noContent().build() ;
 	}
 }

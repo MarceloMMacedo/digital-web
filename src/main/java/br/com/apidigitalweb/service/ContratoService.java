@@ -15,13 +15,18 @@ import br.com.apidigitalweb.config.exception.AuthorizationException;
 import br.com.apidigitalweb.config.security.UserSS;
 import br.com.apidigitalweb.config.services.UserService;
 import br.com.apidigitalweb.domin.contratos.Contrato;
+import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
 import br.com.apidigitalweb.domin.contratos.Patrimonio;
 import br.com.apidigitalweb.domin.pessoa.Empresa;
+import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.contrato.ContratoDto;
 import br.com.apidigitalweb.dto.contrato.SampleContratoDto;
+import br.com.apidigitalweb.dto.pessoa.BasePessoaJuridicaDTO;
+import br.com.apidigitalweb.openfaing.ViaCEPClient;
 import br.com.apidigitalweb.repository.ContratoRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
+import br.com.apidigitalweb.repository.ItensContratoPatrimonioRepository;
 import br.com.apidigitalweb.repository.PatrimonioRepository;
 
 @Service
@@ -35,6 +40,12 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 
 	@Autowired
 	PatrimonioRepository patrimonioRepository;
+
+	@Autowired
+	private ViaCEPClient viaCEPClient;
+
+	@Autowired
+	ItensContratoPatrimonioRepository itensContratoPatrimonioRepository;
 
 	public Page<SampleContratoDto> findallpagesampledto(String find, Pageable page) {
 		Page<Contrato> findallpage = repo.findByNomeContainingIgnoreCaseOrNomeIsNull(find, page);
@@ -76,7 +87,26 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 
 	@Override
 	public void preSaveObj(Contrato obj) {
+		for (ItensContratoPatrimonio i : obj.getItenspatrimonio()) {
+			i.setContrato(new Contrato());
+			i.getContrato().setId(obj.getId());
+			Patrimonio p=patrimonioRepository.findById(i.getPatrimonio().getId()).get();
+			p.setContrato(new Contrato());
+			p.getContrato().setId(obj.getId());
+			patrimonioRepository.save(p);
+		}
+		itensContratoPatrimonioRepository.saveAll(obj.getItenspatrimonio());
 		super.preSaveObj(obj);
+	}
+
+	public void deleteItemcontrato(long id) {
+		
+		ItensContratoPatrimonio i = itensContratoPatrimonioRepository.findById(id).get();
+		Patrimonio p=patrimonioRepository.findById(i.getPatrimonio().getId()).get();	
+		p.setContrato(null);
+
+		patrimonioRepository.save(p);
+		itensContratoPatrimonioRepository.deleteById(id);
 	}
 
 	public List<SampleDto> findAllByContratoIsNull() {
@@ -86,4 +116,12 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 		return findAllByContratoIsNull;
 
 	}
+
+	public Endereco getEndereco(String cep) {
+		cep = cep.replaceAll("\\p{Punct}", "");
+		Endereco e = viaCEPClient.buscaEnderecoPor(cep);
+		return e;
+
+	}
+
 }
