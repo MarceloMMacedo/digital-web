@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -19,11 +20,14 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.apidigitalweb.converters.SimNaoConverter;
+import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.domin.BaseDomain;
 import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.estoque.AnuncioContrato;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
+import br.com.apidigitalweb.enuns.StatusActiv;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -73,9 +77,13 @@ public class Contrato extends BaseDomain implements BaseEntity, Serializable {
 
 	@Transient
 	private double valorFinal;
-
-	@Transient // To Do
-	private List<FaturasDto> anunciosContratos = new ArrayList<FaturasDto>();
+	@Convert(converter = StatusConverter.class)
+	private String status;
+	
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = FaturaContrato.class)
+		private List<AnuncioContrato> anunciosContratos ;
 
 	@Transient // to do
 	private List<FaturasDto> faturaAberta = new ArrayList<FaturasDto>();

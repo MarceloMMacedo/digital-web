@@ -14,16 +14,20 @@ import org.springframework.stereotype.Service;
 import br.com.apidigitalweb.config.exception.AuthorizationException;
 import br.com.apidigitalweb.config.security.UserSS;
 import br.com.apidigitalweb.config.services.UserService;
+import br.com.apidigitalweb.controller.estoque.AnuncioContratoController;
 import br.com.apidigitalweb.domin.contratos.Contrato;
 import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
 import br.com.apidigitalweb.domin.contratos.Patrimonio;
+import br.com.apidigitalweb.domin.estoque.AnuncioContrato;
 import br.com.apidigitalweb.domin.pessoa.Empresa;
 import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.contrato.ContratoDto;
 import br.com.apidigitalweb.dto.contrato.SampleContratoDto;
 import br.com.apidigitalweb.dto.pessoa.BasePessoaJuridicaDTO;
+import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.openfaing.ViaCEPClient;
+import br.com.apidigitalweb.repository.AnuncioContratoRepository;
 import br.com.apidigitalweb.repository.ContratoRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
 import br.com.apidigitalweb.repository.ItensContratoPatrimonioRepository;
@@ -47,22 +51,22 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 	@Autowired
 	ItensContratoPatrimonioRepository itensContratoPatrimonioRepository;
 
+	@Autowired
+	private AnuncioContratoRepository anuncioContratoRepository;
+
 	public Page<SampleContratoDto> findallpagesampledto(String find, Pageable page) {
 		Page<Contrato> findallpage = repo.findByNomeContainingIgnoreCaseOrNomeIsNull(find, page);
 		Page<SampleContratoDto> findallpagesampledto = findallpage.map(x -> new SampleContratoDto(x));
 		return findallpagesampledto;
 	}
 
-	public Contrato save(ContratoDto obj) {
-		Contrato c = new Contrato();
-		return c;
-	}
+ 
 
 	public ContratoDto findbyid(long id) {
 		ContratoDto contratoDto = new ContratoDto(Empresa.getEmpresa(), fingbyid(id));
 		return contratoDto;
 	}
-
+	 
 	@Override
 	public Contrato fingbyid(Long id) {
 		UserSS user = UserService.authenticated();
@@ -82,6 +86,7 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 	@Override
 	public void prenew(Contrato obj) {
 		obj.setDataInicio(new Date());
+		obj.setStatus(StatusActiv.ATIVO.getDescricao());
 		super.prenew(obj);
 	}
 
@@ -95,10 +100,23 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 			p.getContrato().setId(obj.getId());
 			patrimonioRepository.save(p);
 		}
+		for (AnuncioContrato i : obj.getAnuncioContratos()) {
+			i.setContrato(new Contrato());
+			i.getContrato().setId(obj.getId());
+			
+			AnuncioContrato p=anuncioContratoRepository.findById(i.getId()).get();
+			p.setContrato(new Contrato());
+			p.getContrato().setId(obj.getId());
+			anuncioContratoRepository.save(p);
+		}
 		itensContratoPatrimonioRepository.saveAll(obj.getItenspatrimonio());
 		super.preSaveObj(obj);
 	}
 
+	public void deleteAnuncio(Long id) {
+		anuncioContratoRepository.deleteById(id);
+	}
+	
 	public void deleteItemcontrato(long id) {
 		
 		ItensContratoPatrimonio i = itensContratoPatrimonioRepository.findById(id).get();

@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.controller.estoque.ListaImagens;
@@ -61,6 +62,7 @@ public class AnuncioContrato extends BaseDomain implements BaseEntity, Serializa
 
 	
 	@JoinColumn()
+	@JsonIgnore
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
