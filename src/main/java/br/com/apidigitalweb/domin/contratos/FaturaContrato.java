@@ -61,6 +61,30 @@ public class FaturaContrato  extends BaseFatura implements  Serializable {
 	@ManyToOne(fetch = FetchType.LAZY) 
 	private GrupoFinanceiroContrato grupoFinanceiro;
 	
+
+	public FaturaContrato(String nome, String descricao, int totalParcela, int numeroparcela, Date dataVencimento,
+			String status, double valor, Banco banco) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.totalParcela = totalParcela;
+		this.numeroparcela = numeroparcela;
+		this.dataVencimento = dataVencimento;
+		this.status = status;
+		this.valor = valor;
+		this.banco = banco;
+	}
+
+
+	public FaturaContrato(String nome, String descricao, int totalParcela, int numeroparcela, Date dataVencimento,
+			String status, double valor, Banco banco,Cliente cliente, Contrato contrato,
+			GrupoFinanceiroContrato grupoFinanceiro) {
+		super(nome, descricao, totalParcela, numeroparcela, dataVencimento, status, valor, banco);
+	
+		this.cliente = cliente;
+		this.contrato = contrato;
+		this.grupoFinanceiro = grupoFinanceiro;
+	}
  
 
 }

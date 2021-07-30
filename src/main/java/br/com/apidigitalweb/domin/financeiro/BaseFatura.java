@@ -56,7 +56,7 @@ public class BaseFatura implements Serializable, BaseEntity {
 	protected String imagemView;
 
 	protected int totalParcela;
-	protected int numeroParcela;
+	protected int numeroparcela;
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
 	protected Date dataVencimento;
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
@@ -76,12 +76,12 @@ public class BaseFatura implements Serializable, BaseEntity {
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Banco banco;
+	protected Banco banco;
 
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	private CentroCusto centroCusto;
+	protected CentroCusto centroCusto;
 	
 	//@ElementCollection
    // @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
@@ -99,6 +99,22 @@ public class BaseFatura implements Serializable, BaseEntity {
 			// TODO: handle exception
 		}
 		return total;
+	}
+
+
+
+
+	public BaseFatura(String nome, String descricao, int totalParcela, int numeroparcela, Date dataVencimento,
+			String status, double valor, Banco banco) {
+		super();
+		this.nome = nome;
+		this.descricao = descricao;
+		this.totalParcela = totalParcela;
+		this.numeroparcela = numeroparcela;
+		this.dataVencimento = dataVencimento;
+		this.status = status;
+		this.valor = valor;
+		this.banco = banco;
 	}
 
 }

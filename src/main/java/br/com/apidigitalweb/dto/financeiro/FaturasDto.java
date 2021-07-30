@@ -19,7 +19,7 @@ public class FaturasDto implements Serializable {
 	private long id;
 	private String nome;
 	private String origem;
-	private String numeroParcela;
+	private String Numeroparcela;
 
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date dataVencimento;
@@ -42,7 +42,7 @@ public class FaturasDto implements Serializable {
 		this.id = b.getId();
 		this.nome = b.getNome();
 		this.origem = origem;
-		this.numeroParcela = ""+b.getNumeroParcela() + "/" +""+b.getTotalParcela();
+		this.Numeroparcela = ""+b.getNumeroparcela() + "/" +""+b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();

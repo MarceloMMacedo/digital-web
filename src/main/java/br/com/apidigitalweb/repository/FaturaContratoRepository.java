@@ -49,4 +49,10 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 			+ "where f.id=c.id and f.status=0 and f.id=3", nativeQuery = true)
 	double totalAbertoByStatus(int status, long id);
 
+	/** Gerar Faturas **/
+	void deleteAllByContratoIdAndStatus(Long id, String status);
+
+	@Query("SELECT e.numeroparcela from FaturaContrato e where e.contrato.id=?1 and e.status=?2")
+	List<Integer> listaNumeroparcelaContratoIdAndStatus(Long id, String status);
+
 }
