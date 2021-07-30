@@ -48,22 +48,26 @@ public class Contrato extends BaseDomain implements BaseEntity, Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
-	@JsonIgnore
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AnuncioContrato.class)
-	private List<AnuncioContrato> anuncioContratos;
+	/*
+	 * @JsonIgnore
+	 * 
+	 * @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	 * 
+	 * @OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade =
+	 * CascadeType.ALL, targetEntity = AnuncioContrato.class) private
+	 * List<AnuncioContrato> anuncioContratos;
+	 */
 
 	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	private Date dataInicio;
 	private int periodo;
 	private int diaLeitura;
- 
+
 	private int diaVencimento;
 
-	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = ItensContratoPatrimonio.class)
-	private List<ItensContratoPatrimonio> itenspatrimonio =new ArrayList<ItensContratoPatrimonio>() ;
+	private List<ItensContratoPatrimonio> itenspatrimonio = new ArrayList<ItensContratoPatrimonio>();
 
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -79,11 +83,10 @@ public class Contrato extends BaseDomain implements BaseEntity, Serializable {
 	private double valorFinal;
 	@Convert(converter = StatusConverter.class)
 	private String status;
-	
-	
+
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = FaturaContrato.class)
-		private List<AnuncioContrato> anunciosContratos ;
+	@OneToMany(mappedBy = "contrato", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = AnuncioContrato.class)
+	private List<AnuncioContrato> anuncioContratos;
 
 	@Transient // to do
 	private List<FaturasDto> faturaAberta = new ArrayList<FaturasDto>();

@@ -77,6 +77,10 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 			obj = repo.findById(id).get();
 			obj.setImagemView(downloadFile(obj.getImagem() + "." + obj.getExtension()));
 			obj.setFaturaContratos(faturaContratoRepository.findAllByContrato(obj));
+			obj.getAnuncioContratos().stream().forEach(x -> {
+				x.setImagemView(downloadFile(x.getImagem() + "." + x.getExtension()));
+			});
+			 
 			return obj;
 		} catch (Exception e) {
 			throw new DataIntegrityViolationException("Contrato inxistente");
@@ -90,6 +94,7 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 		super.prenew(obj);
 	}
 
+ 
 	@Override
 	public void preSaveObj(Contrato obj) {
 		for (ItensContratoPatrimonio i : obj.getItenspatrimonio()) {
@@ -104,10 +109,10 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 			i.setContrato(new Contrato());
 			i.getContrato().setId(obj.getId());
 			
-			AnuncioContrato p=anuncioContratoRepository.findById(i.getId()).get();
-			p.setContrato(new Contrato());
-			p.getContrato().setId(obj.getId());
-			anuncioContratoRepository.save(p);
+			//AnuncioContrato p=anuncioContratoRepository.findById(i.getId()).get();
+			//.setContrato(new Contrato());
+		//	p.getContrato().setId(obj.getId());
+			anuncioContratoRepository.save(i);
 		}
 		itensContratoPatrimonioRepository.saveAll(obj.getItenspatrimonio());
 		super.preSaveObj(obj);

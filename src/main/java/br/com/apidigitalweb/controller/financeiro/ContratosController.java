@@ -62,7 +62,8 @@ public class ContratosController extends BaseController<Contrato> implements Ser
 	
 	@DeleteMapping(value = "/deleteanuncio/{id}")
 	public ResponseEntity<Void > deleteanuncio(@PathVariable Long id) {
-		service.deleteItemcontrato(id);
+		service.deleteAnuncio(id);
 		return ResponseEntity.noContent().build() ;
 	}
+	
 }

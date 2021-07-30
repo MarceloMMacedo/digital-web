@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import br.com.apidigitalweb.domin.contratos.Contrato;
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
+import br.com.apidigitalweb.domin.estoque.AnuncioContrato;
 import br.com.apidigitalweb.domin.pessoa.Empresa;
 import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.PessoaSampleDto;
@@ -44,14 +45,14 @@ public class ContratoDto implements Serializable {
 	private Date dataInicio;
 	private int periodo;
 	private int diaLeitura;
- 
+
 	private int diaVencimento;
 	private List<ItensContratoPatrimonio> itenspatrimonio = new ArrayList<ItensContratoPatrimonio>();
 	private SampleDto grupoFinanceiro;
 	private List<FaturasDto> faturaContratos;
 	private double valorFinal;
 	@Transient // To Do
-	private List<AnuncioDto> anunciosContratos = new ArrayList<AnuncioDto>();
+	private List<AnuncioContrato> anuncioContratos = new ArrayList<AnuncioContrato>();
 
 	@Transient // to do
 	private List<FaturasDto> faturaAberta = new ArrayList<FaturasDto>();
@@ -86,8 +87,9 @@ public class ContratoDto implements Serializable {
 		this.periodo = c.getPeriodo();
 		this.diaLeitura = c.getDiaLeitura();
 		this.diaVencimento = c.getDiaVencimento();
-		itenspatrimonio=c.getItenspatrimonio();
-		//this.itenspatrimonio = c.getItenspatrimonio().stream().map(x -> new ItensContratoPatrimonioDTO(x))				.collect(Collectors.toList());
+		itenspatrimonio = c.getItenspatrimonio();
+		// this.itenspatrimonio = c.getItenspatrimonio().stream().map(x -> new
+		// ItensContratoPatrimonioDTO(x)) .collect(Collectors.toList());
 		try {
 			this.grupoFinanceiro = new SampleDto(c.getGrupoFinanceiro(), "");
 
@@ -99,9 +101,8 @@ public class ContratoDto implements Serializable {
 
 		this.faturaContratos = c.getFaturaContratos().stream()
 				.map(x -> new FaturasDto(x, TipoFaturaEnum.Contrato.getDescricao())).collect(Collectors.toList());
-
-		this.anunciosContratos = c.getAnuncioContratos().stream().map(x -> new AnuncioDto(x))
-				.collect(Collectors.toList());
+		if (c.getAnuncioContratos() != null)
+			this.anuncioContratos = c.getAnuncioContratos();
 
 		List<FaturaContrato> anuncioCont = new ArrayList<>();
 
