@@ -54,6 +54,9 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 	@Autowired
 	private AnuncioContratoRepository anuncioContratoRepository;
 
+	@Autowired
+	private EmpresaService empresaService;
+
 	public Page<SampleContratoDto> findallpagesampledto(String find, Pageable page) {
 		Page<Contrato> findallpage = repo.findByNomeContainingIgnoreCaseOrNomeIsNull(find, page);
 		Page<SampleContratoDto> findallpagesampledto = findallpage.map(x -> new SampleContratoDto(x));
@@ -63,7 +66,7 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
  
 
 	public ContratoDto findbyid(long id) {
-		ContratoDto contratoDto = new ContratoDto(Empresa.getEmpresa(), fingbyid(id));
+		ContratoDto contratoDto = new ContratoDto(empresaService.getEmpresa(), fingbyid(id));
 		return contratoDto;
 	}
 	 
@@ -90,6 +93,8 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 	@Override
 	public void prenew(Contrato obj) {
 		obj.setDataInicio(new Date());
+		obj.setDiaLeitura(10);
+		obj.setDiaVencimento(10);
 		obj.setStatus(StatusActiv.ATIVO.getDescricao());
 		super.prenew(obj);
 	}
@@ -115,7 +120,7 @@ public class ContratoService extends BaseServic<Contrato> implements Serializabl
 			anuncioContratoRepository.save(i);
 		}
 		itensContratoPatrimonioRepository.saveAll(obj.getItenspatrimonio());
-		super.preSaveObj(obj);
+		 
 	}
 
 	public void deleteAnuncio(Long id) {

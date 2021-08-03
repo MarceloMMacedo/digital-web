@@ -1,7 +1,6 @@
 package br.com.apidigitalweb.service;
 
-import static java.util.stream.Collectors.toList;
-
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,13 +13,19 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
-import org.bouncycastle.jcajce.provider.asymmetric.edec.KeyAgreementSpi.X25519;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -30,10 +35,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -58,11 +60,8 @@ import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.enuns.EnumCategoriaProduto;
-import br.com.apidigitalweb.enuns.Perfil;
 import br.com.apidigitalweb.enuns.TipoPatrimonioEnum;
 import br.com.apidigitalweb.enuns.UnidadeProdutoEnum;
-import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
-import br.com.apidigitalweb.util.CopyObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -337,19 +336,23 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 	}
 
 	public void preSaveObj(T obj) {
-		
+
 	}
+
 	public T saveobj(Long id, T obj) {
 		this.obj = repo.findById(id).get();
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		
-		obj.setId(id);
-		// obj = (T) CopyObject.complemenForm(this.obj, obj, getClasse());
 		preSaveObj(obj);
-		obj = repo.save(obj);
+		obj.setId(id);
+		//First find out the object to be updated from the database 
+		//Use the non-null value of the update object to overwrite the object to be updated
+		BeanUtils.copyProperties(obj, this.obj ,getNullPropertyNames(obj));		//Perform update operation
+		 
+		
+		obj = repo.save(this.obj );
 		return obj;
 	}
 
@@ -592,4 +595,32 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 
 	}
 
+	public static void copyProperties(Object src, Object trg, Iterable<String> props) {
+
+		BeanWrapper srcWrap = PropertyAccessorFactory.forBeanPropertyAccess(src);
+		BeanWrapper trgWrap = PropertyAccessorFactory.forBeanPropertyAccess(trg);
+
+		props.forEach(p -> trgWrap.setPropertyValue(p, srcWrap.getPropertyValue(p)));
+
+	}
+
+	public static void copyProperties2(Object src, Object trg, Set<String> props) {
+		String[] excludedProperties = Arrays.stream(BeanUtils.getPropertyDescriptors(src.getClass()))
+				.map(PropertyDescriptor::getName).filter(name -> !props.contains(name)).toArray(String[]::new);
+
+		BeanUtils.copyProperties(src, trg, excludedProperties);
+	}
+
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
+    }
 }

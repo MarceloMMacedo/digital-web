@@ -15,7 +15,7 @@ public class PessoaSampleDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String name;
+	private String nome;
 	private String cnpj;
 	private String imagemview;
 	private Endereco endereco = new Endereco();
@@ -24,7 +24,7 @@ public class PessoaSampleDto implements Serializable {
 	public PessoaSampleDto(Empresa e) {
 		super();
 		// this.id = e.getid;
-		this.name = e.getName();
+		this.nome = e.getName();
 		this.cnpj = e.getCnpj();
 		this.imagemview = e.getImagemview();
 		endereco = new Endereco(e.getCep(), e.getLogradouro(), e.getComplemento(), e.getBairro(), e.getLocalidade(),
@@ -35,7 +35,7 @@ public class PessoaSampleDto implements Serializable {
 		super();
 		try {
 			this.id = e.getId();
-			this.name = e.getNome();
+			this.nome = e.getNome();
 			this.cnpj = e.getCnpj();
 			// this.imagemview = e.getImagemview();
 			endereco = e.getEndereco();

@@ -8,6 +8,10 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.financeiro.BaseFatura;
+import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
+import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
+import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.enuns.TipoFaturaEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +23,7 @@ public class FaturasDto implements Serializable {
 	private long id;
 	private String nome;
 	private String origem;
-	private String Numeroparcela;
+	private String numeroparcela;
 
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date dataVencimento;
@@ -42,7 +46,7 @@ public class FaturasDto implements Serializable {
 		this.id = b.getId();
 		this.nome = b.getNome();
 		this.origem = origem;
-		this.Numeroparcela = ""+b.getNumeroparcela() + "/" +""+b.getTotalParcela();
+		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -55,4 +59,75 @@ public class FaturasDto implements Serializable {
 		this.total = b.getTotal();
 	}
 
+	public FaturasDto(FaturaContrato b) {
+		super();
+		this.id = b.getId();
+		this.nome = b.getNome();
+		this.origem = TipoFaturaEnum.Contrato.toString();
+		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.dataVencimento = b.getDataVencimento();
+		this.dataPagamento = b.getDataPagamento();
+		this.diaQuitacao = b.getDiaQuitacao();
+		this.referente = b.getDescricao();
+		this.status = b.getStatus();
+		this.valor = b.getValor();
+		this.jurus = b.getJurus();
+		this.multa = b.getMulta();
+		this.desconto = b.getDesconto();
+		this.total = b.getTotal();
+	}
+
+	public FaturasDto(FaturaOrdemServico b) {
+		super();
+		this.id = b.getId();
+		this.nome = b.getNome();
+		this.origem = TipoFaturaEnum.Contrato.toString();
+		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.dataVencimento = b.getDataVencimento();
+		this.dataPagamento = b.getDataPagamento();
+		this.diaQuitacao = b.getDiaQuitacao();
+		this.referente = b.getDescricao();
+		this.status = b.getStatus();
+		this.valor = b.getValor();
+		this.jurus = b.getJurus();
+		this.multa = b.getMulta();
+		this.desconto = b.getDesconto();
+		this.total = b.getTotal();
+	}
+
+	public FaturasDto(FaturaVenda b) {
+		super();
+		this.id = b.getId();
+		this.nome = b.getNome();
+		this.origem = TipoFaturaEnum.Contrato.toString();
+		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.dataVencimento = b.getDataVencimento();
+		this.dataPagamento = b.getDataPagamento();
+		this.diaQuitacao = b.getDiaQuitacao();
+		this.referente = b.getDescricao();
+		this.status = b.getStatus();
+		this.valor = b.getValor();
+		this.jurus = b.getJurus();
+		this.multa = b.getMulta();
+		this.desconto = b.getDesconto();
+		this.total = b.getTotal();
+	}
+
+	public FaturasDto(FaturaContasPagar b) {
+		super();
+		this.id = b.getId();
+		this.nome = b.getNome();
+		this.origem = TipoFaturaEnum.Contrato.toString();
+		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.dataVencimento = b.getDataVencimento();
+		this.dataPagamento = b.getDataPagamento();
+		this.diaQuitacao = b.getDiaQuitacao();
+		this.referente = b.getDescricao();
+		this.status = b.getStatus();
+		this.valor = b.getValor();
+		this.jurus = b.getJurus();
+		this.multa = b.getMulta();
+		this.desconto = b.getDesconto();
+		this.total = b.getTotal();
+	}
 }

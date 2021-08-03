@@ -18,13 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.enuns.SimNaoEnum;
+import br.com.apidigitalweb.enuns.StatusActiv;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Class FichaLeitura
  */
 @Data
 @Embeddable
+@NoArgsConstructor
 public class FichaLeitura {
 
 	@JoinColumn
@@ -39,7 +42,7 @@ public class FichaLeitura {
 
 	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	private Date dataLeitura;
-	
+
 	private double valorContrato;
 
 	@Transient
@@ -80,6 +83,15 @@ public class FichaLeitura {
 	private Contrato contrato;
 	@Convert(converter = StatusConverter.class)
 	protected String status;
+
+	public FichaLeitura(ItensContratoPatrimonio itensContratoPatrimonio, Date dataLeitura, Contrato contrato) {
+		super();
+		this.itensContratoPatrimonio = itensContratoPatrimonio;
+		this.dataLeitura = dataLeitura;
+		this.valorContrato = contrato.getValorFinal();
+		this.contrato = contrato;
+		this.status = StatusActiv.ABERTO.getDescricao();
+	}
 
 	public FichaLeitura(ItensContratoPatrimonio itensContratoPatrimonio, Contrato contrato) {
 		super();
@@ -149,4 +161,5 @@ public class FichaLeitura {
 		}
 		return valorFinal;
 	}
+
 }

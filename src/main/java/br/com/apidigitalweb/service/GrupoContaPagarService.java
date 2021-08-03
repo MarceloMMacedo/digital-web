@@ -46,7 +46,7 @@ public class GrupoContaPagarService extends BaseServic<GrupoContaPagar> implemen
 		historicoContaPagarRepository.deleteById(id);
 	}
 	
-	@Override
+	/*@Override
 	public GrupoContaPagar saveobj(Long id, GrupoContaPagar obj) {
 		try {
 			for (HistoricoContaPagar h : obj.getHistoricos()) {
@@ -58,7 +58,18 @@ public class GrupoContaPagarService extends BaseServic<GrupoContaPagar> implemen
 		}
 		return super.saveobj(id, obj);
 	}
-
+*/
+	@Override
+	public void preSaveObj(GrupoContaPagar obj) {
+		try {
+			for (HistoricoContaPagar h : obj.getHistoricos()) {
+				h.setGrupocontaspagar(obj);
+			}
+			historicoContaPagarRepository.saveAll(obj.getHistoricos());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	@Override
 	public GrupoContaPagar fingbyid(Long id) {
 		GrupoContaPagar g = super.fingbyid(id);

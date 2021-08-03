@@ -355,24 +355,7 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 		return findallpage;
 	}
 
-	@Override
-	public Produto saveobj(Long id, Produto obj) {
-		/*
-		 * List<FornecedorProduto> fornecedoresproduto = new ArrayList<>();
-		 * fornecedoresproduto = obj.getFornecedoresproduto(); obj = super.saveobj(id,
-		 * obj); for (FornecedorProduto fornecedorProduto : fornecedoresproduto) {
-		 * Fornecedor f =
-		 * fornecedorRepository.findById(fornecedorProduto.getFornecedor().getId()).get(
-		 * ); fornecedorProduto.setNome(f.getNome()); fornecedorProduto.setProduto(obj);
-		 * }
-		 */
-		// fornecedorProdutoRepository.saveAll(fornecedoresproduto);
-		Produto p = repo.findById(id).get();
-		obj.setImagem(p.getImagem());
-		obj = repo.save(obj);
-		return obj;
-	}
-
+ 
 	@Override
 	public List<?> listany() {
 		List<Produto> list = repo.findAll();

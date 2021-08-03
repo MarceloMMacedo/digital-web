@@ -25,6 +25,12 @@
 			<artifactId>google-api-services-drive</artifactId>
 			<version>v3-rev197-1.25.0</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+<dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils</artifactId>
+    <version>1.9.4</version>
+</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->

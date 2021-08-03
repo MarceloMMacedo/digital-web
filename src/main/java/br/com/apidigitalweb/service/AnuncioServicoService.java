@@ -79,12 +79,5 @@ public class AnuncioServicoService extends BaseServic<AnuncioServico> implements
 		}
 		return super.newobj(obj);
 	}
-
-	@Override
-	public AnuncioServico saveobj(Long id, AnuncioServico obj) {
-		AnuncioServico p = repo.findById(id).get();
-		obj.setImagem(p.getImagem());
-		obj = repo.save(obj);
-		return obj;
-	}
+ 
 }

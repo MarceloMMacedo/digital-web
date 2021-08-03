@@ -14,10 +14,6 @@ public class GrupoFinanceiroAnuncioService extends BaseServic<GrupoFinanceiroAnu
 	
 	GrupoFinanceiroAnuncioRepository repo  ;
 	
-	@Override
-	public GrupoFinanceiroAnuncio saveobj(Long id, GrupoFinanceiroAnuncio obj) {
-		// TODO Auto-generated method stub
-		return super.saveobj(id, obj);
-	}
+	 
 
 }

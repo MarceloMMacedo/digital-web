@@ -108,6 +108,13 @@ public class AnuncioContratoService extends BaseServic<AnuncioContrato> implemen
 		}
 		return super.newobj(obj);
 	}
+	
+	/*@Override
+	public void preSaveObj(AnuncioContrato obj) {
+		// TODO Auto-generated method stub
+		super.preSaveObj(obj);
+	}
+	
 	@Override
 	public AnuncioContrato saveobj(Long id, AnuncioContrato obj) {
 		AnuncioContrato p = repo.findById(id).get();
@@ -115,4 +122,6 @@ public class AnuncioContratoService extends BaseServic<AnuncioContrato> implemen
 		obj = repo.save(obj);
 		return obj;
 	}
+	*/
+	
 }

@@ -90,28 +90,12 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-
-			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllBanco(x, StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-
-			// Faturas Servicos
-			List<FaturaOrdemServico> faturaOrdemServicos = faturaOrdemServico.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaOrdemServicos(faturaOrdemServicos, TipoFaturaEnum.Servico.getDescricao()));
-
-			// Faturas Contrato
-			List<FaturaContrato> listfaturaContrato = faturaContratoService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaContratos(listfaturaContrato, TipoFaturaEnum.Contrato.getDescricao()));
-
-			// Faturas pagar
-			List<FaturaContasPagar> listfaturaContasPagar = faturaContasPagarService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada().addAll(faturaCP(listfaturaContasPagar, TipoFaturaEnum.ContasPagar.getDescricao()));
-
+ 
+			x.getFaturasAbertaEntrada().addAll(faturaContratoRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaOrdemRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaVendaRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasaAbertaPagar().addAll(faturaContasPagarRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			
 			x.setBanco(valor, valorsaida);
 
 		}
@@ -144,30 +128,13 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-
-			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllBanco(x, StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-
-			// Faturas Servicos
-			List<FaturaOrdemServico> faturaOrdemServicos = faturaOrdemServico.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaOrdemServicos(faturaOrdemServicos, TipoFaturaEnum.Servico.getDescricao()));
-
-			// Faturas Contrato
-			List<FaturaContrato> listfaturaContrato = faturaContratoService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaContratos(listfaturaContrato, TipoFaturaEnum.Contrato.getDescricao()));
-
-			// Faturas pagar
-			double valors = 0;
-			List<FaturaContasPagar> listfaturaContasPagar = faturaContasPagarService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada().addAll(faturaCP(listfaturaContasPagar, TipoFaturaEnum.ContasPagar.getDescricao()));
-
-			x.setBanco(valor, valorsaida);
+			x.getFaturasAbertaEntrada().addAll(faturaContratoRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaOrdemRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaVendaRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasaAbertaPagar().addAll(faturaContasPagarRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			
+		 
+			 x.setBanco(valor, valorsaida);
 
 		});
 		return getAll;
@@ -202,28 +169,11 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 				// TODO: handle exception
 			}
 
-			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllBanco(x, StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-
-			// Faturas Servicos
-			List<FaturaOrdemServico> faturaOrdemServicos = faturaOrdemServico.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaOrdemServicos(faturaOrdemServicos, TipoFaturaEnum.Servico.getDescricao()));
-
-			// Faturas Contrato
-			List<FaturaContrato> listfaturaContrato = faturaContratoService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasAbertaEntrada()
-					.addAll(faturaContratos(listfaturaContrato, TipoFaturaEnum.Contrato.getDescricao()));
-
-			// Faturas pagar
-			double valors = 0;
-			List<FaturaContasPagar> listfaturaContasPagar = faturaContasPagarService.getAllBanco(x,
-					StatusActiv.ABERTO.getDescricao());
-			x.getFaturasaAbertaPagar().addAll(faturaCP(listfaturaContasPagar, TipoFaturaEnum.ContasPagar.getDescricao()));
-
+			x.getFaturasAbertaEntrada().addAll(faturaContratoRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaOrdemRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasAbertaEntrada().addAll(faturaVendaRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			x.getFaturasaAbertaPagar().addAll(faturaContasPagarRepository.allBanco(x,StatusActiv.ABERTO.getDescricao()));
+			
 			x.setBanco(valor, valorsaida);
 
 		});
@@ -231,7 +181,7 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 		return findallpage;
 	}
 
-	private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas, String origem) {
+	/*private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas, String origem) {
 		List<FaturasDto> faturasDto = new ArrayList<>();
 		for (BaseFatura b : faturaVendas) {
 			faturasDto.add(new FaturasDto(b, origem));
@@ -269,4 +219,5 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 
 		return faturasDtos;
 	}
+	*/
 }

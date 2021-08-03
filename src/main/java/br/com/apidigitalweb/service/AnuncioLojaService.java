@@ -114,11 +114,5 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 		}
 		return super.newobj(obj);
 	}
-	@Override
-	public AnuncioLoja saveobj(Long id, AnuncioLoja obj) {
-		AnuncioLoja p = repo.findById(id).get();
-		obj.setImagem(p.getImagem());
-		obj = repo.save(obj);
-		return obj;
-	}
+ 
 }

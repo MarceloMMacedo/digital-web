@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import br.com.apidigitalweb.domin.contratos.AgregadoGrupoContrato;
 import br.com.apidigitalweb.domin.contratos.Contrato;
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
+import br.com.apidigitalweb.domin.contratos.FichaLeitura;
 import br.com.apidigitalweb.domin.contratos.GrupoFinanceiroContrato;
+import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
 import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
 import br.com.apidigitalweb.domin.estoque.AnuncioServico;
 import br.com.apidigitalweb.domin.estoque.AnuncioWeb;
@@ -109,8 +111,27 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 
 	/** gerar faturas **/
 	// excluir faturas aberta
-	public void excluirfaturasAberto(Long id) {
-		repo.deleteAllByContratoIdAndStatus(id, StatusActiv.ABERTO.getDescricao());
+	public void excluirfaturasAberto(Contrato contrato) {
+		
+		List<FaturaContrato> list=repo.findAllByContratoAndStatus(contrato, StatusActiv.ABERTO.getDescricao());
+		for (FaturaContrato faturaContrato : list) {
+			faturaContrato.setFichaLeitura(new ArrayList<>());
+			  
+		}
+		
+		 repo.saveAll(list);
+		 for (FaturaContrato faturaContrato : list) {
+				faturaContrato.setFichaLeitura(new ArrayList<>());
+				// repo.deleteById(faturaContrato.getId());
+				try {
+					repo.deleteAllByContratoIdAndStatus(faturaContrato.getId(), contrato.getId(),
+							StatusActiv.ABERTO.getId());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		 list=repo.findAllByContratoAndStatus(contrato, StatusActiv.ABERTO.getDescricao());
+		
 	}
 
 	public List<Integer> listParcelaConcluidos(Long id) {
@@ -127,17 +148,26 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 	}
 
 	public void regerarparcelas(Long id) {
-		Contrato contrato = contratoService.fingbyid(id); 
+		Contrato contrato = contratoService.fingbyid(id);
 		// deletar faturas
-		excluirfaturasAberto(id);
-		//lista de data das faturas a fazer
+		excluirfaturasAberto(contrato);
+		
+		// lista de data das faturas a fazer
 		List<DatPeriodo> listaDates = DatPeriodo.listaDates(contrato.getDataInicio(),
-				listParcelaAfazer(id, contrato.getPeriodo()));
-		List<FaturaContrato> faturas=new ArrayList<FaturaContrato>();
-		//gerar faturanew array
-		for (int i = 0; i < listaDates.size(); i++) {
+				listParcelaAfazer(id, contrato.getPeriodo()),contrato.getDiaVencimento(), contrato.getDiaLeitura());
+		List<FaturaContrato> faturas = new ArrayList<FaturaContrato>();
+		
+		// gerar faturanew array
+		for (DatPeriodo c : listaDates) {
+			FaturaContrato fc = new FaturaContrato(c, contrato);
 			
+			//gerar ficha leitura
+			for (ItensContratoPatrimonio it : contrato.getItenspatrimonio()) {
+				fc.getFichaLeitura().add(new FichaLeitura(it, contrato));
+			}
+			faturas.add(fc);
 		}
+		repo.saveAll(faturas);
 
 	}
 
