@@ -35,9 +35,14 @@ public class ReportFinanceiroController implements Serializable {
 		return ResponseEntity.ok(contasaPagarService.contaspagardtos());
 	}
 
-	@GetMapping(value = "/periodosintetico/{exercicio}")
+	@GetMapping(value = "/periodosinteticofuturos/{exercicio}")
 	public ResponseEntity<List<ItemMonthReportDto>> periodosintetico(@PathVariable int exercicio) {
-		return ResponseEntity.ok(service.reportFinanceiroService(exercicio));
+		return ResponseEntity.ok(service.reportFinanceiroFuturos(exercicio));
+	}
+
+	@GetMapping(value = "/periodosinteticorealizados/{exercicio}")
+	public ResponseEntity<List<ItemMonthReportDto>> periodosinteticorealizados(@PathVariable int exercicio) {
+		return ResponseEntity.ok(service.reportFinanceiroRealizados(exercicio));
 	}
 
 }

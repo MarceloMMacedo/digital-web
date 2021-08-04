@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public class ContasPagarDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
- private String nome;
+	private String nome;
 	private List<HistoricoContasPagarDto> historicoContasPagarDtos = new ArrayList<HistoricoContasPagarDto>();
-	
+
 	private double total;
 
 	public double getTotal() {
@@ -30,18 +30,19 @@ public class ContasPagarDto implements Serializable {
 	}
 
 	public ContasPagarDto(ContasPagar contasPagar) {
-		nome=contasPagar.getNome();
+		nome = contasPagar.getNome();
 		historicoContasPagarDtos.add(new HistoricoContasPagarDto(contasPagar.getGrupoFinanceiro().getNome(),
 				contasPagar.getFaturas(), contasPagar.getFinanceiro().getParcelas()));
 	}
 
 	public static List<ContasPagarDto> listaContasPagarDto(List<ContasPagar> contasPagars) {
 		List<ContasPagarDto> listaContasPagarDto = new ArrayList<>();
-		/*for (ContasPagar c : contasPagars) {
-			listaContasPagarDto.add(new ContasPagarDto(c));
-		}*/
+		/*
+		 * for (ContasPagar c : contasPagars) { listaContasPagarDto.add(new
+		 * ContasPagarDto(c)); }
+		 */
 
 		return listaContasPagarDto;
 	}
-	
+
 }

@@ -31,13 +31,12 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 	List<FaturaContrato> findAllByContratoAndStatus(Contrato contrato, String status);
 
 	List<FaturaContrato> findAllByContrato(Contrato contrato);
-	
 
 	List<FaturaContrato> findAllByGrupoFinanceiroAndStatus(GrupoFinanceiroContrato grupoFinanceiro, String status);
 
 	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContrato f where f.banco=?1 and f.status=?2")
 	List<FaturasDto> allBanco(Banco banco, String status);
-	
+
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.cliente=?1 and e.status=?2")
 	double totalAbertoByCliente(Cliente cliente, String status);
 
@@ -55,8 +54,8 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 	double totalAbertoByStatus(int status, long id);
 
 	/** Gerar Faturas **/
-	@Query(value =" DELETE FROM fatura_contrato  	WHERE   id=?1", nativeQuery = true)
-	void deleteAllByContratoIdAndStatus(Long id ,long contratoid, Integer status);
+	@Query(value = " DELETE FROM fatura_contrato  	WHERE   id=?1", nativeQuery = true)
+	void deleteAllByContratoIdAndStatus(Long id, long contratoid, Integer status);
 
 	@Query("SELECT e.numeroparcela from FaturaContrato e where e.contrato.id=?1 and e.status=?2")
 	List<Integer> listaNumeroparcelaContratoIdAndStatus(Long id, String status);
@@ -65,9 +64,16 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 			+ "where date_part('month',data_vencimento)=?1 and date_part('year',data_vencimento)=?2 "
 			+ " and status=?3", nativeQuery = true)
 	double totalMesPeriodo(int mes, int ano, int status);
-	
 
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
 			+ "where date_part('year',data_vencimento)=?1  and status=?2", nativeQuery = true)
 	double totalPeriodo(int ano, int status);
+
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
+			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
+	double totalPeriodoAnterio(int ano, int status);
+
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
+			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
+	double totalPeriodoPosterior(int ano, int status);
 }

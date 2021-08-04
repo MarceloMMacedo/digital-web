@@ -39,17 +39,17 @@ public class ReportFinanceiroService implements Serializable {
 	private int exercicio;
 	public List<ItemMonthReportDto> monthReportDtos = new ArrayList<ItemMonthReportDto>();
 
-	public List<ItemMonthReportDto> reportFinanceiroService(int exercicio) {
+	public List<ItemMonthReportDto> reportFinanceiroFuturos(int exercicio) {
 		ReportFinanceiroService reportFinanceiroService = new ReportFinanceiroService();
 		List<ItemMonthReportDto> monthReportDtos = new ArrayList<ItemMonthReportDto>();
 		this.exercicio = exercicio;
 		double valorentrada = 0;
 		double valorsaida = 0;
-		valorentrada += contratoRepository.totalPeriodo( exercicio - 1, StatusActiv.ABERTO.getId());
-		valorentrada += ordemServicoRepository.totalPeriodo(  exercicio - 1, StatusActiv.ABERTO.getId());
-		valorentrada += vendasRepository.totalPeriodo(  exercicio - 1, StatusActiv.ABERTO.getId());
-		valorsaida += contasPagarRepository.totalPeriodo(  exercicio - 1, StatusActiv.ABERTO.getId());
-		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio - 1, valorentrada, valorsaida);
+		valorentrada += contratoRepository.totalPeriodoAnterio( exercicio , StatusActiv.ABERTO.getId());
+		valorentrada += ordemServicoRepository.totalPeriodoAnterio(  exercicio , StatusActiv.ABERTO.getId());
+		valorentrada += vendasRepository.totalPeriodoAnterio(  exercicio , StatusActiv.ABERTO.getId());
+		valorsaida += contasPagarRepository.totalPeriodoAnterio(  exercicio , StatusActiv.ABERTO.getId());
+		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio , valorentrada, valorsaida);
 		dto.setMes("Anterior");
 		monthReportDtos.add(dto); 
 
@@ -64,7 +64,54 @@ public class ReportFinanceiroService implements Serializable {
 			dto = new ItemMonthReportDto(i, exercicio, valorentrada, valorsaida);
 			monthReportDtos.add(dto);
 		}
+		valorentrada = 0;
+		valorsaida = 0;
+		valorentrada += contratoRepository.totalPeriodoPosterior( exercicio  , StatusActiv.ABERTO.getId());
+		valorentrada += ordemServicoRepository.totalPeriodoPosterior(  exercicio , StatusActiv.ABERTO.getId());
+		valorentrada += vendasRepository.totalPeriodoPosterior(  exercicio , StatusActiv.ABERTO.getId());
+		valorsaida += contasPagarRepository.totalPeriodoPosterior(  exercicio , StatusActiv.ABERTO.getId());
+		 dto = new ItemMonthReportDto(1, exercicio , valorentrada, valorsaida);
+		monthReportDtos.add(dto);
 
+		dto.setMes("Postrior");
+		return monthReportDtos;
+	}
+
+	public List<ItemMonthReportDto> reportFinanceiroRealizados(int exercicio) {
+		ReportFinanceiroService reportFinanceiroService = new ReportFinanceiroService();
+		List<ItemMonthReportDto> monthReportDtos = new ArrayList<ItemMonthReportDto>();
+		this.exercicio = exercicio;
+		double valorentrada = 0;
+		double valorsaida = 0;
+		valorentrada += contratoRepository.totalPeriodoAnterio( exercicio , StatusActiv.QUIT.getId());
+		valorentrada += ordemServicoRepository.totalPeriodoAnterio(  exercicio , StatusActiv.QUIT.getId());
+		valorentrada += vendasRepository.totalPeriodoAnterio(  exercicio , StatusActiv.QUIT.getId());
+		valorsaida += contasPagarRepository.totalPeriodoAnterio(  exercicio , StatusActiv.QUIT.getId());
+		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio , valorentrada, valorsaida);
+		dto.setMes("Anterior");
+		monthReportDtos.add(dto); 
+
+		for (int i = 1; i < 13; i++) {
+
+			valorentrada = 0;
+			valorsaida = 0;
+			valorentrada += contratoRepository.totalMesPeriodo(i, exercicio, StatusActiv.QUIT.getId());
+			valorentrada += ordemServicoRepository.totalMesPeriodo(i, exercicio, StatusActiv.QUIT.getId());
+			valorentrada += vendasRepository.totalMesPeriodo(i, exercicio, StatusActiv.QUIT.getId());
+			valorsaida += contasPagarRepository.totalMesPeriodo(i, exercicio, StatusActiv.QUIT.getId());
+			dto = new ItemMonthReportDto(i, exercicio, valorentrada, valorsaida);
+			monthReportDtos.add(dto);
+		}
+		valorentrada = 0;
+		valorsaida = 0;
+		valorentrada += contratoRepository.totalPeriodoPosterior( exercicio  , StatusActiv.QUIT.getId());
+		valorentrada += ordemServicoRepository.totalPeriodoPosterior(  exercicio , StatusActiv.QUIT.getId());
+		valorentrada += vendasRepository.totalPeriodoPosterior(  exercicio , StatusActiv.QUIT.getId());
+		valorsaida += contasPagarRepository.totalPeriodoPosterior(  exercicio , StatusActiv.QUIT.getId());
+		 dto = new ItemMonthReportDto(1, exercicio , valorentrada, valorsaida);
+		monthReportDtos.add(dto);
+
+		dto.setMes("Postrior");
 		return monthReportDtos;
 	}
 

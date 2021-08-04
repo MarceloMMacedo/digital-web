@@ -54,5 +54,12 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
 			+ "where date_part('year',data_vencimento)=?1  and status=?2", nativeQuery = true)
 	double totalPeriodo(  int ano, int status);
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
+			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
+	double totalPeriodoAnterio(int ano, int status);
+
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
+			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
+	double totalPeriodoPosterior(int ano, int status);
 
 }
