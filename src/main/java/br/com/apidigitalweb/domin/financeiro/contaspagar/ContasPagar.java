@@ -84,6 +84,7 @@ public class ContasPagar extends BaseDomain implements BaseEntity, Serializable 
 	private FinanceiroOrdem financeiro = new FinanceiroOrdem();
 
 	public List<FaturasDto> getFaturasAberta() {
+		faturasAberta = new ArrayList<FaturasDto>();
 		for (FaturaContasPagar f : faturas) {
 			if (f.getStatus().equals(StatusActiv.ABERTO.getDescricao())) {
 				faturasAberta.add(new FaturasDto(f));
@@ -93,6 +94,7 @@ public class ContasPagar extends BaseDomain implements BaseEntity, Serializable 
 	}
 
 	public List<FaturasDto> getFaturasQuit() {
+		faturasQuit = new ArrayList<FaturasDto>();
 		for (FaturaContasPagar f : faturas) {
 			if (f.getStatus().equals(StatusActiv.ABERTO.getDescricao())) {
 				faturasQuit.add(new FaturasDto(f));

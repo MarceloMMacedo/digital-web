@@ -62,6 +62,9 @@ public class ContasaPagarService extends BaseServic<ContasPagar> implements Seri
 		return new ContasPagarDto(fingbyid(id));
 	}
 
-	
+	@Override
+	public void prenew(ContasPagar obj) {
+		obj.setNome(obj.getHistorico().getNome()+"/"+""+obj.getFinanceiro().getParcelas()); 
+	}
 
 }
