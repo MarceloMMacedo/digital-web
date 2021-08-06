@@ -269,7 +269,14 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return repo.findById(id).get();
+		obj=repo.findById(id).get();
+		posfingbyid(obj);
+		
+		return obj;
+	}
+	
+	public void posfingbyid(T obj) {
+		
 	}
 
 	public List<T> fingbynome(String find) {
@@ -332,7 +339,12 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 		}
 
 		obj = repo.save(obj);
+		posNewObj( obj);
 		return obj;
+	}
+
+	public void posNewObj(T obj) {
+
 	}
 
 	public void preSaveObj(T obj) {
@@ -347,12 +359,12 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 		}
 		preSaveObj(obj);
 		obj.setId(id);
-		//First find out the object to be updated from the database 
-		//Use the non-null value of the update object to overwrite the object to be updated
-		BeanUtils.copyProperties(obj, this.obj ,getNullPropertyNames(obj));		//Perform update operation
-		 
-		
-		obj = repo.save(this.obj );
+		// First find out the object to be updated from the database
+		// Use the non-null value of the update object to overwrite the object to be
+		// updated
+		BeanUtils.copyProperties(obj, this.obj, getNullPropertyNames(obj)); // Perform update operation
+
+		obj = repo.save(this.obj);
 		return obj;
 	}
 
@@ -611,16 +623,17 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 		BeanUtils.copyProperties(src, trg, excludedProperties);
 	}
 
-    public static String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+	public static String[] getNullPropertyNames(Object source) {
+		final BeanWrapper src = new BeanWrapperImpl(source);
+		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-        Set<String> emptyNames = new HashSet<>();
-        for (java.beans.PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
-    }
+		Set<String> emptyNames = new HashSet<>();
+		for (java.beans.PropertyDescriptor pd : pds) {
+			Object srcValue = src.getPropertyValue(pd.getName());
+			if (srcValue == null)
+				emptyNames.add(pd.getName());
+		}
+		String[] result = new String[emptyNames.size()];
+		return emptyNames.toArray(result);
+	}
 }

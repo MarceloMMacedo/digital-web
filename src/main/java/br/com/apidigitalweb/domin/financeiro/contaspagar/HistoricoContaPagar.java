@@ -21,6 +21,7 @@ import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.estoque.Produto;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
+import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
 import lombok.Getter;
@@ -34,11 +35,14 @@ import lombok.Setter;
 public class HistoricoContaPagar extends BaseDomain implements BaseEntity, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@JsonIgnore
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Banco banco;
-
+	
+	@JsonIgnore
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,6 +53,9 @@ public class HistoricoContaPagar extends BaseDomain implements BaseEntity, Seria
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GrupoContaPagar grupocontaspagar;
+	
+	@Transient
+	private SampleDto grupocontaspagardto;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "historico", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

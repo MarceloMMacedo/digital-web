@@ -10,5 +10,7 @@ import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
 
 @Repository
-public interface HistoricoContaPagarRepository extends JpaRepository<HistoricoContaPagar,Long> {
+public interface HistoricoContaPagarRepository extends JpaRepository<HistoricoContaPagar, Long> {
+
+	List<HistoricoContaPagar> findAllByGrupocontaspagarId(long id);
 }

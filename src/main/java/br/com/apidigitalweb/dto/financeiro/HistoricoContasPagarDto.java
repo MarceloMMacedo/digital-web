@@ -1,4 +1,4 @@
-package br.com.apidigitalweb.controller.financeiro;
+package br.com.apidigitalweb.dto.financeiro;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,7 +8,6 @@ import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
 import br.com.apidigitalweb.dto.SampleDto;
-import br.com.apidigitalweb.dto.financeiro.FaturaReportAnaliticoDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

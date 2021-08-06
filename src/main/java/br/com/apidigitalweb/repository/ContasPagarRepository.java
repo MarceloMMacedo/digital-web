@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import br.com.apidigitalweb.domin.financeiro.contaspagar.ContasPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
-import br.com.apidigitalweb.dto.financeiro.ContasPagarDto;
+import br.com.apidigitalweb.dto.financeiro.ContasPagarDtoReport;
 
 @Repository
 public interface ContasPagarRepository extends JpaRepository<ContasPagar, Long> {
 
-	@Query("select distinct  new  br.com.apidigitalweb.dto.financeiro.ContasPagarDto(e) from ContasPagar e  "
+	@Query("select distinct  new  br.com.apidigitalweb.dto.financeiro.ContasPagarDtoReport(e) from ContasPagar e  "
 			+ "where e.status=?1")
-	List<ContasPagarDto> findAllContasPagarPagarDTO(String Status);
+	List<ContasPagarDtoReport> findAllContasPagarPagarDTO(String Status);
 
 	@Query("select distinct  e from ContasPagar e  "
 			+ "where e.status=?1")
