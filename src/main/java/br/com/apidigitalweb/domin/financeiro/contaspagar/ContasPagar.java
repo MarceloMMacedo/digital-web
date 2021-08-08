@@ -2,6 +2,7 @@ package br.com.apidigitalweb.domin.financeiro.contaspagar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +28,12 @@ import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordem.FinanceiroOrdem;
 import br.com.apidigitalweb.domin.pessoa.Fornecedor;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
-import br.com.apidigitalweb.enuns.StatusActiv;
+import br.com.apidigitalweb.enuns.StatusActiv; 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
+ @Getter
 @Setter
 @Entity
 @NoArgsConstructor
@@ -83,9 +84,17 @@ public class ContasPagar extends BaseDomain implements BaseEntity, Serializable 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private FinanceiroOrdem financeiro = new FinanceiroOrdem();
 
+	public List<FaturaContasPagar> getFaturas() {
+		 List<FaturaContasPagar> getFaturas=new ArrayList<>();
+		 faturas.stream()
+         .sorted((p1, p2) -> p1.getDataVencimento().compareTo(p2.getDataVencimento()))
+         .forEach(p ->getFaturas.add(p));
+		return getFaturas;
+	}
+	
 	public List<FaturasDto> getFaturasAberta() {
 		faturasAberta = new ArrayList<FaturasDto>();
-		for (FaturaContasPagar f : faturas) {
+		for (FaturaContasPagar f : getFaturas()) {
 			if (f.getStatus().equals(StatusActiv.ABERTO.getDescricao())) {
 				faturasAberta.add(new FaturasDto(f));
 			}
@@ -95,7 +104,7 @@ public class ContasPagar extends BaseDomain implements BaseEntity, Serializable 
 
 	public List<FaturasDto> getFaturasQuit() {
 		faturasQuit = new ArrayList<FaturasDto>();
-		for (FaturaContasPagar f : faturas) {
+		for (FaturaContasPagar f : getFaturas()) {
 			if (f.getStatus().equals(StatusActiv.ABERTO.getDescricao())) {
 				faturasQuit.add(new FaturasDto(f));
 			}

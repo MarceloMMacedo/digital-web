@@ -18,13 +18,13 @@ public class HistoricoContasPagarDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	protected String nome;
-	private List<FaturaReportAnaliticoDto> analiticoDtos = new ArrayList<>();
+	private List<FaturasDto> analiticoDtos = new ArrayList<>();
 
 	private double total;
 
 	public double getTotal() {
 		total = 0;
-		for (FaturaReportAnaliticoDto faturaReportAnaliticoDto : analiticoDtos) {
+		for (FaturasDto faturaReportAnaliticoDto : analiticoDtos) {
 			total += faturaReportAnaliticoDto.getTotal();
 		}
 		return total;
@@ -35,7 +35,7 @@ public class HistoricoContasPagarDto implements Serializable {
 		for (FaturaContasPagar f : contasPagars) {
 			SampleDto hist=new SampleDto(f.getHistorico(),"");
 			SampleDto cc=new SampleDto(f.getCentroCusto(),"");
-			analiticoDtos.add(new FaturaReportAnaliticoDto(f, hist, totalParcela, cc));
+			//analiticoDtos.add(new FaturaReportAnaliticoDto(f, hist, totalParcela, cc));
 		}
 	}
 

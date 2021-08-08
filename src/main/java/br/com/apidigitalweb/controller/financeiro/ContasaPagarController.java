@@ -13,6 +13,7 @@ import br.com.apidigitalweb.controller.BaseController;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.ContasPagar;
 import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.financeiro.ContasPagarDto;
+import br.com.apidigitalweb.dto.financeiro.ContasPagarDtoReport;
 import br.com.apidigitalweb.service.ContasaPagarService;
 import br.com.apidigitalweb.service.HistoricoContaPagarService;
 
@@ -21,9 +22,17 @@ import br.com.apidigitalweb.service.HistoricoContaPagarService;
 public class ContasaPagarController extends BaseController<ContasPagar> {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Autowired
 	private ContasaPagarService service;
 
+	@Autowired
+	private ContasaPagarService contasaPagarService;
+
+	@GetMapping(value = "/listacontaspagarsintetico")
+	public ResponseEntity<List<ContasPagarDtoReport>> contaspagardto() {
+		return ResponseEntity.ok(contasaPagarService.contaspagardtosrepor());
+	}
 
 	@GetMapping(value = "/contaspagardto")
 	public ResponseEntity<List<ContasPagarDto>> contasPagarDtos() {

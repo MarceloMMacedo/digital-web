@@ -23,8 +23,11 @@ import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.repository.BancoRepository;
 import br.com.apidigitalweb.repository.CentroCustoRepository;
 import br.com.apidigitalweb.repository.ClienteRepository;
+import br.com.apidigitalweb.repository.ContasPagarRepository;
 import br.com.apidigitalweb.repository.FaturaVendasRepository;
 import br.com.apidigitalweb.service.BancoService;
+import br.com.apidigitalweb.service.ContasaPagarService;
+import br.com.apidigitalweb.service.FaturaContasPagarService;
 
 @Controller
 public class ControlleTest implements Serializable {
@@ -43,6 +46,19 @@ public class ControlleTest implements Serializable {
 	@Autowired
 	BancoService bancoService;
 
+	@Autowired
+	ContasaPagarService contasPagarRepository;
+
+
+	@GetMapping(value = "/teste1")
+	public ResponseEntity<List<?>> test1(){
+		
+		
+	return	ResponseEntity.ok(contasPagarRepository.contaspagardtosrepor());
+		
+	}
+	
+	
 	@GetMapping(value = "/teste")
 	public ResponseEntity<List<Banco>> test(
 			@RequestParam(defaultValue = "", value = "nome") String nome, Pageable page) {

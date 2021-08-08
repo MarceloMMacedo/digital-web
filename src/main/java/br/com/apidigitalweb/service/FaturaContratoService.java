@@ -23,6 +23,7 @@ import br.com.apidigitalweb.domin.estoque.AnuncioWeb;
 import br.com.apidigitalweb.domin.financeiro.AgregadoGrupoFinanceiro;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
+import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
 import br.com.apidigitalweb.domin.ordemvenda.ItensOrdemVenda;
@@ -171,4 +172,5 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 
 	}
 
+	
 }

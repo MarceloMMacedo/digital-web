@@ -29,11 +29,17 @@ public interface FaturaContasPagarRepository extends JpaRepository<FaturaContasP
 	List<FaturaContasPagar> findAllByHistoricoAndStatus(HistoricoContaPagar historico, String status);
 
 	List<FaturaContasPagar> findByStatus(String status);
+	
+	
+
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContasPagar f where d f.status=?1 ordet by f.dataVencimento" )
+	List<FaturasDto> findByStatusDTO(String status);
+
 
 	List<FaturaContasPagar> findByContasPagarAndStatus(ContasPagar contaspagar, String status);
 
 	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContasPagar f where f.banco=?1 and f.status=?2")
-	List<FaturasDto> allBanco(Banco banco, String status);
+	List<FaturasDto> allBanco( Banco banco, String status);
 
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContasPagar e where e.fornecedor=?1 and e.status=?2")
 	double totalAbertoByFornecedor(Fornecedor fornecedor, String status);
