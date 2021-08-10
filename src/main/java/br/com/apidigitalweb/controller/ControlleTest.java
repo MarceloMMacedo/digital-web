@@ -18,16 +18,20 @@ import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
+import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
+import br.com.apidigitalweb.dto.financeiro.contasreceber.ResumoContasReceber;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.repository.BancoRepository;
 import br.com.apidigitalweb.repository.CentroCustoRepository;
 import br.com.apidigitalweb.repository.ClienteRepository;
 import br.com.apidigitalweb.repository.ContasPagarRepository;
+import br.com.apidigitalweb.repository.FaturaContratoRepository;
 import br.com.apidigitalweb.repository.FaturaVendasRepository;
 import br.com.apidigitalweb.service.BancoService;
 import br.com.apidigitalweb.service.ContasaPagarService;
 import br.com.apidigitalweb.service.FaturaContasPagarService;
+import br.com.apidigitalweb.service.componente.ReportFinanceiroService;
 
 @Controller
 public class ControlleTest implements Serializable {
@@ -49,12 +53,17 @@ public class ControlleTest implements Serializable {
 	@Autowired
 	ContasaPagarService contasPagarRepository;
 
+	@Autowired
+	FaturaContratoRepository  faturaContratoRepository;
+	
+	@Autowired
+	ReportFinanceiroService reportFinanceiroService;
 
 	@GetMapping(value = "/teste1")
-	public ResponseEntity<List<?>> test1(){
+	public ResponseEntity<ResumoContasReceber> test1(){
 		
 		
-	return	ResponseEntity.ok(contasPagarRepository.contaspagardtosrepor());
+	return	ResponseEntity.ok(reportFinanceiroService.contasReceber(2021));//(ItemMonthReportDto.itemMonthReportDto(faturaContratoRepository.itemMonthReportDtos(2030,StatusActiv.ABERTO.getId())));
 		
 	}
 	

@@ -13,6 +13,7 @@ import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
+import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
 
 @Repository
 public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, Long> {
@@ -42,6 +43,9 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.contrato=?1 and e.status=?2")
 	double totalAbertoByContrato(Contrato contrato, String status);
+	
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.status=?1")
+	double totalAll( String status);
 
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.grupoFinanceiro=?1 and e.status=?2")
 	double totalAbertoByGrupoFinanceiro(GrupoFinanceiroContrato grupoFinanceiro, String status);
@@ -72,8 +76,16 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
 			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
 	double totalPeriodoAnterio(int ano, int status);
-
+//	2021-09-06 
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
 			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
 	double totalPeriodoPosterior(int ano, int status);
+	
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total,\n"
+			+ "date_part('month',data_vencimento) as month\n"
+			+ "from fatura_contrato   where date_part('year',data_vencimento)=?1 and   status=?2 \n"
+			+ "group by date_part('month',data_vencimento)\n"
+			+ "order by date_part('month',data_vencimento)", nativeQuery = true)
+	List<Object[]> itemMonthReportDtos(int ano, int status);
+	
 }

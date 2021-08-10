@@ -30,6 +30,9 @@ public interface FaturaVendasRepository extends JpaRepository<FaturaVenda, Long>
 
 	List<FaturaVenda> findByOrdemVendaAndStatus(OrdemVenda ordemVenda, String status);
 
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.status=?1")
+	double totalAll(String status);
+
 	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f where f.banco=?1 and f.status=?2")
 	List<FaturasDto> allBanco(Banco banco, String status);
 
@@ -50,10 +53,11 @@ public interface FaturaVendasRepository extends JpaRepository<FaturaVenda, Long>
 			+ "where date_part('month',data_vencimento)=?1 and date_part('year',data_vencimento)=?2 "
 			+ " and status=?3", nativeQuery = true)
 	double totalMesPeriodo(int mes, int ano, int status);
-	
+
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_venda  "
 			+ "where date_part('year',data_vencimento)=?1  and status=?2", nativeQuery = true)
-	double totalPeriodo(  int ano, int status);
+	double totalPeriodo(int ano, int status);
+
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_venda  "
 			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
 	double totalPeriodoAnterio(int ano, int status);
@@ -61,5 +65,12 @@ public interface FaturaVendasRepository extends JpaRepository<FaturaVenda, Long>
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_venda  "
 			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
 	double totalPeriodoPosterior(int ano, int status);
+
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total,\n"
+			+ "date_part('month',data_vencimento) as month\n"
+			+ "from fatura_venda   where date_part('year',data_vencimento)=?1 and   status=?2 \n"
+			+ "group by date_part('month',data_vencimento)\n"
+			+ "order by date_part('month',data_vencimento)", nativeQuery = true)
+	List<Object[]> itemMonthReportDtos(int ano, int status);
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apidigitalweb.dto.financeiro.ContasPagarDtoReport;
 import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
+import br.com.apidigitalweb.dto.financeiro.contasreceber.ResumoContasReceber;
 import br.com.apidigitalweb.service.ContasaPagarService;
 import br.com.apidigitalweb.service.componente.ReportFinanceiroService;
 
@@ -30,6 +31,7 @@ public class ReportFinanceiroController implements Serializable {
 	@Autowired
 	private ContasaPagarService contasaPagarService;
 
+	
 	@GetMapping(value = "/listacontaspagarsintetico")
 	public ResponseEntity<List<ContasPagarDtoReport>> contaspagardto() {
 		return ResponseEntity.ok(contasaPagarService.contaspagardtosrepor());
@@ -43,6 +45,11 @@ public class ReportFinanceiroController implements Serializable {
 	@GetMapping(value = "/periodosinteticorealizados/{exercicio}")
 	public ResponseEntity<List<ItemMonthReportDto>> periodosinteticorealizados(@PathVariable int exercicio) {
 		return ResponseEntity.ok(service.reportFinanceiroRealizados(exercicio));
+	}
+
+	@GetMapping(value = "/contasReceber/{exercicio}")
+	public ResponseEntity<ResumoContasReceber> contasReceber(@PathVariable int exercicio) {
+		return ResponseEntity.ok(service.contasReceber(exercicio));
 	}
 
 }

@@ -11,6 +11,7 @@ import br.com.apidigitalweb.domin.financeiro.BaseFatura;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
 import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class FaturasDto implements Serializable {
 	private String nome;
 	private String origem;
 	private String numeroparcela;
+	private SampleDto fornecedor=new SampleDto();
 
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date dataVencimento;
@@ -129,5 +131,6 @@ public class FaturasDto implements Serializable {
 		this.multa = b.getMulta();
 		this.desconto = b.getDesconto();
 		this.total = b.getTotal();
+		fornecedor=new SampleDto(b.getFornecedor(), "");
 	}
 }

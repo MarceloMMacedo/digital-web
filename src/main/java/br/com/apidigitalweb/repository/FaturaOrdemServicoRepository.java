@@ -28,7 +28,6 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 	List<FaturaOrdemServico> findByStatus(String status);
 
 	List<FaturaOrdemServico> findByOrdemServicoAndStatus(OrdemServico OrdemServico, String status);
-	
 
 	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaOrdemServico f where f.banco=?1 and f.status=?2")
 	List<FaturasDto> allBanco(Banco banco, String status);
@@ -42,6 +41,9 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaOrdemServico e where e.banco=?1 and e.status=?2")
 	double totalAbertoByBanco(Banco banco, String status);
 
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaOrdemServico e where e.status=?1")
+	double totalAll(String status);
+
 	@Query(value = "SELECT sum(c.valor) FROM public.fatura_venda_centro_custo_faturas c, public.fatura_ordem_servico f\n"
 			+ "where f.id=c.id and f.status=0 and f.id=3", nativeQuery = true)
 	double totalAbertoByStatus(int status, long id);
@@ -50,10 +52,11 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 			+ "where date_part('month',data_vencimento)=?1 and date_part('year',data_vencimento)=?2 "
 			+ " and status=?3", nativeQuery = true)
 	double totalMesPeriodo(int mes, int ano, int status);
-	
+
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
 			+ "where date_part('year',data_vencimento)=?1  and status=?2", nativeQuery = true)
-	double totalPeriodo(  int ano, int status);
+	double totalPeriodo(int ano, int status);
+
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
 			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
 	double totalPeriodoAnterio(int ano, int status);
@@ -61,5 +64,12 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_ordem_servico  "
 			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
 	double totalPeriodoPosterior(int ano, int status);
+
+	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total,\n"
+			+ "date_part('month',data_vencimento) as month\n"
+			+ "from fatura_ordem_servico   where date_part('year',data_vencimento)=?1 and   status=?2 \n"
+			+ "group by date_part('month',data_vencimento)\n"
+			+ "order by date_part('month',data_vencimento)", nativeQuery = true)
+	List<Object[]> itemMonthReportDtos(int ano, int status);
 
 }
