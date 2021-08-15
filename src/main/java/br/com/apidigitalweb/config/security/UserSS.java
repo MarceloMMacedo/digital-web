@@ -14,19 +14,21 @@ public class UserSS implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String email;
-	private String senha; 
+	private String password; 
+	private String role;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserSS() {
 	}
 
-	public UserSS(Long id, String email, String senha,   String  perfis) {
+	public UserSS(Long id, String email, String password,   String  perfis) {
 		super();
 		this.id = id;
 		this.email = email;
-		this.senha = senha; 
+		this.password = password; 
 		Collection c = new LinkedList<>();
 		Perfil p =Perfil.findById(perfis);
+		role=p.getId();
 		c.add(new SimpleGrantedAuthority(p.getId()));
 		 
 		this.authorities =c;// perfis.stream().map(x -> new SimpleGrantedAuthority(x.getId())).collect(Collectors.toList());
@@ -43,7 +45,7 @@ public class UserSS implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return senha;
+		return password;
 	}
 
 	@Override
@@ -79,13 +81,7 @@ public class UserSS implements UserDetails {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+ 
 
 	public void setId(Long id) {
 		this.id = id;
@@ -104,5 +100,13 @@ public class UserSS implements UserDetails {
 
 	public boolean hasRole(Perfil perfil) {
 		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

@@ -22,7 +22,7 @@ public class UsuarioWebDTO {
 	public UsuarioWebDTO(Funcionario f) {
 		this.id = String.valueOf(f.getId());
 		this.email = f.getEmail();
-		this.avatar = f.getImagem();
+		this.avatar = f.getImagemView();
 		this.regra = f.getRolers();
 		this.nomeGuerra = f.getNomeGuerra();
 	}

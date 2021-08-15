@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
-import br.com.apidigitalweb.dto.financeiro.contasreceber.ResumoContasReceber;
+import br.com.apidigitalweb.dto.financeiro.contas.ResumoContas;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.FaturaContasPagarRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
@@ -117,8 +117,8 @@ public class ReportFinanceiroService implements Serializable {
 		return monthReportDtos;
 	}
 
-	public ResumoContasReceber contasReceber(int exercicio) {
-		ResumoContasReceber contasReceber = new ResumoContasReceber();
+	public ResumoContas contasReceber(int exercicio) {
+		ResumoContas contasReceber = new ResumoContas();
 		contasReceber.setExercicio(exercicio);
 
 		/**** calculo de valores total do período ****/
@@ -140,13 +140,14 @@ public class ReportFinanceiroService implements Serializable {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		contasReceber.setValor(contasReceber.getTotalresumocontratos() + contasReceber.getTotalresumovendas()+contasReceber.getTotalresumoservicos());
+
+		contasReceber.setValor(contasReceber.getTotalresumocontratos() + contasReceber.getTotalresumovendas()
+				+ contasReceber.getTotalresumoservicos());
 		/*** Contratos ***/
 		double valorentrada = 0;
 		double valorsaida = 0;
 		try {
-			valorentrada = contratoRepository.totalPeriodoAnterio(exercicio, StatusActiv.ABERTO.getId()); 
+			valorentrada = contratoRepository.totalPeriodoAnterio(exercicio, StatusActiv.ABERTO.getId());
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -154,16 +155,19 @@ public class ReportFinanceiroService implements Serializable {
 		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio, valorentrada, valorsaida);
 		dto.setMes("Anterior");
 		contasReceber.getResumocontratos().add(dto);
-		for(int i=1;i<13;i++) {
-			valorentrada=contratoRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
+		for (int i = 1; i < 13; i++) {
+			valorentrada = contratoRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
 			contasReceber.getResumocontratos().add(new ItemMonthReportDto(valorentrada, i));
 		}
-		/*contasReceber.getResumocontratos().addAll(ItemMonthReportDto
-				.itemMonthReportDto(contratoRepository.itemMonthReportDtos(exercicio, StatusActiv.ABERTO.getId())));*/
-		
+		/*
+		 * contasReceber.getResumocontratos().addAll(ItemMonthReportDto
+		 * .itemMonthReportDto(contratoRepository.itemMonthReportDtos(exercicio,
+		 * StatusActiv.ABERTO.getId())));
+		 */
+
 		valorentrada = 0;
 		try {
-			valorentrada += contratoRepository.totalPeriodoPosterior(exercicio, StatusActiv.ABERTO.getId()); 
+			valorentrada += contratoRepository.totalPeriodoPosterior(exercicio, StatusActiv.ABERTO.getId());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -171,30 +175,32 @@ public class ReportFinanceiroService implements Serializable {
 		monthReportDtos.add(dto);
 		dto.setMes("Posterior");
 		contasReceber.getResumocontratos().add(dto);
-		
-		
+
 		/*** vendas ***/
-		  valorentrada = 0;
-		  valorsaida = 0;
+		valorentrada = 0;
+		valorsaida = 0;
 		try {
 			valorentrada = vendasRepository.totalPeriodoAnterio(exercicio, StatusActiv.ABERTO.getId());
-			 
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		  dto = new ItemMonthReportDto(1, exercicio, valorentrada, valorsaida);
+		dto = new ItemMonthReportDto(1, exercicio, valorentrada, valorsaida);
 		dto.setMes("Anterior");
 		contasReceber.getResumovendas().add(dto);
-		for(int i=1;i<13;i++) {
-			valorentrada=vendasRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
+		for (int i = 1; i < 13; i++) {
+			valorentrada = vendasRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
 			contasReceber.getResumovendas().add(new ItemMonthReportDto(valorentrada, i));
 		}
-		/*contasReceber.getResumovendas().addAll(ItemMonthReportDto
-				.itemMonthReportDto(vendasRepository.itemMonthReportDtos(exercicio, StatusActiv.ABERTO.getId())));*/
+		/*
+		 * contasReceber.getResumovendas().addAll(ItemMonthReportDto
+		 * .itemMonthReportDto(vendasRepository.itemMonthReportDtos(exercicio,
+		 * StatusActiv.ABERTO.getId())));
+		 */
 		valorentrada = 0;
 		try {
 			valorentrada += vendasRepository.totalPeriodoPosterior(exercicio, StatusActiv.ABERTO.getId());
-			 
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -202,30 +208,32 @@ public class ReportFinanceiroService implements Serializable {
 		monthReportDtos.add(dto);
 		dto.setMes("Postrior");
 		contasReceber.getResumovendas().add(dto);
-	
 
 		/*** servicos ***/
-		  valorentrada = 0;
-		  valorsaida = 0;
+		valorentrada = 0;
+		valorsaida = 0;
 		try {
 			valorentrada = ordemServicoRepository.totalPeriodoAnterio(exercicio, StatusActiv.ABERTO.getId());
-			 
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		  dto = new ItemMonthReportDto(1, exercicio, valorentrada, valorsaida);
+		dto = new ItemMonthReportDto(1, exercicio, valorentrada, valorsaida);
 		dto.setMes("Anterior");
 		contasReceber.getResumoservicos().add(dto);
-		for(int i=1;i<13;i++) {
-			valorentrada=ordemServicoRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
+		for (int i = 1; i < 13; i++) {
+			valorentrada = ordemServicoRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
 			contasReceber.getResumoservicos().add(new ItemMonthReportDto(valorentrada, i));
 		}
-		/*contasReceber.getResumoservicos().addAll(ItemMonthReportDto
-				.itemMonthReportDto(ordemServicoRepository.itemMonthReportDtos(exercicio, StatusActiv.ABERTO.getId())));*/
+		/*
+		 * contasReceber.getResumoservicos().addAll(ItemMonthReportDto
+		 * .itemMonthReportDto(ordemServicoRepository.itemMonthReportDtos(exercicio,
+		 * StatusActiv.ABERTO.getId())));
+		 */
 		valorentrada = 0;
 		try {
 			valorentrada += ordemServicoRepository.totalPeriodoPosterior(exercicio, StatusActiv.ABERTO.getId());
-			 
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -233,13 +241,65 @@ public class ReportFinanceiroService implements Serializable {
 		monthReportDtos.add(dto);
 		dto.setMes("Postrior");
 		contasReceber.getResumoservicos().add(dto);
-		
-		/***Chats***/
-		ResumoContasReceber.loadDataCharcontrato(contasReceber );
-		ResumoContasReceber.loadDataCharvendas(contasReceber );
-		ResumoContasReceber.loadDataCharservicos(contasReceber );
-		
-		
+
+		/*** Chats ***/
+		ResumoContas.loadDataCharcontrato(contasReceber);
+		ResumoContas.loadDataCharvendas(contasReceber);
+		ResumoContas.loadDataCharservicos(contasReceber);
+
 		return contasReceber;
 	}
+
+	public ResumoContas contasPagar(int exercicio) {
+		ResumoContas contaspagar = new ResumoContas();
+		contaspagar.setExercicio(exercicio);
+
+		/**** calculo de valores total do período ****/
+		try {
+			contaspagar.setTotalresumopagar(contasPagarRepository.totalAll(StatusActiv.ABERTO.getDescricao()));
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		contaspagar.setValor(contaspagar.getTotalresumopagar());
+		
+		/*** pagar ***/
+		// double valorentrada = 0;
+		double valorsaida = 0;
+		try {
+			valorsaida = contasPagarRepository.totalPeriodoAnterio(exercicio, StatusActiv.ABERTO.getId());
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio, 0, valorsaida);
+		dto.setMes("Anterior");
+		contaspagar.getResumocontratos().add(dto);
+		for (int i = 1; i < 13; i++) {
+			valorsaida = contasPagarRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
+			contaspagar.getResumocontratos().add(new ItemMonthReportDto(i, exercicio, 0, valorsaida));
+		}
+		/*
+		 * contasReceber.getResumocontratos().addAll(ItemMonthReportDto
+		 * .itemMonthReportDto(contasPagarRepository.itemMonthReportDtos(exercicio,
+		 * StatusActiv.ABERTO.getId())));
+		 */
+
+		valorsaida = 0;
+		try {
+			valorsaida += contasPagarRepository.totalPeriodoPosterior(exercicio, StatusActiv.ABERTO.getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		dto = new ItemMonthReportDto(1, exercicio, 0, valorsaida);
+		monthReportDtos.add(dto);
+		dto.setMes("Posterior");
+		contaspagar.getResumocontratos().add(dto);
+
+		/*** Chats ***/
+		ResumoContas.loadDataCharcontrato(contaspagar);
+
+		return contaspagar;
+	}
+
 }

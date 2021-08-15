@@ -12,29 +12,32 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.apidigitalweb.config.security.JWTUtils;
 import br.com.apidigitalweb.config.security.UserSS;
 import br.com.apidigitalweb.config.services.UserService;
-import br.com.apidigitalweb.dto.credenciais.EmailDTO;
+import br.com.apidigitalweb.dto.requetpass;
+import br.com.apidigitalweb.service.FuncioanarioService;
 
 @RestController
-@RequestMapping(value = "/auth")
 public class AuthResource {
-
+	
 	@Autowired
 	private JWTUtils jwtUtil;
-	
-	 
-	
+
+	@Autowired
+	private FuncioanarioService funcioanarioService;
+
 	@RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserSS user = UserService.authenticated();
-		String token = jwtUtil.generateToken(user.getUsername());
+		String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 		response.addHeader("Authorization", "Bearer " + token);
 		response.addHeader("access-control-expose-headers", "Authorization");
 		return ResponseEntity.noContent().build();
 	}
 
-	/*@RequestMapping(value = "/forgot", method = RequestMethod.POST)
-	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO objDto) {
-		service.sendNewPassword(objDto.getEmail());
+	@RequestMapping(value = "/restpasswordfuncionario", method = RequestMethod.POST)
+	public ResponseEntity<Void> restpasswordfuncionario(@RequestBody requetpass email) {
+		funcioanarioService.setpassword(email.getEmail());
 		return ResponseEntity.noContent().build();
-	}*/
+	}
+	
 }
+

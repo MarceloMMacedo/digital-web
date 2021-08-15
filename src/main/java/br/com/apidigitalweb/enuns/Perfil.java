@@ -3,13 +3,14 @@ package br.com.apidigitalweb.enuns;
 public enum Perfil {
 
 	ADMIN("ROLE_ADMG","Administrador Geral"), 
-	CLIENTE("ROLE_CLI","Cliente"),  
+//	CLIENTE("ROLE_CLI","Cliente"),  
 	FINANCEIRO("ROLE_OPF","Operador  Financeiro" ),
-	ADMINFINANCEIRO("ROLE_ADMF","Adminstarador Financeiro"), 
-	PROVIDER("ROLE_FORN","Fornecedor"),
-	PARCEIRO("ROLE_ADMF","Parceiro"),
-	ESTOQUE ("ROLE_EST","Estoquista"),
-	ADMINESTOQUE ("ROLE_ADMEST","Estoquista") ;
+	Servico("ROLE_SRV","Operador de Serviços"), 
+	//PROVIDER("ROLE_FORN","Fornecedor"),
+	//PARCEIRO("ROLE_ADMF","Parceiro"),
+	ESTOQUE ("ROLE_EST","Operador de Estoque"),
+	//ADMINESTOQUE ("ROLE_ADMEST","Estoquista")
+	;
 
 	private String id;
 	private String descricao;

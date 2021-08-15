@@ -38,6 +38,7 @@ public class UsuarioWeb implements Serializable {
 		Funcionario f= service.fingbyid(user.getId());
 		
 		UsuarioWebDTO usuarioWeb=new UsuarioWebDTO(f);
+		System.out.println(usuarioWeb);
 		return ResponseEntity.ok(usuarioWeb);
 	}
 

@@ -1,0 +1,33 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f92b9441375, pid=18153, tid=18168
+#
+# JRE version: OpenJDK Runtime Environment (15.0.2+7) (build 15.0.2+7-27)
+# Java VM: OpenJDK 64-Bit Server VM (15.0.2+7-27, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x4375]  ImageStrings::find(Endian*, char const*, int*, unsigned int)+0x65
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/lib/systemd/systemd-coredump %P %u %g %s %t 9223372036854775808 %h" (or dumping to /home/digital/ws-spring/app-digital-web/digital-web/back/api-digital/core.18153)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -XX:+ShowCodeDetailsInExceptionMessages -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:38109 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=46471 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost -Dspring.jmx.enabled=true -Dspring.application.admin.enabled=true -Djava.security.egd=file:/dev/./urandom -XX:TieredStopAtLevel=1 -Dspring.boot.project.name=api-digital -javaagent:/home/digital/sts-4.10.0.RELEASE/configuration/org.eclipse.osgi/248/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 br.com.apidigitalweb.ApiDigitalApplication --spring.output.ansi.enabled=always
+
+Host: Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz, 8 cores, 7G, Linux Mint 20.2 Uma
+Time: Wed Aug 11 21:39:34 2021 -03 elapsed time: 3671.226368 seconds (0d 1h 1m 11s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f92b41e6420):  JavaThread "Signal Dispatcher" daemon [_thread_in_vm, id=18168, stack(0x00007f928d78b000,0x00007f928d88c000)]
+
+Stack: [0x00007f928d78b000,0x00007f928d88c000],  sp=0x00007f928d8891b0,  free space=1016k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libjimage.so+0x4375]  ImageStrings::find(Endian*, char const*, int*, unsigned int)+0x65
+C  [libjimage.so+0x4f0e]  ImageFileReader::find_location_index(char const*, unsigned long long*) const+0x3e
+C  [libjimage.so+0x540c]  JIMAGE_FindResource+0xfc
+V  [libjvm.so+0x4ea4c1]

@@ -1,4 +1,4 @@
-package br.com.apidigitalweb.dto.financeiro.contasreceber;
+package br.com.apidigitalweb.dto.financeiro.contas;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-public class ResumoContasReceber implements Serializable {
+public class ResumoContas implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Data
@@ -30,6 +30,7 @@ public class ResumoContasReceber implements Serializable {
 	private double totalresumocontratos;
 	private double totalresumovendas;
 	private double totalresumoservicos;
+	private double totalresumopagar;
 
 	private List<String> lineChartLabels = new ArrayList<>();
 
@@ -39,33 +40,36 @@ public class ResumoContasReceber implements Serializable {
 	private List<ItemMonthReportDto> resumovendas = new ArrayList<>();
 	@JsonIgnore
 	private List<ItemMonthReportDto> resumoservicos = new ArrayList<>();
+	@JsonIgnore
+	private List<ItemMonthReportDto> resumopagar = new ArrayList<>();
 
 	private DataChart chartscontrato = new DataChart();
 	private DataChart chartsvendas = new DataChart();
 	private DataChart chartsservicos = new DataChart();
+	private DataChart chartspagar = new DataChart();
 
-	public ResumoContasReceber() {
+	public ResumoContas() {
 		for (int i = 0; i < 14; i++) {
 			lineChartLabels.add(getmes(i));
 		}
 
 	}
 
-	public static void loadDataCharcontrato(ResumoContasReceber contasReceber) {
+	public static void loadDataCharcontrato(ResumoContas contasReceber) {
 		contasReceber.getChartscontrato().setLabel("Contratos");
 		for (ItemMonthReportDto objects : contasReceber.getResumocontratos()) {
 			contasReceber.getChartscontrato().getData().add(objects.getEntradas());
 		}
 	}
 
-	public static void loadDataCharvendas(ResumoContasReceber contasReceber) {
+	public static void loadDataCharvendas(ResumoContas contasReceber) {
 		contasReceber.getChartsvendas().setLabel("Vendas");
 		for (ItemMonthReportDto objects : contasReceber.getResumovendas()) {
 			contasReceber.getChartsvendas().getData().add(objects.getEntradas());
 		}
 	}
 
-	public static void loadDataCharservicos(ResumoContasReceber contasReceber) {
+	public static void loadDataCharservicos(ResumoContas contasReceber) {
 		contasReceber.getChartsservicos().setLabel("Serviços");
 		for (ItemMonthReportDto objects : contasReceber.getResumoservicos()) {
 			contasReceber.getChartsservicos().getData().add(objects.getEntradas());

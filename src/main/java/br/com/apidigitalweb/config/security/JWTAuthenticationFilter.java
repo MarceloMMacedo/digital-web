@@ -37,7 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			CredenciaisDTO creds = new ObjectMapper().readValue(req.getInputStream(), CredenciaisDTO.class);
 
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),
-					creds.getSenha(), new ArrayList<>());
+					creds.getPassword(), new ArrayList<>());
 
 			Authentication auth = authenticationManager.authenticate(authToken);
 			return auth;
@@ -51,8 +51,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication auth) throws IOException, ServletException {
 
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
-		String token = jwtUtil.generateToken(username);
-		res.addHeader("Authorization", "Bearer " + token);
+		String role= ((UserSS) auth.getPrincipal()).getRole();
+		String token = jwtUtil.generateToken(username,role);
+		res.addHeader("Authorization","Bearer "+ token);
 
 		res.addHeader("access-control-expose-headers", "Authorization");
 		/*String s = String.valueOf(((UserSS) auth.getPrincipal()).getEmpresa().getId());
