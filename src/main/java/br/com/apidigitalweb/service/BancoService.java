@@ -70,7 +70,12 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 		{
 			double valor = 0;
 			try {
-				valor += faturaContratoRepository.totalAbertoByBanco(x, StatusActiv.ABERTO.getDescricao());
+				List<FaturaContrato> contratos=faturaContratoRepository.findByStatus(StatusActiv.ABERTO.getDescricao());
+				 
+				for (FaturaContrato faturaContrato : contratos) {
+					valor+=faturaContrato.getTotal();
+				}
+			//	valor += faturaContratoRepository.totalAbertoByBanco(x, StatusActiv.ABERTO.getDescricao());
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

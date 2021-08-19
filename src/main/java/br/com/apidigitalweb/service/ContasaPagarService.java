@@ -83,6 +83,13 @@ public class ContasaPagarService extends BaseServic<ContasPagar> implements Seri
 
 	}
 
+	
+	@Override
+	public ContasPagar newobj(ContasPagar obj) {
+		// TODO Auto-generated method stub
+		return super.newobj(obj);
+	}
+
 	@Override
 	public void posNewObj(ContasPagar obj) {
 		contasPagarService.regerarparcelas(obj.getId());
@@ -107,5 +114,4 @@ public class ContasaPagarService extends BaseServic<ContasPagar> implements Seri
 		obj.setNome(obj.getHistorico().getNome() + "/" + "" + obj.getFinanceiro().getParcelas());
 	}
 
-	
 }

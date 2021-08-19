@@ -2,6 +2,7 @@ package br.com.apidigitalweb.domin.financeiro.contaspagar;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ public class FaturaContasPagar  extends BaseFatura implements Serializable {
 	@JsonIgnore
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private ContasPagar contasPagar;
 	
  

@@ -2,15 +2,15 @@ package br.com.apidigitalweb.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.apidigitalweb.domin.financeiro.Banco;
@@ -18,20 +18,17 @@ import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
-import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
-import br.com.apidigitalweb.dto.financeiro.contas.ResumoContas;
 import br.com.apidigitalweb.enuns.StatusActiv;
-import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.repository.BancoRepository;
 import br.com.apidigitalweb.repository.CentroCustoRepository;
 import br.com.apidigitalweb.repository.ClienteRepository;
-import br.com.apidigitalweb.repository.ContasPagarRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
 import br.com.apidigitalweb.repository.FaturaVendasRepository;
 import br.com.apidigitalweb.service.BancoService;
+import br.com.apidigitalweb.service.ContasReceberService;
 import br.com.apidigitalweb.service.ContasaPagarService;
-import br.com.apidigitalweb.service.FaturaContasPagarService;
 import br.com.apidigitalweb.service.componente.ReportFinanceiroService;
+import br.com.apidigitalweb.util.Extenso;
 
 @Controller
 public class ControlleTest implements Serializable {
@@ -58,12 +55,15 @@ public class ControlleTest implements Serializable {
 	
 	@Autowired
 	ReportFinanceiroService reportFinanceiroService;
+	
+	@Autowired
+	ContasReceberService contasReceberService;
 
 	@GetMapping(value = "/teste1")
-	public ResponseEntity<ResumoContas> test1(){
-		
-		
-	return	ResponseEntity.ok(reportFinanceiroService.contasReceber(2021));//(ItemMonthReportDto.itemMonthReportDto(faturaContratoRepository.itemMonthReportDtos(2030,StatusActiv.ABERTO.getId())));
+	public ResponseEntity<?> test1(){
+		Date fim=new DateTime(2023, 01, 01,0,0).toDate();
+		Date inicio=new Date();
+	return	ResponseEntity.ok(contasReceberService.ContasReceberClientebetween((long) 1, inicio, fim, "Aberto"));//new Extenso(100.0).toString().toUpperCase());//(ItemMonthReportDto.itemMonthReportDto(faturaContratoRepository.itemMonthReportDtos(2030,StatusActiv.ABERTO.getId())));
 		
 	}
 	

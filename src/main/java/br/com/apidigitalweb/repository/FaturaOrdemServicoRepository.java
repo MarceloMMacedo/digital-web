@@ -1,11 +1,13 @@
 package br.com.apidigitalweb.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
@@ -28,6 +30,22 @@ public interface FaturaOrdemServicoRepository extends JpaRepository<FaturaOrdemS
 	List<FaturaOrdemServico> findByStatus(String status);
 
 	List<FaturaOrdemServico> findByOrdemServicoAndStatus(OrdemServico OrdemServico, String status);
+
+	/*
+	 * @Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaOrdemServico f "
+	 * +
+	 * "where f.cliente=?1 and f.status=?2 and  f.dataVencimento BETWEEN =?3 AND =?4  order by f.dataVencimento"
+	 * ) List<FaturasDto> findAllClienteAndStatusBetoweend(Cliente cliente, String
+	 * status, Date inicio, Date fim);
+	 */
+	List<FaturaOrdemServico> findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(String status, Date inicio,
+			Date fim);
+
+	List<FaturaOrdemServico> findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(Cliente cliente, String status,
+			Date inicio, Date fim);
+
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaOrdemServico f where f.cliente=?1 and f.status=?2 order by f.dataVencimento")
+	List<FaturasDto> findAllClienteAndStatus(Cliente cliente, String status);
 
 	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaOrdemServico f where f.banco=?1 and f.status=?2")
 	List<FaturasDto> allBanco(Banco banco, String status);

@@ -38,4 +38,5 @@ public class FaturaContratoController extends BaseController<FaturaContrato> imp
 		service.regerarparcelas(id);
 		return ResponseEntity.noContent().build();
 	}
+ 
 }

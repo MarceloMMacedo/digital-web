@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
 import br.com.apidigitalweb.dto.financeiro.contas.ResumoContas;
 import br.com.apidigitalweb.enuns.StatusActiv;
@@ -123,7 +124,12 @@ public class ReportFinanceiroService implements Serializable {
 
 		/**** calculo de valores total do período ****/
 		try {
-			contasReceber.setTotalresumocontratos(contratoRepository.totalAll(StatusActiv.ABERTO.getDescricao()));
+			List<FaturaContrato> contratos=contratoRepository.findByStatus(StatusActiv.ABERTO.getDescricao());
+			double val=0;
+			for (FaturaContrato faturaContrato : contratos) {
+				val+=faturaContrato.getTotal();
+			}
+			contasReceber.setTotalresumocontratos(val);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -272,12 +278,12 @@ public class ReportFinanceiroService implements Serializable {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio, 0, valorsaida);
+		ItemMonthReportDto dto = new ItemMonthReportDto(1, exercicio, valorsaida,0);
 		dto.setMes("Anterior");
-		contaspagar.getResumocontratos().add(dto);
+		contaspagar.getResumopagar().add(dto);
 		for (int i = 1; i < 13; i++) {
 			valorsaida = contasPagarRepository.totalMesPeriodo(i, exercicio, StatusActiv.ABERTO.getId());
-			contaspagar.getResumocontratos().add(new ItemMonthReportDto(i, exercicio, 0, valorsaida));
+			contaspagar.getResumopagar().add(new ItemMonthReportDto( valorsaida,i));
 		}
 		/*
 		 * contasReceber.getResumocontratos().addAll(ItemMonthReportDto
@@ -291,13 +297,13 @@ public class ReportFinanceiroService implements Serializable {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		dto = new ItemMonthReportDto(1, exercicio, 0, valorsaida);
+		dto = new ItemMonthReportDto(1, exercicio,  valorsaida,0);
 		monthReportDtos.add(dto);
 		dto.setMes("Posterior");
-		contaspagar.getResumocontratos().add(dto);
+		contaspagar.getResumopagar().add(dto);
 
 		/*** Chats ***/
-		ResumoContas.loadDataCharcontrato(contaspagar);
+		ResumoContas.loadDataCharcontaspagar(contaspagar);
 
 		return contaspagar;
 	}

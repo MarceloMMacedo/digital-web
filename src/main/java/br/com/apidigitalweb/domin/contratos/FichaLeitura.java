@@ -1,5 +1,6 @@
 package br.com.apidigitalweb.domin.contratos;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,7 +29,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Embeddable
 @NoArgsConstructor
-public class FichaLeitura {
+public class FichaLeitura implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -97,33 +100,41 @@ public class FichaLeitura {
 		super();
 		this.itensContratoPatrimonio = itensContratoPatrimonio;
 		this.contrato = contrato;
+		this.status = StatusActiv.ABERTO.getDescricao();
 	}
 
-	private int getMedidorAnteriorA3() {
+	public int getMedidorAnteriorA3() {
 		try {
-			return itensContratoPatrimonio.getPatrimonio().getMedidorContrato().getMedidorA3Final();
+			if(status.equals(StatusActiv.QUIT.getDescricao())) {
+				return medidores.getMedidorA3Inicial();
+			}
+			else return itensContratoPatrimonio.getPatrimonio().getMedidorContrato().getMedidorA3Final();
 		} catch (Exception e) {
 			return 0;
 		}
 	}
 
-	private int getMedidorAnteriorA4() {
+	public int getMedidorAnteriorA4() {
 		try {
-			return itensContratoPatrimonio.getPatrimonio().getMedidorContrato().getMedidorA4Final();
+			if(status.equals(StatusActiv.QUIT.getDescricao())) {
+				return medidores.getMedidorA4Inicial();
+			}
+			else	return itensContratoPatrimonio.getPatrimonio().getMedidorContrato().getMedidorA4Final();
 		} catch (Exception e) {
 			return 0;
 		}
 	}
 
-	private int getMedidorConvertidoA4() {
-		int leitura = getMedidorAnteriorA3() * 2;
-		return getMedidorAnteriorA4() + leitura;
+	public int getMedidorConvertidoA4() {
+		int leitura = getMedidorAnteriorA4() / 2;
+		return getMedidorAnteriorA3() + leitura;
 	}
 
 	public int getProducao() {
 		producao = 0;
 		try {
-			producao = medidores.getMedidorA3Final() * 2 + medidores.getMedidorA4Final() - getMedidorConvertidoA4();
+			producao = medidores.getMedidorA3Final() - getMedidorAnteriorA3() + medidores.getMedidorA4Final() / 2
+					- getMedidorAnteriorA4() / 2;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -44,4 +44,5 @@ public class ContasaPagarController extends BaseController<ContasPagar> {
 		return ResponseEntity.ok(service.getcontaspagardto(id));
 	}
 
+ 
 }

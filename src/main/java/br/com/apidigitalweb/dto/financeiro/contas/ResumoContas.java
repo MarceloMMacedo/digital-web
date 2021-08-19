@@ -54,7 +54,12 @@ public class ResumoContas implements Serializable {
 		}
 
 	}
-
+	public static void loadDataCharcontaspagar(ResumoContas contasReceber) {
+		contasReceber.getChartspagar().setLabel("Pagar");
+		for (ItemMonthReportDto objects : contasReceber.getResumopagar()) {
+			contasReceber.getChartspagar().getData().add(objects.getEntradas());
+		}
+	}
 	public static void loadDataCharcontrato(ResumoContas contasReceber) {
 		contasReceber.getChartscontrato().setLabel("Contratos");
 		for (ItemMonthReportDto objects : contasReceber.getResumocontratos()) {

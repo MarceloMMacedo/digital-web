@@ -1,5 +1,6 @@
 package br.com.apidigitalweb.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ import br.com.apidigitalweb.domin.contratos.GrupoFinanceiroContrato;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
+import br.com.apidigitalweb.dto.financeiro.FaturaContratoDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
 
@@ -25,6 +27,16 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 
 	List<FaturaContrato> findAllByClienteAndStatus(Cliente cliente, String status);
 
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturaContratoDto(f) from FaturaContrato f where f.cliente=?1 and f.status=?2 order by f.dataVencimento")
+	List<FaturaContratoDto> findAllClienteAndStatus(Cliente cliente, String status);
+	
+	//@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContrato f "
+	//		+ "where f.cliente=?1 and f.status=?2 and ( f.dataVencimento BETWEEN =?3 AND =?4 ) order by f.dataVencimento")
+	List<FaturaContrato> findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(Cliente cliente, String status,Date inicio,Date fim);
+	
+
+	List<FaturaContrato> findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento( String status,Date inicio,Date fim);
+
 	List<FaturaContrato> findAllByBancoAndStatus(Banco cliente, String status);
 
 	List<FaturaContrato> findByStatus(String status);
@@ -35,17 +47,17 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 
 	List<FaturaContrato> findAllByGrupoFinanceiroAndStatus(GrupoFinanceiroContrato grupoFinanceiro, String status);
 
-	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContrato f where f.banco=?1 and f.status=?2")
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaContrato f where f.banco=?1 and f.status=?2 ")
 	List<FaturasDto> allBanco(Banco banco, String status);
 
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.cliente=?1 and e.status=?2")
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.cliente=?1 and e.status=?2 ")
 	double totalAbertoByCliente(Cliente cliente, String status);
 
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.contrato=?1 and e.status=?2")
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.contrato=?1 and e.status=?2 ")
 	double totalAbertoByContrato(Contrato contrato, String status);
-	
+
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.status=?1")
-	double totalAll( String status);
+	double totalAll(String status);
 
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContrato e where e.grupoFinanceiro=?1 and e.status=?2")
 	double totalAbertoByGrupoFinanceiro(GrupoFinanceiroContrato grupoFinanceiro, String status);
@@ -76,16 +88,17 @@ public interface FaturaContratoRepository extends JpaRepository<FaturaContrato, 
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
 			+ "where date_part('year',data_vencimento)<?1  and status=?2", nativeQuery = true)
 	double totalPeriodoAnterio(int ano, int status);
+
 //	2021-09-06 
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total from fatura_contrato  "
 			+ "where date_part('year',data_vencimento)>?1  and status=?2", nativeQuery = true)
 	double totalPeriodoPosterior(int ano, int status);
-	
+
 	@Query(value = "select  COALESCE( sum(valor+jurus+multa-desconto)  ,0) as total,\n"
 			+ "date_part('month',data_vencimento) as month\n"
 			+ "from fatura_contrato   where date_part('year',data_vencimento)=?1 and   status=?2 \n"
 			+ "group by date_part('month',data_vencimento)\n"
 			+ "order by date_part('month',data_vencimento)", nativeQuery = true)
 	List<Object[]> itemMonthReportDtos(int ano, int status);
-	
+
 }

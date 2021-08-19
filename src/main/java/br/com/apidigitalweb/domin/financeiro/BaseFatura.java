@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import br.com.apidigitalweb.converters.SimNaoConverter;
 import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.domin.BaseEntity;
+import br.com.apidigitalweb.domin.contratos.FichaLeitura;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.pessoa.Contato;
 import br.com.apidigitalweb.domin.pessoa.Endereco;
@@ -83,6 +84,8 @@ public class BaseFatura implements Serializable, BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	protected CentroCusto centroCusto;
 	
+	
+	
 	//@ElementCollection
    // @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
 	@Transient
@@ -94,14 +97,14 @@ public class BaseFatura implements Serializable, BaseEntity {
 	public double getTotal() {
 		total = 0;
 		try {
-			total = valor - desconto + jurus + multa;
+			total = valor - desconto + jurus + multa  ;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return total;
 	}
 
-
+	
 
 
 	public BaseFatura(String nome, String descricao, int totalParcela, int numeroparcela, Date dataVencimento,

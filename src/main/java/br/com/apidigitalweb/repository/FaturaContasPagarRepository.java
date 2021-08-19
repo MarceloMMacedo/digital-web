@@ -50,7 +50,7 @@ public interface FaturaContasPagarRepository extends JpaRepository<FaturaContasP
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaContasPagar e where e.banco=?1 and e.status=?2")
 	double totalAbertoByBanco(Banco banco, String status);
 
-	@Query(value = "SELECT sum(c.valor) FROM public.fatura_venda_centro_custo_faturas c, public.fatura_contas_pagar  "
+	@Query(value = "SELECT sum(c.valor) FROM fatura_venda_centro_custo_faturas c, fatura_contas_pagar  "
 			+ "where f.id=c.id and f.status=0 and f.id=3", nativeQuery = true)
 	double totalAbertoByStatus(int status, long id);
 

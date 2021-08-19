@@ -57,6 +57,8 @@ public class FaturaContasPagarService extends BaseServic<FaturaContasPagar> impl
 
 	@Autowired
 	private MovCentroCustoService movCentroCustoService;
+	@Autowired
+	private CentroCustoService centroCustoService;
 
 	@Override
 	public Page<FaturaContasPagar> findallpage(String find, Pageable page) {
@@ -197,10 +199,17 @@ public class FaturaContasPagarService extends BaseServic<FaturaContasPagar> impl
 	public void quitarfatura(Long id) {
 
 		FaturaContasPagar f = fingbyid(id);
+		
 		Banco banco = bancoService.fingbyid(f.getBanco().getId());
 		banco.setSaldo(banco.getSaldo() - f.getTotal());
 		bancoService.saveobj(banco.getId(), banco);
+		
+		CentroCusto centroCusto = centroCustoService.fingbyid(f.getCentroCusto().getId());
+		centroCusto.setSaldo(centroCusto.getSaldo() - f.getTotal());
+		centroCustoService.saveobj(centroCusto.getId(), centroCusto);
 
+		
+		
 		MovBanco m = new MovBanco();
 		m.setBanco(banco);
 		m.setDataMovimento(new Date());

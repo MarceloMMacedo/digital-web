@@ -21,34 +21,56 @@ import lombok.NoArgsConstructor;
 public class FaturasDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private long id;
-	private String nome;
-	private String origem;
-	private String numeroparcela;
-	private SampleDto fornecedor=new SampleDto();
+	protected long id;
+	protected String nome;
+	protected String origem;
+	protected int numeroparcela;
+	protected String parcela;
+	protected SampleDto fornecedor = new SampleDto();
+	protected long idordem;
+	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
+	protected Date dataVencimento;
 
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date dataVencimento;
-
+	protected Date dataPagamento;
 	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date dataPagamento;
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date diaQuitacao;
+	protected Date diaQuitacao;
 
-	private String referente;
-	private String status;
-	private double valor;
-	private double jurus;
-	private double multa;
-	private double desconto;
-	private double total;
+	protected String referente;
+	protected String status;
+	protected double valor;
+	protected double jurus;
+	protected double multa;
+	protected double desconto;
+	protected double total;
+	protected SampleDto banco;
 
+	public void setnewFaturaDto(BaseFatura b, String orige) {
+		this.id = b.getId();
+		this.nome = b.getNome();
+		this.origem = origem;
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.dataVencimento = b.getDataVencimento();
+		this.dataPagamento = b.getDataPagamento();
+		this.diaQuitacao = b.getDiaQuitacao();
+		this.referente = b.getDescricao();
+		this.status = b.getStatus();
+		this.valor = b.getValor();
+		this.jurus = b.getJurus();
+		this.multa = b.getMulta();
+		this.desconto = b.getDesconto();
+		this.total = b.getTotal();
+		banco=new SampleDto(b.getBanco(),"");
+	}
+	
 	public FaturasDto(BaseFatura b, String origem) {
 		super();
 		this.id = b.getId();
 		this.nome = b.getNome();
 		this.origem = origem;
-		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -63,10 +85,13 @@ public class FaturasDto implements Serializable {
 
 	public FaturasDto(FaturaContrato b) {
 		super();
-		this.id = b.getId();
-		this.nome = b.getNome();
-		this.origem = TipoFaturaEnum.Contrato.toString();
-		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		//this.id = b.getId();
+		//this.nome = b.getNome();
+		idordem=b.getContrato().getId();
+		setnewFaturaDto(b,  TipoFaturaEnum.Contrato.toString());
+		/*this.origem = TipoFaturaEnum.Contrato.toString();
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela= "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -77,14 +102,20 @@ public class FaturasDto implements Serializable {
 		this.multa = b.getMulta();
 		this.desconto = b.getDesconto();
 		this.total = b.getTotal();
+		*/
 	}
 
 	public FaturasDto(FaturaOrdemServico b) {
 		super();
-		this.id = b.getId();
+
+		idordem=b.getOrdemServico().getId();
+		setnewFaturaDto(b,  TipoFaturaEnum.Servico.toString());
+		/*this.id = b.getId();
 		this.nome = b.getNome();
-		this.origem = TipoFaturaEnum.Contrato.toString();
-		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		idordem=b.getOrdemServico().getId();
+		this.origem = TipoFaturaEnum.Servico.toString();
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -95,14 +126,17 @@ public class FaturasDto implements Serializable {
 		this.multa = b.getMulta();
 		this.desconto = b.getDesconto();
 		this.total = b.getTotal();
+		*/
 	}
 
 	public FaturasDto(FaturaVenda b) {
 		super();
 		this.id = b.getId();
 		this.nome = b.getNome();
-		this.origem = TipoFaturaEnum.Contrato.toString();
-		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		idordem=b.getOrdemVenda().getId();
+		this.origem = TipoFaturaEnum.Venda.toString();
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -119,8 +153,10 @@ public class FaturasDto implements Serializable {
 		super();
 		this.id = b.getId();
 		this.nome = b.getNome();
+		
 		this.origem = TipoFaturaEnum.Contrato.toString();
-		this.numeroparcela = "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
+		this.numeroparcela=b.getNumeroparcela();
+		this.parcela= "" + b.getNumeroparcela() + "/" + "" + b.getTotalParcela();
 		this.dataVencimento = b.getDataVencimento();
 		this.dataPagamento = b.getDataPagamento();
 		this.diaQuitacao = b.getDiaQuitacao();
@@ -131,6 +167,6 @@ public class FaturasDto implements Serializable {
 		this.multa = b.getMulta();
 		this.desconto = b.getDesconto();
 		this.total = b.getTotal();
-		fornecedor=new SampleDto(b.getFornecedor(), "");
+		fornecedor = new SampleDto(b.getFornecedor(), "");
 	}
 }

@@ -1,11 +1,13 @@
 package br.com.apidigitalweb.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
@@ -29,6 +31,22 @@ public interface FaturaVendasRepository extends JpaRepository<FaturaVenda, Long>
 	List<FaturaVenda> findByStatus(String status);
 
 	List<FaturaVenda> findByOrdemVendaAndStatus(OrdemVenda ordemVenda, String status);
+
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f where f.cliente=?1 and f.status=?2 order by f.dataVencimento")
+	List<FaturasDto> findAllClienteAndStatus(Cliente cliente, String status);
+
+	/*
+	 * @Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f "
+	 * +
+	 * "where f.cliente=?1 and f.status=?2 and  f.dataVencimento BETWEEN =?3 AND =?4  order by f.dataVencimento"
+	 * ) List<FaturasDto> findAllClienteAndStatusBetoweend(Cliente cliente, String
+	 * status,Date inicio,Date fim);
+	 */
+	List<FaturaVenda> findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(String status, Date inicio,
+			Date fim);
+
+	List<FaturaVenda> findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(Cliente cliente, String status, Date inicio,
+			Date fim);
 
 	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.status=?1")
 	double totalAll(String status);

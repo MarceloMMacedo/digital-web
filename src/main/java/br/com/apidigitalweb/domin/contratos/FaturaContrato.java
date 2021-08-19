@@ -12,7 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.converters.SimNaoConverter;
@@ -50,7 +52,7 @@ public class FaturaContrato extends BaseFatura implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
 
-	@ElementCollection	 
+	@ElementCollection
 	@CollectionTable(joinColumns = @JoinColumn(name = "id"))
 	private List<FichaLeitura> fichaLeitura = new ArrayList<FichaLeitura>();
 
@@ -58,6 +60,27 @@ public class FaturaContrato extends BaseFatura implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GrupoFinanceiroContrato grupoFinanceiro;
+
+	@Transient
+	private double valorExcedente;
+	
+/*	@Transient
+	@JsonIgnore
+	protected String numeroparcela; 
+*/
+	@Override
+	public double getTotal() {
+		// TODO Auto-generated method stub
+		return super.getTotal() + getValorExcedente();
+	}
+	
+	public double getValorExcedente() {
+		valorExcedente = 0;
+		 for(FichaLeitura f:getFichaLeitura()) {
+			 valorExcedente+=f.getValorExcedente();
+		 }
+		return valorExcedente;
+	}
 
 	public FaturaContrato(String nome, String descricao, int totalParcela, int numeroparcela, Date dataVencimento,
 			String status, double valor, Banco banco) {
@@ -76,7 +99,7 @@ public class FaturaContrato extends BaseFatura implements Serializable {
 		this.cliente = c.getCliente();
 		this.contrato = c;
 		this.grupoFinanceiro = c.getGrupoFinanceiro();
-		this.nome = "Contrato nro.:" + "" + c.getId(); 
+		this.nome = "Contrato nro.:" + "" + c.getId();
 		this.totalParcela = c.getPeriodo();
 		this.numeroparcela = d.getPeriodo();
 		this.dataVencimento = d.getDate();

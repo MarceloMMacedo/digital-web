@@ -77,6 +77,8 @@ public class ItensContratoPatrimonio extends BaseDomain implements Serializable,
 	@Transient
 	private double valorFinal;
 
+	private String setor;
+	
 	public ItensContratoPatrimonio(Patrimonio patrimonio, double valorUnitarioFranquia, String isFranquado, int franquia,
 			double valorFranquia) {
 		super();
