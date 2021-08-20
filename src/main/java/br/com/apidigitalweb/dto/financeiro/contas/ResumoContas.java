@@ -10,11 +10,12 @@ import br.com.apidigitalweb.dto.financeiro.ItemMonthReportDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data 
 public class ResumoContas implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Data
+	@NoArgsConstructor
 	public class DataChart implements Serializable {
 		private static final long serialVersionUID = 1L;
 

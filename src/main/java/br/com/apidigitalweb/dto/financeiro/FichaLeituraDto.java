@@ -12,7 +12,10 @@ import br.com.apidigitalweb.domin.contratos.Medidor;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.contrato.ItensContratoPatrimonioDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
+@NoArgsConstructor
 public class FichaLeituraDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,24 +33,22 @@ public class FichaLeituraDto implements Serializable {
 	private double valorFinal;
 	private SampleDto contrato;
 	private String status;
-	
+
 	public FichaLeituraDto(FichaLeitura f) {
 		super();
-		this.itensContratoPatrimonio =new ItensContratoPatrimonioDTO( f.getItensContratoPatrimonio()) ;
+		this.itensContratoPatrimonio = new ItensContratoPatrimonioDTO(f.getItensContratoPatrimonio());
 		this.medidores = f.getMedidores();
 		this.dataLeitura = f.getDataLeitura();
 		this.valorContrato = f.getValorContrato();
 		this.medidorAnteriorA3 = f.getMedidorAnteriorA3();
-		this.medidorAnteriorA4 =f.getMedidorAnteriorA4();
+		this.medidorAnteriorA4 = f.getMedidorAnteriorA4();
 		this.medidorConvertidoA4 = f.getMedidorConvertidoA4();
 		this.excedente = f.getExcedente();
 		this.producao = f.getProducao();
 		this.valorExcedente = f.getValorExcedente();
 		this.valorFinal = f.getValorFinal();
-		this.contrato = new SampleDto(f.getContrato(),"");
+		this.contrato = new SampleDto(f.getContrato(), "");
 		this.status = f.getStatus();
 	}
-	
-	
 
 }

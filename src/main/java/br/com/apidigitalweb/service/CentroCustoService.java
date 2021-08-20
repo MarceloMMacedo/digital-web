@@ -159,7 +159,7 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 		return getAll;
 	}
 
-	@SuppressWarnings("unused")
+	/*@SuppressWarnings("unused")
 	@Override
 	public Page<CentroCusto> findallpage(String find, Pageable page) {
 
@@ -213,7 +213,7 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 
 		return findallpage;
 	}
-
+*/
 	private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas, String origem) {
 		List<FaturasDto> faturasDto = new ArrayList<>();
 		for (BaseFatura b : faturaVendas) {

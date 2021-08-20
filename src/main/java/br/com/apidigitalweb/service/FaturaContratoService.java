@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,9 @@ import br.com.apidigitalweb.domin.financeiro.MovBanco;
 import br.com.apidigitalweb.domin.financeiro.MovCentroCusto;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.ContasPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
+import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
+import br.com.apidigitalweb.repository.BancoRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
 import br.com.apidigitalweb.service.extrafatura.DatPeriodo;
 
@@ -48,6 +51,10 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 	@Autowired
 	private ContratoService contratoService;
 
+	@Autowired
+	private BancoRepository bancoRepository;
+
+	 
 	@Override
 	public Page<FaturaContrato> findallpage(String find, Pageable page) {
 		Page<FaturaContrato> findall = super.findallpage(find, page);
@@ -173,24 +180,31 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 
 	}
 
-	public void quitar(FaturaContrato obj) {
-		saveobj(obj.getId(), obj);
+	public void quitar(FaturasDto obj) {
+
+		Long i = obj.getBanco().getId();
+		Banco banco = bancoRepository.findById(i).get();
 		FaturaContrato fatura = fingbyid(obj.getId());
-		
-		for (CentroCustoFatura centroCustoFatura : fatura.getCentroCustoFaturas()) { 
-			centroCustoFatura.getCentroCusto().setSaldo(centroCustoFatura.getCentroCusto().getSaldo() + centroCustoFatura.getValorFinal());
+		BeanUtils.copyProperties(obj, fatura, getNullPropertyNames(obj)); // Perform update operation
+
+		fatura.getBanco().setId(i);
+		saveobj(fatura.getId(), fatura);
+
+		for (CentroCustoFatura centroCustoFatura : fatura.getCentroCustoFaturas()) {
+			centroCustoFatura.getCentroCusto()
+					.setSaldo(centroCustoFatura.getCentroCusto().getSaldo() + centroCustoFatura.getValorFinal());
 			centroCustoService.saveobj(centroCustoFatura.getCentroCusto().getId(), centroCustoFatura.getCentroCusto());
 			MovCentroCusto c = new MovCentroCusto();
 			c.setCentroCusto(centroCustoFatura.getCentroCusto());
 			c.setDataMovimento(new Date());
 			c.setValor(centroCustoFatura.getValorFinal());
-			c.setDescricao("Recebimento de Fatura de contrato nro.:" + "" + fatura.getNumeroparcela() + " id:" + "" + fatura.getId());
+			c.setDescricao("Recebimento de Fatura de contrato nro.:" + "" + fatura.getNumeroparcela() + " id:" + ""
+					+ fatura.getId());
 			c = movCentroCustoService.newobj(c);
 
 		}
-		
 
-		Banco banco = bancoService.fingbyid(fatura.getBanco().getId());
+		// banco = bancoService.fingbyid(fatura.getBanco().getId());
 		banco.setSaldo(banco.getSaldo() + fatura.getTotal());
 		bancoService.saveobj(banco.getId(), banco);
 
@@ -198,21 +212,23 @@ public class FaturaContratoService extends BaseServic<FaturaContrato> implements
 		m.setBanco(banco);
 		m.setDataMovimento(new Date());
 		m.setValor(fatura.getTotal());
-		m.setDescricao(
-				"Recebimento de Fatura de contrato nro.:" + "" + fatura.getNumeroparcela() + " id:" + "" + fatura.getId());
-		m.setFatura(
-				fatura.getNome() + "-Fatura Contas Pagar de parcela:" + "" + fatura.getNumeroparcela() + " id:" + "" + fatura.getId());
+		m.setDescricao("Recebimento de Fatura de contrato nro.:" + "" + fatura.getNumeroparcela() + " id:" + ""
+				+ fatura.getId());
+		m.setFatura(fatura.getNome() + "-Fatura Contas Pagar de parcela:" + "" + fatura.getNumeroparcela() + " id:" + ""
+				+ fatura.getId());
 		m = movBancoService.newobj(m);
 
-		 
 		fatura.setStatus(StatusActiv.QUIT.getDescricao());
 
 		fatura = repo.save(fatura);
-		/* contasPagar = contasPagarRepository.findById(f.getContasPagar().getId()).get();
-		if (contasPagar.getFaturasAberta().size() == 0) {
-			contasPagar.setStatus(StatusActiv.QUIT.getDescricao());
-			contasPagarRepository.save(contasPagar);
-
-		}*/
+		/*
+		 * contasPagar =
+		 * contasPagarRepository.findById(f.getContasPagar().getId()).get(); if
+		 * (contasPagar.getFaturasAberta().size() == 0) {
+		 * contasPagar.setStatus(StatusActiv.QUIT.getDescricao());
+		 * contasPagarRepository.save(contasPagar);
+		 * 
+		 * }
+		 */
 	}
 }

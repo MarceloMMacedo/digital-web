@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@NoArgsConstructor
 public class ItensContratoPatrimonioDTO implements Serializable {
 
 	@Getter

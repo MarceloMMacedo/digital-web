@@ -24,8 +24,10 @@ import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ContratoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;

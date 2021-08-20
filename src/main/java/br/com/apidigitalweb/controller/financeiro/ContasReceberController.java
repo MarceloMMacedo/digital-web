@@ -15,43 +15,62 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.dto.financeiro.ContasReceberDto;
+import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.dto.financeiro.contas.ReciboContratoDto;
+import br.com.apidigitalweb.dto.financeiro.contas.ReciboDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.service.ContasReceberService;
 
 @RestController
 @RequestMapping(value = ("/contasreceber"))
-public class ContasReceberController  implements Serializable {
+public class ContasReceberController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private ContasReceberService service;
-	
+
 	@GetMapping(value = "/contasreceberaberto")
-	public ResponseEntity<ContasReceberDto> contasreceberaberto(@RequestParam  Date inicio, @RequestParam  Date fim) {
-		return ResponseEntity.ok(service.ContasReceberbetween(inicio,fim,StatusActiv.ABERTO.getDescricao()));
+	public ResponseEntity<ContasReceberDto> contasreceberaberto(@RequestParam Date inicio, @RequestParam Date fim) {
+		return ResponseEntity.ok(service.ContasReceberbetween(inicio, fim, StatusActiv.ABERTO.getDescricao()));
 	}
+
 	@GetMapping(value = "/contasreceberquit")
-	public ResponseEntity<ContasReceberDto> contasreceberquit(@RequestParam  Date inicio, @RequestParam  Date fim) {
-		return ResponseEntity.ok(service.ContasReceberbetween(inicio,fim,StatusActiv.QUIT.getDescricao()));
+	public ResponseEntity<ContasReceberDto> contasreceberquit(@RequestParam Date inicio, @RequestParam Date fim) {
+		return ResponseEntity.ok(service.ContasReceberbetween(inicio, fim, StatusActiv.QUIT.getDescricao()));
 	}
-	
+
 	@GetMapping(value = "/contasreceberclientebetweenaberto")
-	public ResponseEntity<ContasReceberDto> contasreceberclientebetweenaberto(@RequestParam  Long id, @RequestParam  Date inicio, @RequestParam  Date fim) {
-		return ResponseEntity.ok(service.ContasReceberClientebetween(id,inicio,fim,StatusActiv.ABERTO.getDescricao()));
+	public ResponseEntity<ContasReceberDto> contasreceberclientebetweenaberto(@RequestParam Long id,
+			@RequestParam Date inicio, @RequestParam Date fim) {
+		return ResponseEntity
+				.ok(service.ContasReceberClientebetween(id, inicio, fim, StatusActiv.ABERTO.getDescricao()));
 	}
+
 	@GetMapping(value = "/contasreceberclientebetweenquit")
-	public ResponseEntity<ContasReceberDto> contasreceberclientebetweenquit(@RequestParam  Long id, @RequestParam  Date inicio, @RequestParam  Date fim) {
-		return ResponseEntity.ok(service.ContasReceberClientebetween(id,inicio,fim,StatusActiv.QUIT.getDescricao()));
+	public ResponseEntity<ContasReceberDto> contasreceberclientebetweenquit(@RequestParam Long id,
+			@RequestParam Date inicio, @RequestParam Date fim) {
+		return ResponseEntity.ok(service.ContasReceberClientebetween(id, inicio, fim, StatusActiv.QUIT.getDescricao()));
 	}
+
 	@GetMapping(value = "/recibocontrato/{id}")
 	public ResponseEntity<ReciboContratoDto> recibocontrato(@PathVariable Long id) {
 		return ResponseEntity.ok(service.reciboContratoDto(id));
 	}
+
 	@PutMapping(value = "/quitar")
-	public ResponseEntity<Void> quitar(@RequestBody FaturaContrato obj) {
+	public ResponseEntity<Void> quitar(@RequestBody FaturasDto obj) {
 		service.quitarfatura(obj);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping(value = "/reciboservico/{id}")
+	public ResponseEntity<ReciboDto> reciboservico(@PathVariable Long id) {
+		return ResponseEntity.ok(service.reciboservico(id));
+	}
+
+	@GetMapping(value = "/recibovenda/{id}")
+	public ResponseEntity<ReciboDto> recibovenda(@PathVariable Long id) {
+		return ResponseEntity.ok(service.recibovenda(id));
 	}
 }

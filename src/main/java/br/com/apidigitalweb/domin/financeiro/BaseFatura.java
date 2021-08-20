@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
@@ -81,7 +82,7 @@ public class BaseFatura implements Serializable, BaseEntity {
 
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
 	protected CentroCusto centroCusto;
 	
 	

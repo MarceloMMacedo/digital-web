@@ -89,7 +89,8 @@ public class OrdemContrato  extends BaseDomain implements BaseEntity, Serializab
 	@ElementCollection
     @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
 	protected List<ItensOrdemVenda> itensOrdemVenda=new ArrayList<>();
-	
+
+	private String setorentrega;
 	
 
 	@Transient

@@ -2,6 +2,7 @@ package br.com.apidigitalweb.domin.ordemservico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -17,11 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.api.client.util.DateTime;
 
 import br.com.apidigitalweb.converters.CalnalOrdemConverter;
 import br.com.apidigitalweb.converters.StatusConverter;
@@ -60,15 +57,12 @@ public class OrdemServico  extends BaseDomain implements BaseEntity, Serializabl
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
-
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataAbertura;
-
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataProgramada;
-
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataConclusao;
+ 
+	private Date dataAbertura;
+ 
+	private Date dataProgramada;
+ 
+	private Date dataConclusao;
 	
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -90,7 +84,8 @@ public class OrdemServico  extends BaseDomain implements BaseEntity, Serializabl
 	@ElementCollection
     @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
 	protected List<ItensOrdemVenda> itensOrdemVenda=new ArrayList<>();
-	
+
+	private String setorentrega;
 	
 
 	@Transient

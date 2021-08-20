@@ -13,8 +13,10 @@ import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.PessoaSampleDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class SampleContratoDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;

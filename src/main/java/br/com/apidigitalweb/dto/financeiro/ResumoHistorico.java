@@ -3,8 +3,10 @@ package br.com.apidigitalweb.dto.financeiro;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 
 public class ResumoHistorico implements Serializable {
  

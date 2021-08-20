@@ -20,6 +20,8 @@ import br.com.apidigitalweb.dto.financeiro.ContasReceberDto;
 import br.com.apidigitalweb.dto.financeiro.FaturaContratoDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.dto.financeiro.contas.ReciboContratoDto;
+import br.com.apidigitalweb.dto.financeiro.contas.ReciboDto;
+import br.com.apidigitalweb.enuns.TipoFaturaEnum;
 import br.com.apidigitalweb.repository.ClienteRepository;
 import br.com.apidigitalweb.repository.ContratoRepository;
 import br.com.apidigitalweb.repository.FaturaContratoRepository;
@@ -82,8 +84,8 @@ public class ContasReceberService implements Serializable {
 		for (FaturaContrato f : cps) {
 			dtoscontrato.add(new FaturaContratoDto(f));
 		}
-		List<FaturaContratoDto> sortedListContrato = dtoscontrato.stream().sorted(Comparator.comparing(FaturaContratoDto::getDataVencimento))
-				.collect(Collectors.toList());
+		List<FaturaContratoDto> sortedListContrato = dtoscontrato.stream()
+				.sorted(Comparator.comparing(FaturaContratoDto::getDataVencimento)).collect(Collectors.toList());
 		contasReceberCliente.setCliente(new SampleDto(c, ""));
 		contasReceberCliente.setFaturasContrato(sortedListContrato);
 
@@ -97,7 +99,7 @@ public class ContasReceberService implements Serializable {
 			dtos.add(new FaturasDto(f));
 		}
 
-		List<FaturasDto>  sortedList = dtos.stream().sorted(Comparator.comparing(FaturasDto::getDataVencimento))
+		List<FaturasDto> sortedList = dtos.stream().sorted(Comparator.comparing(FaturasDto::getDataVencimento))
 				.collect(Collectors.toList());
 		contasReceberCliente.setFaturasVendas(sortedList);
 
@@ -124,17 +126,17 @@ public class ContasReceberService implements Serializable {
 		contasReceberCliente.setDatafim(fim);
 
 		List<FaturaContratoDto> dtoscontrato = new ArrayList<>();
-		
+
 		List<FaturaContrato> cps = faturaContratoRepository
 				.findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(status, inicio, fim);
-		
+
 		for (FaturaContrato f : cps) {
 			dtoscontrato.add(new FaturaContratoDto(f));
 		}
-		
-		List<FaturaContratoDto> sortedListContrato = dtoscontrato.stream().sorted(Comparator.comparing(FaturaContratoDto::getDataVencimento))
-				.collect(Collectors.toList());
-		 
+
+		List<FaturaContratoDto> sortedListContrato = dtoscontrato.stream()
+				.sorted(Comparator.comparing(FaturaContratoDto::getDataVencimento)).collect(Collectors.toList());
+
 		contasReceberCliente.setFaturasContrato(sortedListContrato);
 
 		/* vendasa */
@@ -173,12 +175,29 @@ public class ContasReceberService implements Serializable {
 		return new ReciboContratoDto(c, f);
 	}
 
-	public void validarleitura() {
-		
+	public ReciboDto recibovenda(Long id) {
+		FaturaVenda f = faturaVendasRepository.findById(id).get();
+		ReciboDto dto = new ReciboDto(f.getOrdemVenda(), f);
+		return dto;
 	}
 
-	public void quitarfatura(FaturaContrato obj) {
-		faturaContratoService.quitar(obj);
+	public ReciboDto reciboservico(Long id) {
+		FaturaOrdemServico f = faturaOrdemServicoRepository.findById(id).get();
+		ReciboDto dto = new ReciboDto(f.getOrdemServico(), f);
+		return dto;
+	}
+
+	public void validarleitura() {
+
+	}
+
+	public void quitarfatura(FaturasDto obj) {
+		if (obj.getOrigem().equals(TipoFaturaEnum.Contrato.getDescricao()))
+			faturaContratoService.quitar(obj);
+		if (obj.getOrigem().equals(TipoFaturaEnum.Venda.getDescricao()))
+			faturaVendaService.quitar(obj);
+		if(obj.getOrigem().equals(TipoFaturaEnum.Servico.getDescricao()))
+			faturaOrdemServicoService.quitar(obj);
 	}
 
 }

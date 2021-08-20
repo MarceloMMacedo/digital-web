@@ -15,10 +15,13 @@ import br.com.apidigitalweb.domin.contratos.FichaLeitura;
 import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
 import br.com.apidigitalweb.util.Extenso;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ReciboContratoDto implements Serializable {
 	@Data
+	@NoArgsConstructor
 	public class EquipamentoRecibo implements Serializable {
 		private static final long serialVersionUID = 1L;
 		private String imagem;

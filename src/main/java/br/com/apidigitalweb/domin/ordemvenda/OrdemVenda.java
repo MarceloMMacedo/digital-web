@@ -2,6 +2,7 @@ package br.com.apidigitalweb.domin.ordemvenda;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -17,11 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.api.client.util.DateTime;
 
 import br.com.apidigitalweb.converters.CalnalOrdemConverter;
 import br.com.apidigitalweb.converters.StatusConverter;
@@ -59,14 +56,14 @@ public class OrdemVenda  extends BaseDomain implements BaseEntity, Serializable 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataAbertura;
+	//@DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
+	private Date dataAbertura;
 
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataProgramada;
+	//@DateFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
+	private Date dataProgramada;
 
-	@DateTimeFormat(iso = ISO.DATE_TIME, pattern = "dd/MM/yyyy HH:mm:ss")
-	private DateTime dataConclusao;
+	//	@DateFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
+	private Date dataConclusao;
 	
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -98,6 +95,9 @@ public class OrdemVenda  extends BaseDomain implements BaseEntity, Serializable 
 	protected Contato contato = new Contato();
 
 	private String formaEntrega;
+	
+	private String setorentrega;
+	
 	private double valorEntrega;
 
 

@@ -7,8 +7,10 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import br.com.apidigitalweb.dto.SampleDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ComponenteReporContas {
 	private SampleDto cliente;
 	private SampleDto ordemvenda;
