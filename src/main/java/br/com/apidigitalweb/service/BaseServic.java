@@ -253,7 +253,8 @@ public class BaseServic<T extends BaseEntity> implements Serializable, BaseServi
 		Example<T> example = Example.of(obj, matcher);
 		Page<T> p = repo.findAll(example, page);
 		Page<BaseDto> baseDtos = repo.findAll(example, page)
-				.map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
+				.map(x -> new BaseDto(x, downloadFile(
+						x.getImagem() + "." + x.getExtension())));
 		return baseDtos;
 	}
 

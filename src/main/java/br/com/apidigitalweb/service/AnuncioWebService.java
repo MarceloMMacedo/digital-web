@@ -50,7 +50,11 @@ public class AnuncioWebService extends BaseServic<AnuncioWeb> implements Seriali
 		// TODO Auto-generated method stub
 		return new AnuncioLojaDTO();
 	}
-
+@Override
+public void prenew(AnuncioWeb obj) {
+	// TODO Auto-generated method stub
+	super.prenew(obj);
+}
 	@Override
 	public AnuncioWeb fingbyid(Long id) {
 		AnuncioWeb obj = super.fingbyid(id);

@@ -3,7 +3,9 @@ package br.com.apidigitalweb.enuns;
 public enum TipoAnuncioEnum {
 
 	Web(0, "Web"), 
-	Local(1, "Local") ;
+	Local(1, "Loja") , 
+	Servico(2, "Serviço") , 
+	Contrato(3, "Contrato") ;
 	 
 
 	private Integer id;

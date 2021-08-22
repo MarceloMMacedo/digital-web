@@ -58,98 +58,98 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 
 	@Override
 	public Produto fingbyid(Long id) {
-		String x  ;
+		String x;
 		Produto el = super.fingbyid(id);
-  
-				
+
 		List<Object> lista = repo.listProdutoAnuncioLoja(el.getId());
 		el.getSaldosProduto().setSaldoLoja(0);
 		el.getSaldosProduto().setSaldoReposicaoLoja(0);
-		
-		lista.stream().forEach(el1->{
-			String x1  = String.valueOf(el1);
-			AnuncioLoja anuncioLoja  = anuncioLojaService.findById(Long.valueOf(x1)).get(); 
+
+		lista.stream().forEach(el1 -> {
+			String x1 = String.valueOf(el1);
+			AnuncioLoja anuncioLoja = anuncioLojaService.findById(Long.valueOf(x1)).get();
 			try {
 				el.getSaldosProduto().setSaldoLoja(el.getSaldosProduto().getSaldoLoja() + anuncioLoja.getSaldo());
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoLoja(el.getSaldosProduto().getSaldoReposicaoLoja() +
-						anuncioLoja.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoLoja(
+						el.getSaldosProduto().getSaldoReposicaoLoja() + anuncioLoja.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
-			}			
+			}
 		});
-		
-		 
+
 		lista = repo.listProdutoAnuncioWeb(el.getId());
 		el.getSaldosProduto().setSaldoWeb(0);
 		el.getSaldosProduto().setSaldoReposicaoWeb(0);
-		lista.stream().forEach(el1->{
-			String x1  = String.valueOf(el1);
-			AnuncioWeb anuncioWeb  = anuncioWebService.findById(Long.valueOf(x1)).get(); 
+		lista.stream().forEach(el1 -> {
+			String x1 = String.valueOf(el1);
+			AnuncioWeb anuncioWeb = anuncioWebService.findById(Long.valueOf(x1)).get();
 			try {
 				el.getSaldosProduto().setSaldoWeb(el.getSaldosProduto().getSaldoWeb() + anuncioWeb.getSaldo());
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoWeb(el.getSaldosProduto().getSaldoReposicaoWeb() +
-						anuncioWeb.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoWeb(
+						el.getSaldosProduto().getSaldoReposicaoWeb() + anuncioWeb.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
-			};
+			}
+			;
 		});
 
 		lista = repo.listProdutoAnuncioContrato(el.getId());
 		el.getSaldosProduto().setSaldoContrato(0);
 		el.getSaldosProduto().setSaldoReposicaoContrato(0);
-		lista.stream().forEach(el1->{
-			String x1  = String.valueOf(el1);
-			AnuncioContrato anuncioContrato  = anuncioContratoService.findById(Long.valueOf(x1)).get(); 
+		lista.stream().forEach(el1 -> {
+			String x1 = String.valueOf(el1);
+			AnuncioContrato anuncioContrato = anuncioContratoService.findById(Long.valueOf(x1)).get();
 			try {
-				el.getSaldosProduto().setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
-				
+				el.getSaldosProduto()
+						.setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoContrato(el.getSaldosProduto().getSaldoReposicaoContrato() +
-						anuncioContrato.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoContrato(
+						el.getSaldosProduto().getSaldoReposicaoContrato() + anuncioContrato.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		});
-		
+
 		return el;
 	}
 
 	@Override
 	public Produto findbynome(String nome) {
-		String x  ;
+		String x;
 		Produto el = super.findbynome(nome);
 		List<Object> lista = repo.listProdutoAnuncioLoja(el.getId());
 		el.getSaldosProduto().setSaldoLoja(0);
 		el.getSaldosProduto().setSaldoReposicaoLoja(0);
 		for (Object object : lista) {
 			x = String.valueOf(object);
-			AnuncioLoja anuncioLoja  = anuncioLojaService.findById(Long.valueOf(x)).get();  
+			AnuncioLoja anuncioLoja = anuncioLojaService.findById(Long.valueOf(x)).get();
 			try {
 				el.getSaldosProduto().setSaldoLoja(el.getSaldosProduto().getSaldoLoja() + anuncioLoja.getSaldo());
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoLoja(el.getSaldosProduto().getSaldoReposicaoLoja() +
-						anuncioLoja.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoLoja(
+						el.getSaldosProduto().getSaldoReposicaoLoja() + anuncioLoja.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -160,17 +160,17 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 		el.getSaldosProduto().setSaldoReposicaoWeb(0);
 		for (Object object : lista) {
 			x = String.valueOf(object);
-			AnuncioWeb anuncioWeb  = anuncioWebService.findById(Long.valueOf(x)).get();
+			AnuncioWeb anuncioWeb = anuncioWebService.findById(Long.valueOf(x)).get();
 			try {
 				el.getSaldosProduto().setSaldoWeb(el.getSaldosProduto().getSaldoWeb() + anuncioWeb.getSaldo());
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoWeb(el.getSaldosProduto().getSaldoReposicaoWeb() +
-						anuncioWeb.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoWeb(
+						el.getSaldosProduto().getSaldoReposicaoWeb() + anuncioWeb.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -181,17 +181,18 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 		el.getSaldosProduto().setSaldoReposicaoContrato(0);
 		for (Object object : lista) {
 			x = String.valueOf(object);
-			AnuncioContrato anuncioContrato  = anuncioContratoService.findById(Long.valueOf(x)).get();
+			AnuncioContrato anuncioContrato = anuncioContratoService.findById(Long.valueOf(x)).get();
 			try {
-				el.getSaldosProduto().setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
-				
+				el.getSaldosProduto()
+						.setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			try {
-				el.getSaldosProduto().setSaldoReposicaoContrato(el.getSaldosProduto().getSaldoReposicaoContrato() +
-						anuncioContrato.getSaldoReposicao());
-				
+				el.getSaldosProduto().setSaldoReposicaoContrato(
+						el.getSaldosProduto().getSaldoReposicaoContrato() + anuncioContrato.getSaldoReposicao());
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -202,27 +203,27 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 
 	@Override
 	public List<Produto> getAll() {
-		
+
 		List<Produto> elx = super.getAll();
 		elx.stream().forEach(el -> {
-			 
+
 			List<Object> lista = repo.listProdutoAnuncioLoja(el.getId());
 			el.getSaldosProduto().setSaldoLoja(0);
 			el.getSaldosProduto().setSaldoReposicaoLoja(0);
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioLoja anuncioLoja  = anuncioLojaService.findById(Long.valueOf(x)).get(); 
+				AnuncioLoja anuncioLoja = anuncioLojaService.findById(Long.valueOf(x)).get();
 				try {
 					el.getSaldosProduto().setSaldoLoja(el.getSaldosProduto().getSaldoLoja() + anuncioLoja.getSaldo());
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoLoja(el.getSaldosProduto().getSaldoReposicaoLoja() +
-							anuncioLoja.getSaldoReposicao());
-					
+					el.getSaldosProduto().setSaldoReposicaoLoja(
+							el.getSaldosProduto().getSaldoReposicaoLoja() + anuncioLoja.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -232,19 +233,19 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 			el.getSaldosProduto().setSaldoWeb(0);
 			el.getSaldosProduto().setSaldoReposicaoWeb(0);
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioWeb anuncioWeb  = anuncioWebService.findById(Long.valueOf(x)).get();
+				AnuncioWeb anuncioWeb = anuncioWebService.findById(Long.valueOf(x)).get();
 				try {
 					el.getSaldosProduto().setSaldoWeb(el.getSaldosProduto().getSaldoWeb() + anuncioWeb.getSaldo());
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoWeb(el.getSaldosProduto().getSaldoReposicaoWeb() +
-							anuncioWeb.getSaldoReposicao());
-					
+					el.getSaldosProduto().setSaldoReposicaoWeb(
+							el.getSaldosProduto().getSaldoReposicaoWeb() + anuncioWeb.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -254,19 +255,20 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 			el.getSaldosProduto().setSaldoContrato(0);
 			el.getSaldosProduto().setSaldoReposicaoContrato(0);
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioContrato anuncioContrato  = anuncioContratoService.findById(Long.valueOf(x)).get(); 
+				AnuncioContrato anuncioContrato = anuncioContratoService.findById(Long.valueOf(x)).get();
 				try {
-					el.getSaldosProduto().setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
-					
+					el.getSaldosProduto()
+							.setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoContrato(el.getSaldosProduto().getSaldoReposicaoContrato() +
-							anuncioContrato.getSaldoReposicao());
-					
+					el.getSaldosProduto().setSaldoReposicaoContrato(
+							el.getSaldosProduto().getSaldoReposicaoContrato() + anuncioContrato.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -277,7 +279,7 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 
 	@Override
 	public Page<Produto> findallpage(String find, Pageable page) {
- 
+
 		Page<Produto> findallpage = repo.findByNomeContainingIgnoreCase(find, page);
 
 		findallpage.getContent().forEach(el -> {
@@ -285,19 +287,19 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 			el.getSaldosProduto().setSaldoLoja(0);
 			el.getSaldosProduto().setSaldoReposicaoLoja(0);
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioLoja anuncioLoja  = anuncioLojaService.findById(Long.valueOf(x)).get(); 
+				AnuncioLoja anuncioLoja = anuncioLojaService.findById(Long.valueOf(x)).get();
 				try {
 					el.getSaldosProduto().setSaldoLoja(el.getSaldosProduto().getSaldoLoja() + anuncioLoja.getSaldo());
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoLoja(el.getSaldosProduto().getSaldoReposicaoLoja() +
-							anuncioLoja.getSaldoReposicao());
-					
+					el.getSaldosProduto().setSaldoReposicaoLoja(
+							el.getSaldosProduto().getSaldoReposicaoLoja() + anuncioLoja.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -306,21 +308,21 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 			lista = repo.listProdutoAnuncioWeb(el.getId());
 			el.getSaldosProduto().setSaldoWeb(0);
 			el.getSaldosProduto().setSaldoReposicaoWeb(0);
-			
+
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioWeb anuncioWeb  = anuncioWebService.findById(Long.valueOf(x)).get(); 
+				AnuncioWeb anuncioWeb = anuncioWebService.findById(Long.valueOf(x)).get();
 				try {
 					el.getSaldosProduto().setSaldoWeb(el.getSaldosProduto().getSaldoWeb() + anuncioWeb.getSaldo());
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoWeb(el.getSaldosProduto().getSaldoReposicaoWeb() +
-							anuncioWeb.getSaldoReposicao());
-					
+					el.getSaldosProduto().setSaldoReposicaoWeb(
+							el.getSaldosProduto().getSaldoReposicaoWeb() + anuncioWeb.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -330,19 +332,25 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 			el.getSaldosProduto().setSaldoContrato(0);
 			el.getSaldosProduto().setSaldoReposicaoContrato(0);
 			for (Object object : lista) {
-				String x  ;
+				String x;
 				x = String.valueOf(object);
-				AnuncioContrato anuncioContrato  = anuncioContratoService.findById(Long.valueOf(x)).get();
+				AnuncioContrato anuncioContrato = new AnuncioContrato();
 				try {
-					el.getSaldosProduto().setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
-					
+					anuncioContrato = anuncioContratoService.findById(Long.valueOf(x)).get();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					el.getSaldosProduto().setSaldoReposicaoContrato(el.getSaldosProduto().getSaldoReposicaoContrato() +
-							anuncioContrato.getSaldoReposicao());
-					
+					el.getSaldosProduto()
+							.setSaldoContrato(el.getSaldosProduto().getSaldoContrato() + anuncioContrato.getSaldo());
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					el.getSaldosProduto().setSaldoReposicaoContrato(
+							el.getSaldosProduto().getSaldoReposicaoContrato() + anuncioContrato.getSaldoReposicao());
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -355,7 +363,6 @@ public class ProdutoService extends BaseServic<Produto> implements Serializable 
 		return findallpage;
 	}
 
- 
 	@Override
 	public List<?> listany() {
 		List<Produto> list = repo.findAll();

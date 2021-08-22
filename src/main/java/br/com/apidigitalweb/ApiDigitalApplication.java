@@ -128,6 +128,9 @@ public class ApiDigitalApplication implements CommandLineRunner {
 				financeiroProdutoLojaRepository.save(gl);
 			}
 			*/
+		 	
+		 	
+		 	
 			i = funcionarioRepository.findAll().size();
 			if (funcionarioRepository.findAll().size() == 0 || funcionarioRepository.findAll() == null) {
 				Funcionario f = new Funcionario();
@@ -142,7 +145,6 @@ public class ApiDigitalApplication implements CommandLineRunner {
 				f.setStatus(StatusActiv.ATIVO.getDescricao());
 				f.setSenha(encoder().encode("123456"));
 				f = funcionarioRepository.save(f);
-			 
 			 
 				
 			}

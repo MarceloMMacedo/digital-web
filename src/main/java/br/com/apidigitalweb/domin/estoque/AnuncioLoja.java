@@ -38,10 +38,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class AnuncioLoja extends BaseDomain implements BaseEntity, Serializable {
+public class AnuncioLoja extends BaseAnuncio implements BaseEntity, Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+/*
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -137,4 +137,5 @@ public class AnuncioLoja extends BaseDomain implements BaseEntity, Serializable 
 			desconto = getGrupopreco().getPercentualDesconto();
 		return desconto;
 	}
+	*/
 }

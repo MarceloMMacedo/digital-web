@@ -82,14 +82,13 @@ public class AnuncioContratoService extends BaseServic<AnuncioContrato> implemen
 	}
 
 	@Override
-	public AnuncioContrato newobj(AnuncioContrato obj) {
+	public void prenew(AnuncioContrato obj) {
 		try {
-
 			Produto p = produtoRepository.findById(obj.getItensProduto().get(0).getProduto().getId()).get();
-
-			obj.setImagem(p.getImagem());
-			obj.setExtension(p.getExtension());
-
+			obj.tocontrato(obj.getTocontrato());
+			/*
+			 * obj.setImagem(p.getImagem()); obj.setExtension(p.getExtension());
+			 */
 			List<DescricaoAnuncio> descricoes = new ArrayList<DescricaoAnuncio>();
 			descricoes.add(new DescricaoAnuncio("Peso", String.valueOf(p.getPeso())));
 			descricoes.add(new DescricaoAnuncio("Peso", String.valueOf(p.getPeso())));
@@ -106,22 +105,15 @@ public class AnuncioContratoService extends BaseServic<AnuncioContrato> implemen
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return super.newobj(obj);
 	}
-	
-	/*@Override
-	public void preSaveObj(AnuncioContrato obj) {
-		// TODO Auto-generated method stub
-		super.preSaveObj(obj);
-	}
-	
-	@Override
-	public AnuncioContrato saveobj(Long id, AnuncioContrato obj) {
-		AnuncioContrato p = repo.findById(id).get();
-		obj.setImagem(p.getImagem());
-		obj = repo.save(obj);
-		return obj;
-	}
-	*/
-	
+
+	/*
+	 * @Override public void preSaveObj(AnuncioContrato obj) { // TODO
+	 * Auto-generated method stub super.preSaveObj(obj); }
+	 * 
+	 * @Override public AnuncioContrato saveobj(Long id, AnuncioContrato obj) {
+	 * AnuncioContrato p = repo.findById(id).get(); obj.setImagem(p.getImagem());
+	 * obj = repo.save(obj); return obj; }
+	 */
+
 }

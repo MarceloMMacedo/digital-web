@@ -38,11 +38,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class AnuncioContrato extends BaseDomain implements BaseEntity, Serializable {
+public class AnuncioContrato extends BaseAnuncio implements BaseEntity, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@JoinColumn()
+	@JsonIgnore
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Contrato contrato;
+	public void tocontrato(Contrato c) {
+		setContrato(c);
+	}
+	@Transient
+	private Contrato tocontrato;
+	/*@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GrupoFinanceiroAnuncio grupopreco;
@@ -123,6 +133,6 @@ public class AnuncioContrato extends BaseDomain implements BaseEntity, Serializa
 			// TODO: handle exception
 		}
 		return saldoReposicao;
-	}
+	}*/
 
 }

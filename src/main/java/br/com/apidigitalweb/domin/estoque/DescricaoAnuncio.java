@@ -17,14 +17,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DescricaoAnuncio implements Serializable {
 
+	
+	private static final long serialVersionUID = 1L;
+
+	private String titulo;
+	private String descricao;
+	
 	public DescricaoAnuncio(String titulo, String descricao) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
 	}
-	private static final long serialVersionUID = 1L;
-
-	private String titulo;
-	private String descricao;
 
 }

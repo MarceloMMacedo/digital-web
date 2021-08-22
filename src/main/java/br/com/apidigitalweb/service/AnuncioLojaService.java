@@ -37,7 +37,8 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 	public Page<BaseDto> findallpagedto(String find, Pageable page) {
 
 		Page<BaseDto> baseDtos = findallpage(find, page)
-				.map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
+				.map(x ->
+				new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
 		return baseDtos;
 	}
 
@@ -57,7 +58,7 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 		return new AnuncioLojaDTO();
 	}
 
-	@Override
+	/*@Override
 	public AnuncioLoja fingbyid(Long id) {
 		AnuncioLoja obj = super.fingbyid(id);
 		obj.getImagens().stream().forEach(el -> {
@@ -65,15 +66,15 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 		});
 		return obj;
 	}
-
-	@Override
+*/
+	/*@Override
 	public AnuncioLoja findbynome(String nome) {
 		AnuncioLoja obj = super.findbynome(nome);
 		obj.getImagens().stream().forEach(el -> {
 			el.setSrcImagem(downloadFile(el.getImagem() + "." + el.getExtension()));
 		});
 		return obj;
-	}
+	}*/
 
 	@Override
 	public List<AnuncioLoja> fingbynome(String find) {
@@ -93,9 +94,9 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 
 			Produto p = produtoRepository.findById(obj.getItensProduto().get(0).getProduto().getId()).get();
 
-			obj.setImagem(p.getImagem());
+			/*obj.setImagem(p.getImagem());
 			obj.setExtension(p.getExtension());
-
+*/
 			List<DescricaoAnuncio> descricoes = new ArrayList<DescricaoAnuncio>();
 			descricoes.add(new DescricaoAnuncio("Peso", String.valueOf(p.getPeso())));
 			descricoes.add(new DescricaoAnuncio("Peso", String.valueOf(p.getPeso())));
