@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.domin.cotacao.Cotacao;
 import br.com.apidigitalweb.domin.cotacao.ItensCotacao;
+import br.com.apidigitalweb.domin.pessoa.Contato;
+import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.domin.pessoa.Fornecedor;
 import br.com.apidigitalweb.dto.SampleDto;
 import lombok.Data;
@@ -51,10 +53,13 @@ public class CotacaoDto implements Serializable {
 			this.total = i.getTotal();
 		}
 	}
-
+	private Long id;
+	private String nome; 
 	private Date dataAbertura;
 	private Date dataFim;
 	private SampleDto fornecedor;
+	private Contato contato = new Contato();
+	private Endereco endereco = new Endereco();
 	private String status;
 	private List<ItensCotacaoDto> itensCotacaos = new ArrayList<ItensCotacaoDto>();
 	private double total;
@@ -73,6 +78,8 @@ public class CotacaoDto implements Serializable {
 		this.total = c.getTotal();
 		this.tipoFrete = c.getTipoFrete();
 		this.valorFrete = c.getValorFrete();
+		endereco = c.getFornecedor().getEndereco();
+		contato = c.getFornecedor().getContato();
 	}
 
 }

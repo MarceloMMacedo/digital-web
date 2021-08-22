@@ -16,7 +16,7 @@ import br.com.apidigitalweb.service.BaseServic;
 import br.com.apidigitalweb.service.CotacaoService;
 
 @RestController
-@RequestMapping(value = ("/cotacaos"))
+@RequestMapping(value = ("/cotacoes"))
 public class CotacaoController extends BaseController<Cotacao> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

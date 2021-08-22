@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 public class BasePessoaJuridicaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private Long id;  
 	private List<TextCode> atividade_principal = new ArrayList<TextCode>();
 	private String data_situacao;
 	private String tipo;
