@@ -45,7 +45,7 @@ public   class BasePessoaJuridica implements Serializable, BaseEntity {
     @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
 	protected List<TextCode> atividade_principal = new ArrayList<TextCode>();
 	protected String data_situacao;
-	protected String tipo; 
+	protected String tipo;  
 	
 	@ElementCollection
     @CollectionTable(  joinColumns = @JoinColumn(name = "id"))

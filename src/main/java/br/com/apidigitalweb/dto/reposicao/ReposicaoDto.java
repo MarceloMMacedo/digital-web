@@ -26,23 +26,25 @@ public class ReposicaoDto implements Serializable {
 		private static final long serialVersionUID = 1L;
 		private String descricao;
 		private int qtd;
-		private int id;
+		private int idinfo;
 		private String tipoanuncio;
-		private SampleDto anuncio;
+		private Long anuncio;
 		private double valorinterno;
 		private double subtotal;
 		private double valor;
+		private String unidade;
 
 		public ItensReposicaoDto(BaseAnuncio b, String tipoanuncio, int id) {
 			super();
 			this.descricao = b.getNome();
 			this.qtd = (int) b.getSaldoReposicao();
 			this.tipoanuncio = tipoanuncio;
-			this.anuncio = new SampleDto(b, "");
+			this.anuncio = b.getId();
 			this.valorinterno = b.getValorInterno();
 			this.valor = b.getValorFinal();
-			this.id = id;
-			subtotal=qtd*valorinterno;
+			this.idinfo = id;
+			unidade=b.getUnidade();
+			subtotal = qtd * valorinterno;
 		}
 	}
 
@@ -58,18 +60,21 @@ public class ReposicaoDto implements Serializable {
 
 		totalitensAnuncioLoja = 0;
 		for (AnuncioLoja anuncioLoja : anuncioLojas) {
-			itensAnuncioLoja.add(new ItensReposicaoDto(anuncioLoja, TipoAnuncioEnum.Local.getDescricao(),itensAnuncioLoja.size()));
+			itensAnuncioLoja.add(
+					new ItensReposicaoDto(anuncioLoja, TipoAnuncioEnum.Local.getDescricao(), itensAnuncioLoja.size()));
 			totalitensAnuncioLoja += anuncioLoja.getValorInterno() * anuncioLoja.getSaldoReposicao();
 		}
 
 		totalitensAnuncioContrato = 0;
 		for (AnuncioContrato anuncioContrato : anuncioContratos) {
-			itensAnuncioContrato.add(new ItensReposicaoDto(anuncioContrato, TipoAnuncioEnum.Contrato.getDescricao(),itensAnuncioContrato.size()));
+			itensAnuncioContrato.add(new ItensReposicaoDto(anuncioContrato, TipoAnuncioEnum.Contrato.getDescricao(),
+					itensAnuncioContrato.size()));
 			totalitensAnuncioContrato += anuncioContrato.getValorInterno() * anuncioContrato.getSaldoReposicao();
 		}
 		totalitensAnuncioWeb = 0;
 		for (AnuncioWeb anuncioWeb : anuncioWebs) {
-			itensAnuncioWeb.add(new ItensReposicaoDto(anuncioWeb, TipoAnuncioEnum.Contrato.getDescricao(),itensAnuncioWeb.size()));
+			itensAnuncioWeb.add(
+					new ItensReposicaoDto(anuncioWeb, TipoAnuncioEnum.Contrato.getDescricao(), itensAnuncioWeb.size()));
 			totalitensAnuncioWeb += anuncioWeb.getValorInterno() * anuncioWeb.getSaldoReposicao();
 		}
 

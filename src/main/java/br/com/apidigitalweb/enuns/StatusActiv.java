@@ -5,7 +5,10 @@ public enum StatusActiv {
 	INATIVO(1,  "Inativo"),
 	ABERTO( 2, "Aberto"),
 	QUIT(3,  "Quit"),
-	ANDAMENTO(4,  "Andamento");
+	ANDAMENTO(4,  "Andamento"),
+
+	Aprovado( 5, "Aprovado"),
+	Confefencia(6,  "Conferência") ;
 	 
 	private int id;
 	private String descricao;
