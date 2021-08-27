@@ -28,7 +28,12 @@ public class AnuncioServicoService extends BaseServic<AnuncioServico> implements
 	public Page<BaseDto> findallpagedto(String find, Pageable page) {
 
 		Page<BaseDto> baseDtos = findallpage(find, page)
-				.map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
+				.map(x -> {
+					BaseDto b=	new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension()));
+					b.setValor(x.getValorFinal());
+					return b;
+				}
+				);
 
 		return baseDtos;
 	}
@@ -74,6 +79,7 @@ public class AnuncioServicoService extends BaseServic<AnuncioServico> implements
 	public AnuncioServico newobj(AnuncioServico obj) {
 		try {
 			obj.setIsPrecificado(SimNaoEnum.Sim.getDescricao());
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

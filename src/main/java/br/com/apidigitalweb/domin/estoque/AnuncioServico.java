@@ -29,6 +29,25 @@ import lombok.Setter;
 public class AnuncioServico extends BaseAnuncio implements Serializable, BaseEntity {
 
 	private static final long serialVersionUID = 1L;
+	 private double valorPredefinido;
+	@Override
+	public double getValorFinal() {
+		 
+		/*if (isPrecificado.equals(SimNaoEnum.Sim.getDescricao())) {
+			valorFinal = valorPredefinido;
+		} else */
+		{
+			valorFinal = getValorPredefinido();
+			try {
+				valorFinal += valorFinal * getGrupopreco().getPercentualTotal() / 100;
+				valorFinal -= valorFinal * desconto / 100;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return valorFinal;
+	}
+
 
 	/*@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn

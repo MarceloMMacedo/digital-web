@@ -40,6 +40,12 @@ public class CotacaoController extends BaseController<Cotacao> implements Serial
 	public ResponseEntity<CotacaoDto> getcotacao(@PathVariable Long id) {
 		return ResponseEntity.ok(service.getCotacao(id));
 	}
+	@GetMapping(value = "/ressuprir/{id}")
+	public ResponseEntity<Void> ressuprir(@PathVariable Long id){
+		
+		service.ressuprir(id);
+		return ResponseEntity.noContent().build();
+	}
 	@GetMapping(value = "/getanuncios/{id}")
 	public ResponseEntity<List<SampleDto>> getanuncios(@PathVariable String id) {
 		return ResponseEntity.ok(service.anuncios(id));

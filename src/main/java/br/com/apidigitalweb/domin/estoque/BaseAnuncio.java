@@ -36,10 +36,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BaseAnuncio  implements Serializable, BaseEntity {
 
-	
-
-
-
 	protected static final long serialVersionUID = 1L;
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -41,7 +41,10 @@ import lombok.Setter;
 public class PreContasPagar extends BaseDomain implements BaseEntity, Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	@JoinColumn
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cotacao cotacao;
 
 	@Convert(converter = StatusConverter.class)

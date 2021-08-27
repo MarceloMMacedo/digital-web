@@ -21,12 +21,14 @@ import br.com.apidigitalweb.domin.estoque.AnuncioWeb;
 import br.com.apidigitalweb.domin.estoque.BaseAnuncio;
 import br.com.apidigitalweb.domin.estoque.FornecedorProduto;
 import br.com.apidigitalweb.domin.estoque.ItemProdutoAnuncio;
+import br.com.apidigitalweb.domin.financeiro.contaspagar.PreContasPagar;
 import br.com.apidigitalweb.dto.BaseDto;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.reposicao.CotacaoDto;
 import br.com.apidigitalweb.dto.reposicao.ListCotacaoDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.CotacaoRepository;
+import br.com.apidigitalweb.repository.PreContasPagarRepository;
 
 @Service
 public class CotacaoService extends BaseServic<Cotacao> implements Serializable {
@@ -49,6 +51,9 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 	@Autowired
 	private ProdutoService produtoService;
 
+	@Autowired
+	private PreContasPagarRepository preContasPagarRepository;
+
 	public Page<ListCotacaoDto> findallpagecotacaodto(Pageable page) {
 		UserSS user = UserService.authenticated();
 		if (user == null) {
@@ -62,7 +67,7 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 	@Override
 	public void prenew(Cotacao obj) {
 		obj.setStatus(StatusActiv.ABERTO.getDescricao());
-		 obj.setDataAbertura(new Date());
+		obj.setDataAbertura(new Date());
 	}
 
 	public void statusCancelamento(Long id, Date data) {
@@ -79,14 +84,15 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 		return obj;
 	}
 
-	public void ressuprir(Cotacao obj) {
+	public void ressuprir(Long id) {
+		Cotacao obj = fingbyid(id);
 		int qtd = 0;
 		obj.setStatus(StatusActiv.QUIT.getDescricao());
 		if (obj.getDataFim() == null)
 			obj.setDataFim(new Date());
 
 		for (ItensCotacao i : obj.getItensCotacaos()) {
-
+//System.out.println(i.getTipoanuncio());
 			switch (i.getTipoanuncio()) {
 			case "Web":
 				AnuncioWeb anuncio = anuncioWebService.fingbyid(i.getAnuncio());
@@ -119,9 +125,9 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 				}
 				qtd = anuncio.getSaldo() + i.getQtd();
 				anuncio.setSaldo(qtd);
-				anuncioWebService.saveobj(anuncio.getId(), anuncio);
+				anuncio = anuncioWebService.saveobj(anuncio.getId(), anuncio);
 				break;
-			case "Local":
+			case "Loja":
 				AnuncioLoja anuncioLoja = anuncioLojaService.fingbyid(i.getAnuncio());
 				if (anuncioLoja.getItensProduto().size() == 1) {
 					for (ItemProdutoAnuncio x : anuncioLoja.getItensProduto()) {
@@ -149,7 +155,7 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 				}
 				qtd = anuncioLoja.getSaldo() + i.getQtd();
 				anuncioLoja.setSaldo(qtd);
-				anuncioLojaService.saveobj(anuncioLoja.getId(), anuncioLoja);
+				anuncioLoja = anuncioLojaService.saveobj(anuncioLoja.getId(), anuncioLoja);
 				break;
 			case "Contrato":
 				AnuncioContrato anuncioServico = anuncioContratoService.fingbyid(i.getAnuncio());
@@ -180,15 +186,24 @@ public class CotacaoService extends BaseServic<Cotacao> implements Serializable 
 				}
 				qtd = anuncioServico.getSaldo() + i.getQtd();
 				anuncioServico.setSaldo(qtd);
-				anuncioContratoService.saveobj(anuncioServico.getId(), anuncioServico);
+				anuncioServico = anuncioContratoService.saveobj(anuncioServico.getId(), anuncioServico);
 				break;
 
 			default:
 				break;
 			}
 		}
-
+		addpre(obj);
+		obj.setStatus(StatusActiv.QUIT.getDescricao());
 		repo.save(obj);
+	}
+
+	public void addpre(Cotacao cotacao) {
+		PreContasPagar preContasPagar = new PreContasPagar();
+		preContasPagar.setCotacao(cotacao);
+//	preContasPagar.getCotacao().setId(cotacao.getId());
+		preContasPagar.setStatus(StatusActiv.ABERTO.getDescricao());
+		preContasPagarRepository.save(preContasPagar);
 	}
 
 	public CotacaoDto getCotacao(Long id) {
