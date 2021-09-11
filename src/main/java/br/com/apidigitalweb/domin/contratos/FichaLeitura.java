@@ -84,6 +84,7 @@ public class FichaLeitura implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Contrato contrato;
+	
 	@Convert(converter = StatusConverter.class)
 	protected String status;
 

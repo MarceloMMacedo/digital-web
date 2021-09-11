@@ -14,7 +14,6 @@ import br.com.apidigitalweb.converters.SimNaoConverter;
 import br.com.apidigitalweb.domin.BaseDomain;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

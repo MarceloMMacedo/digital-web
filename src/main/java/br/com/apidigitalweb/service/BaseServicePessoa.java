@@ -20,7 +20,7 @@ import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.openfaing.ViaCEPClient;
 
 public class BaseServicePessoa<T extends BaseEntityPessoa> extends BaseServic<T> implements Serializable {
- 
+
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
@@ -59,6 +59,13 @@ public class BaseServicePessoa<T extends BaseEntityPessoa> extends BaseServic<T>
 		return f;
 	}
 
+	public Endereco getEndereco(String cep) {
+		cep = cep.replaceAll("\\p{Punct}", "");
+		Endereco e = viaCEPClient.buscaEnderecoPor(cep);
+		return e;
+
+	}
+
 	@Override
 	public T newobj(T obj) {
 		if (obj.getEmail() == null || obj.getEmail().equals(""))
@@ -92,13 +99,10 @@ public class BaseServicePessoa<T extends BaseEntityPessoa> extends BaseServic<T>
 		return super.newobj(obj);
 	}
 
-	public Endereco getEndereco(String cep) {
-		cep = cep.replaceAll("\\p{Punct}", "");
-		Endereco e = viaCEPClient.buscaEnderecoPor(cep);
-		return e;
 
-	}
+
 	public List<String> listaRules() {
+
 		List<String> listaUnidade = new ArrayList<>();
 		for (Perfil string : Perfil.values()) {
 			listaUnidade.add(string.getDescricao());

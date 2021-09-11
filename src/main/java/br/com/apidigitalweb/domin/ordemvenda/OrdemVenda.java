@@ -24,6 +24,7 @@ import br.com.apidigitalweb.converters.CalnalOrdemConverter;
 import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.domin.BaseDomain;
 import br.com.apidigitalweb.domin.BaseEntity;
+import br.com.apidigitalweb.domin.ordem.BaseOrdem;
 import br.com.apidigitalweb.domin.ordem.FinanceiroOrdem;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.domin.pessoa.Contato;
@@ -41,73 +42,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class OrdemVenda  extends BaseDomain implements BaseEntity, Serializable {
+public class OrdemVenda  extends BaseOrdem implements  Serializable {
 
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 * 0-WEB 1-ONSITE 2-TELEFONE 4-WHATSAPP 5-OUTROS
-	 */
-	@Convert(converter = CalnalOrdemConverter.class)
-	private String canal;
-
-	@JoinColumn
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Cliente cliente;
-
-	//@DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date dataAbertura;
-
-	//@DateFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date dataProgramada;
-
-	//	@DateFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy HH:mm:ss")
-	private Date dataConclusao;
-	
-	@JoinColumn
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Funcionario vendedor;
-	
-	@ElementCollection
-    @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
-	protected List<ItensOrdemVenda> itensOrdemVenda=new ArrayList<>();
-
-	@Transient
-	private double total;
-
-	/**
-	 * 
-	 * Aberto Concluido Aguardandoproduto
-	 */
-	@Convert(converter = StatusConverter.class)
-	private String status;
-	
-	@Embedded
-	@Column(name = "id", nullable = true, insertable = true, updatable = true)
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	protected Endereco endereco = new Endereco();
-
-	@Embedded
-	@Column(name = "id", nullable = true, insertable = true, updatable = true)
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	protected Contato contato = new Contato();
-
-	private String formaEntrega;
-	
-	private String setorentrega;
-	
-	private double valorEntrega;
-
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "banco", column = @Column(name = "bancoOS")),
-		@AttributeOverride(name = "faturavel", column = @Column(name = "faturavelOS")),
-		@AttributeOverride(name = "datavencimento", column = @Column(name = "datavencimentoOS")),
-		@AttributeOverride(name = "parcelas", column = @Column(name = "parcelasOS")) })
-	@Column(name = "id", nullable = true, insertable = true, updatable = true)
-	protected FinanceiroOrdem financeiroOrdem = new FinanceiroOrdem();
+	 
 	 
 }

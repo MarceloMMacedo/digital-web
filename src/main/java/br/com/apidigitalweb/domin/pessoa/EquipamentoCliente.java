@@ -1,29 +1,24 @@
 package br.com.apidigitalweb.domin.pessoa;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.converters.TipoProdutosConverter;
-import br.com.apidigitalweb.domin.BaseDomain;
-import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.contratos.Medidor;
-import br.com.apidigitalweb.domin.contratos.Medidores;
 import br.com.apidigitalweb.domin.estoque.Modelo;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,22 +26,25 @@ import lombok.Setter;
 /**
  * Class Patrimonio
  */
-@Getter
-@Setter
-@Entity
+@Data
+@Embeddable
 @NoArgsConstructor
-public class EquipamentoCliente extends BaseDomain implements BaseEntity, Serializable {
+public class EquipamentoCliente  implements  Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**
 	 * copiadora,impressora,transformador
 	 */
-	@Convert(converter = TipoProdutosConverter.class)
+	//@Convert(converter = TipoProdutosConverter.class)
 	private String tipo;
+	 
 	
-	@JoinColumn
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+
+	
+	@JoinColumn(columnDefinition = " bigint ")
+	@Column(name = "modelo_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })  
 	private Modelo modelo;
 	   
 	private Long contrato;
@@ -59,13 +57,9 @@ public class EquipamentoCliente extends BaseDomain implements BaseEntity, Serial
 	@Embedded 
 	private Medidor medidorServico = new Medidor();
 	 
-
-	@JoinColumn
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
-	private Cliente cliente;
-	
+ 
 	private String serial;
+	
+	private String local;
 
 }

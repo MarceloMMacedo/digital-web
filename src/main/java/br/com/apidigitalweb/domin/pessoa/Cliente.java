@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,9 +32,13 @@ public class Cliente extends BasePessoaJuridica implements Serializable, BaseEnt
 	
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy = "modelo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private List<EquipamentoCliente> produtos = new ArrayList<>();
+ 
+	
+
+
+	@ElementCollection
+	@CollectionTable(joinColumns = @JoinColumn(name = "id"))
+	private List<EquipamentoCliente> equipamentos = new ArrayList<>();
 	
 
 	public Cliente(BasePessoaJuridicaDTO p, Endereco e) {
