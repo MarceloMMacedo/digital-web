@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Service;
 
-import br.com.apidigitalweb.domin.ordemservico.OrdemServico;
+import br.com.apidigitalweb.domin.ordemvendaweb.OrdemVendaWeb;
 
 @Service
-public class OrdemServicoService extends BaseServicOrdem<OrdemServico> implements Serializable {
+public class OrdemVendasWebService extends BaseServicOrdem<OrdemVendaWeb> implements Serializable {
  
 	private static final long serialVersionUID = 1L;
 	

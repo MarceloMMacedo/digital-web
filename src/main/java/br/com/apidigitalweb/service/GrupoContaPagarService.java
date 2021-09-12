@@ -17,7 +17,7 @@ import br.com.apidigitalweb.domin.financeiro.contaspagar.GrupoContaPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
@@ -88,7 +88,7 @@ public class GrupoContaPagarService extends BaseServic<GrupoContaPagar> implemen
 		return g;
 	}
 
-	private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas, String origem) {
+	private List<FaturasDto> faturasDtosVendas(List<FaturaVendaLoja> faturaVendas, String origem) {
 		List<FaturasDto> faturasDto = new ArrayList<>();
 		for (BaseFatura b : faturaVendas) {
 			faturasDto.add(new FaturasDto(b, origem));

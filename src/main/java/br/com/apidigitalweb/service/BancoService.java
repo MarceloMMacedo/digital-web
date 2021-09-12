@@ -19,7 +19,7 @@ import br.com.apidigitalweb.domin.financeiro.BaseFatura;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
@@ -210,7 +210,7 @@ public class BancoService extends BaseServic<Banco> implements Serializable {
 	}
 
 	/*
-	 * private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas,
+	 * private List<FaturasDto> faturasDtosVendas(List<FaturaVendaWeb> faturaVendas,
 	 * String origem) { List<FaturasDto> faturasDto = new ArrayList<>(); for
 	 * (BaseFatura b : faturaVendas) { faturasDto.add(new FaturasDto(b, origem)); }
 	 * 

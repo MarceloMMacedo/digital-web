@@ -26,12 +26,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import br.com.apidigitalweb.converters.CalnalOrdemConverter;
 import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.domin.BaseEntity;
-import br.com.apidigitalweb.domin.ordemvenda.ItensOrdemVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.ItensMaterialInVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.domin.pessoa.Contato;
 import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.domin.pessoa.EquipamentoCliente;
 import br.com.apidigitalweb.domin.pessoa.Funcionario;
+import br.com.apidigitalweb.dto.ordem.ItensInsOrdemDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,6 +41,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BaseOrdem  implements BaseEntity, Serializable {
+
 
 	protected static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,15 +95,13 @@ public class BaseOrdem  implements BaseEntity, Serializable {
 
 	protected String garantia;
 	
-	@ElementCollection
+	/*@ElementCollection
     @CollectionTable(  joinColumns = @JoinColumn(name = "id"))
-	protected List<ItensOrdemVenda> itensOrdemVenda=new ArrayList<>();
-
+	protected List<ItensMaterialInVendaLoja> itensOrdemVenda=new ArrayList<>();
+*/
 	protected String setorentrega;
 	
-
-	@Transient
-	protected double total;
+ 
 	
 	/**
 	 * 
@@ -132,4 +132,20 @@ public class BaseOrdem  implements BaseEntity, Serializable {
 		@AttributeOverride(name = "parcelas", column = @Column(name = "parcelasOS")) })
 	@Column(name = "id", nullable = true, insertable = true, updatable = true)
 	protected FinanceiroOrdem financeiroOrdem = new FinanceiroOrdem();
+	
+	@Transient
+	protected List<ItensInsOrdemDto> itensInsOrdemDtos;
+	
+	@Transient
+	protected double totalItensMaoObra;
+
+	@Transient
+	protected double totalItensMaterial;
+
+	@Transient
+	protected double total;
+	public List<ItensInsOrdemDto> getItensInsOrdemDtos() {
+		return itensInsOrdemDtos;
+	}
+
 }

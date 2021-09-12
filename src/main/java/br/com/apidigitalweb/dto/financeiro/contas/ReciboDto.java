@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
 import br.com.apidigitalweb.domin.ordemservico.OrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
-import br.com.apidigitalweb.domin.ordemvenda.ItensOrdemVenda;
-import br.com.apidigitalweb.domin.ordemvenda.OrdemVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Contato;
 import br.com.apidigitalweb.domin.pessoa.Endereco;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
-import br.com.apidigitalweb.service.FaturaVendaService;
 import br.com.apidigitalweb.util.Extenso;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,7 +52,7 @@ public class ReciboDto implements Serializable {
 	private double valor;
 	private List<ItensRecibo> itensrecibos=new ArrayList<ItensRecibo>();
 	
-	public ReciboDto(OrdemVenda o,FaturaVenda f) {
+	/*public ReciboDto(ItensMaterialInServiceWeb o,FaturaVendaLoja f) {
 		super();
 		this.cliente = new SampleDto(o.getCliente(), "");
 		this.endereco = o.getEndereco();
@@ -73,12 +69,13 @@ public class ReciboDto implements Serializable {
 		this.atividade = TipoFaturaEnum.Venda.toString();
 		this.setorentrega = o.getSetorentrega();
 		this.id = f.getId();
-		for(ItensOrdemVenda i:o.getItensOrdemVenda()) {
+		for(ItensMaterialInVendaLoja i:o.getItensOrdemVenda()) {
 			ItensRecibo itensRecibo=new ItensRecibo(i.getQuantidade(), i.getProduto(), i.getValorUnitario(),i.getValortotal());
 			itensrecibos.add(itensRecibo);
 		}
 		
 	}
+*/
 	public ReciboDto(OrdemServico o,FaturaOrdemServico  f) {
 		super();
 		this.cliente = new SampleDto(o.getCliente(), "");
@@ -96,11 +93,11 @@ public class ReciboDto implements Serializable {
 		this.atividade = TipoFaturaEnum.Servico.toString();
 		this.setorentrega = o.getSetorentrega();
 		this.id = f.getId();
-		for(ItensOrdemVenda i:o.getItensOrdemVenda()) {
+	/*	for(ItensMaterialInVendaLoja i:o.getItensOrdemVenda()) {
 			ItensRecibo itensRecibo=new ItensRecibo(i.getQuantidade(), i.getProduto(), i.getValorUnitario(),i.getValortotal());
 			itensrecibos.add(itensRecibo);
 		}
-		
+		*/
 	}
 
 }

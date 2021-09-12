@@ -27,7 +27,7 @@ import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
@@ -174,7 +174,7 @@ public class FaturasDto implements Serializable {
 		 */
 	}
 
-	public FaturasDto(FaturaVenda b) {
+	public FaturasDto(FaturaVendaLoja b) {
 		super();
 		this.id = b.getId();
 		this.nome = b.getNome();

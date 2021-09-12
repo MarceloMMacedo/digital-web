@@ -11,10 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
-import br.com.apidigitalweb.domin.estoque.AnuncioServico;
-import br.com.apidigitalweb.domin.estoque.AnuncioWeb;
-import br.com.apidigitalweb.domin.financeiro.AgregadoGrupoFinanceiro;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.financeiro.MovBanco;
@@ -22,9 +18,6 @@ import br.com.apidigitalweb.domin.financeiro.MovCentroCusto;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
 import br.com.apidigitalweb.domin.ordemservico.OrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
-import br.com.apidigitalweb.domin.ordemvenda.ItensOrdemVenda;
-import br.com.apidigitalweb.domin.ordemvenda.OrdemVenda;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.FaturaOrdemServicoRepository;
@@ -103,7 +96,7 @@ public class FaturaOrdemServicoService extends BaseServic<FaturaOrdemServico> im
 	public List<CentroCustoFatura> getAgregado(OrdemServico ordemVenda, double valor) {
 		List<CentroCustoFatura> getAgregado = new ArrayList<CentroCustoFatura>();
 		
-		for (ItensOrdemVenda it : ordemVenda.getItensOrdemVenda()) {
+	/*	for (ItensMaterialInVendaLoja it : ordemVenda.getItensOrdemVenda()) {
 			switch (it.getOrigemProduto()) {
 			case "AnuncioLoja": {
 				AnuncioLoja a = anuncioLojaService.fingbyid(it.getIdProduto());
@@ -143,8 +136,11 @@ public class FaturaOrdemServicoService extends BaseServic<FaturaOrdemServico> im
 			}
 
 		}
+		*/
 		return getAgregado;
 	}
+	
+	
 	public void quitar(FaturasDto obj) {
 		FaturaOrdemServico fatura= new FaturaOrdemServico();
 		BeanUtils.copyProperties(fatura, obj, getNullPropertyNames(fatura)); // Perform update operation

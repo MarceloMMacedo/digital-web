@@ -1,4 +1,4 @@
-package br.com.apidigitalweb.domin.ordemservico;
+package br.com.apidigitalweb.domin.financeiro.maoobra;
 
 import java.io.Serializable;
 import java.util.ArrayList;

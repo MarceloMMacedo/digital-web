@@ -1,11 +1,7 @@
 
 package br.com.apidigitalweb;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,30 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import br.com.apidigitalweb.controller.estoque.ListaImagens;
-import br.com.apidigitalweb.domin.contratos.Contrato;
-import br.com.apidigitalweb.domin.contratos.ItensContratoPatrimonio;
-import br.com.apidigitalweb.domin.contratos.Medidor;
-import br.com.apidigitalweb.domin.contratos.Patrimonio;
-import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
-import br.com.apidigitalweb.domin.estoque.DescricaoAnuncio;
-import br.com.apidigitalweb.domin.estoque.FornecedorProduto;
-import br.com.apidigitalweb.domin.estoque.ItemProdutoAnuncio;
-import br.com.apidigitalweb.domin.estoque.Modelo;
-import br.com.apidigitalweb.domin.estoque.Produto;
-import br.com.apidigitalweb.domin.financeiro.AgregadoGrupoFinanceiro;
-import br.com.apidigitalweb.domin.financeiro.Banco;
-import br.com.apidigitalweb.domin.financeiro.CentroCusto;
-import br.com.apidigitalweb.domin.financeiro.GrupoFinanceiroAnuncio;
-import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
-import br.com.apidigitalweb.domin.ordemvenda.OrdemVenda;
-import br.com.apidigitalweb.domin.pessoa.Cliente;
-import br.com.apidigitalweb.domin.pessoa.Endereco;
-import br.com.apidigitalweb.domin.pessoa.Fornecedor;
 import br.com.apidigitalweb.domin.pessoa.Funcionario;
-import br.com.apidigitalweb.dto.pessoa.BasePessoaJuridicaDTO;
-import br.com.apidigitalweb.enuns.SimNaoEnum;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.repository.AnuncioLojaRepository;
@@ -50,7 +23,6 @@ import br.com.apidigitalweb.repository.FornecedorRepository;
 import br.com.apidigitalweb.repository.FuncionarioRepository;
 import br.com.apidigitalweb.repository.GrupoFinanceiroAnuncioRepository;
 import br.com.apidigitalweb.repository.ModeloRepository;
-import br.com.apidigitalweb.repository.OrdemVendasRepository;
 import br.com.apidigitalweb.repository.PatrimonioRepository;
 import br.com.apidigitalweb.repository.ProdutoRepository;
 import br.com.apidigitalweb.service.BancoService;
@@ -97,9 +69,7 @@ public class ApiDigitalApplication implements CommandLineRunner {
 	
 	@Autowired
 	BancoService bancoService;
-
-	@Autowired
-	private OrdemVendasRepository ordemVendasRepository;
+ 
 	@Override
 	public void run(String... args) throws Exception {
 		try {

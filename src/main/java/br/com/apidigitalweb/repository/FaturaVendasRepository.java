@@ -7,60 +7,58 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
-import br.com.apidigitalweb.domin.ordemvenda.OrdemVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 
 @Repository
-public interface FaturaVendasRepository extends JpaRepository<FaturaVenda, Long> {
+public interface FaturaVendasRepository extends JpaRepository<FaturaVendaLoja, Long> {
 
-	List<FaturaVenda> findAllByCentroCustoAndStatus(CentroCusto centroCusto, String status);
+	List<FaturaVendaLoja> findAllByCentroCustoAndStatus(CentroCusto centroCusto, String status);
 
 	/*
-	 * @Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.centroCusto=?1 and e.status=?2"
+	 * @Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVendaLoja e where e.centroCusto=?1 and e.status=?2"
 	 * ) double totalAbertoByCentroCusto(CentroCusto centroCusto, String status);
 	 */
-	List<FaturaVenda> findAllByClienteAndStatus(Cliente cliente, String status);
+	List<FaturaVendaLoja> findAllByClienteAndStatus(Cliente cliente, String status);
 
-	List<FaturaVenda> findAllByBancoAndStatus(Banco cliente, String status);
+	List<FaturaVendaLoja> findAllByBancoAndStatus(Banco cliente, String status);
 
-	List<FaturaVenda> findByStatus(String status);
+	List<FaturaVendaLoja> findByStatus(String status);
 
-	List<FaturaVenda> findByOrdemVendaAndStatus(OrdemVenda ordemVenda, String status);
+	//List<FaturaVendaLoja> findByOrdemVendaAndStatus(ItensMaterialInServiceWeb ordemVenda, String status);
 
-	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f where f.cliente=?1 and f.status=?2 order by f.dataVencimento")
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVendaLoja f where f.cliente=?1 and f.status=?2 order by f.dataVencimento")
 	List<FaturasDto> findAllClienteAndStatus(Cliente cliente, String status);
 
 	/*
-	 * @Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f "
+	 * @Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVendaLoja f "
 	 * +
 	 * "where f.cliente=?1 and f.status=?2 and  f.dataVencimento BETWEEN =?3 AND =?4  order by f.dataVencimento"
 	 * ) List<FaturasDto> findAllClienteAndStatusBetoweend(Cliente cliente, String
 	 * status,Date inicio,Date fim);
 	 */
-	List<FaturaVenda> findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(String status, Date inicio,
+	List<FaturaVendaLoja> findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(String status, Date inicio,
 			Date fim);
 
-	List<FaturaVenda> findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(Cliente cliente, String status, Date inicio,
+	List<FaturaVendaLoja> findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(Cliente cliente, String status, Date inicio,
 			Date fim);
 
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.status=?1")
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVendaLoja e where e.status=?1")
 	double totalAll(String status);
 
-	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVenda f where f.banco=?1 and f.status=?2")
+	@Query("SELECT new br.com.apidigitalweb.dto.financeiro.FaturasDto(f) from FaturaVendaLoja f where f.banco=?1 and f.status=?2")
 	List<FaturasDto> allBanco(Banco banco, String status);
 
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.cliente=?1 and e.status=?2")
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVendaLoja e where e.cliente=?1 and e.status=?2")
 	double totalAbertoByCliente(Cliente cliente, String status);
 
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.ordemVenda=?1 and e.status=?2")
-	double totalAbertoByOrdemVenda(OrdemVenda ordemVenda, String status);
-
-	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVenda e where e.banco=?1 and e.status=?2")
+	/*@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVendaLoja e where e.ordemVenda=?1 and e.status=?2")
+	double totalAbertoByOrdemVenda(ItensMaterialInServiceWeb ordemVenda, String status);
+*/
+	@Query("SELECT SUM( e.valor - e.desconto + e.jurus + e.multa) from FaturaVendaLoja e where e.banco=?1 and e.status=?2")
 	double totalAbertoByBanco(Banco banco, String status);
 
 	@Query(value = "SELECT sum(c.valor) FROM fatura_venda_centro_custo_faturas c, fatura_venda f\n"

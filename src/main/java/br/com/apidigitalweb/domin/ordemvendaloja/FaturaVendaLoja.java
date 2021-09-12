@@ -1,4 +1,4 @@
-package br.com.apidigitalweb.domin.ordemvenda;
+package br.com.apidigitalweb.domin.ordemvendaloja;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Class FaturaVenda
+ * Class FaturaVendaWeb
  */
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-public class FaturaVenda extends BaseFatura implements Serializable {
+public class FaturaVendaLoja extends BaseFatura implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class FaturaVenda extends BaseFatura implements Serializable {
 	@JoinColumn
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	private OrdemVenda ordemVenda;
+	private OrdemVendaLoja ordemVenda;
 
 	
 

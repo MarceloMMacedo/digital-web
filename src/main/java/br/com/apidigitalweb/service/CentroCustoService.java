@@ -8,30 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
-import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
-import br.com.apidigitalweb.domin.financeiro.AgregadoGrupoFinanceiro;
 import br.com.apidigitalweb.domin.financeiro.BaseFatura;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
-import br.com.apidigitalweb.domin.ordemvenda.ItensOrdemVenda;
-import br.com.apidigitalweb.domin.ordemvenda.OrdemVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;
-import br.com.apidigitalweb.repository.AnuncioLojaRepository;
 import br.com.apidigitalweb.repository.CentroCustoRepository;
-import br.com.apidigitalweb.repository.FaturaOrdemServicoRepository;
-import br.com.apidigitalweb.repository.FaturaVendasRepository;
-import br.com.apidigitalweb.repository.FaturaContasPagarRepository;
-import br.com.apidigitalweb.repository.FaturaContratoRepository;
 
 /**
  * @author macedo
@@ -63,9 +52,9 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 			double valor = 0;
 
 			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
+			List<FaturaVendaLoja> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
 			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-			for (FaturaVenda faturaVenda : faturaVendas) {
+			for (FaturaVendaLoja faturaVenda : faturaVendas) {
 				for (CentroCustoFatura centroCustoFatura : faturaVenda.getCentroCustoFaturas()) {
 					valor += centroCustoFatura.getValorFinal();
 				}
@@ -114,9 +103,9 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 			double valor = 0;
 
 			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
+			List<FaturaVendaLoja> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
 			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-			for (FaturaVenda faturaVenda : faturaVendas) {
+			for (FaturaVendaLoja faturaVenda : faturaVendas) {
 				for (CentroCustoFatura centroCustoFatura : faturaVenda.getCentroCustoFaturas()) {
 					valor += centroCustoFatura.getValorFinal();
 				}
@@ -169,9 +158,9 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 			double valor = 0;
 
 			// Faturas Venda
-			List<FaturaVenda> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
+			List<FaturaVendaWeb> faturaVendas = faturaVendaService.getAllCentroCusto(x, StatusActiv.ABERTO.getDescricao());
 			x.getFaturasAbertaEntrada().addAll(faturasDtosVendas(faturaVendas, TipoFaturaEnum.Venda.getDescricao()));
-			for (FaturaVenda faturaVenda : faturaVendas) {
+			for (FaturaVendaWeb faturaVenda : faturaVendas) {
 				for (CentroCustoFatura centroCustoFatura : faturaVenda.getCentroCustoFaturas()) {
 					valor += centroCustoFatura.getValorFinal();
 				}
@@ -214,7 +203,7 @@ public class CentroCustoService extends BaseServic<CentroCusto> implements Seria
 		return findallpage;
 	}
 */
-	private List<FaturasDto> faturasDtosVendas(List<FaturaVenda> faturaVendas, String origem) {
+	private List<FaturasDto> faturasDtosVendas(List<FaturaVendaLoja> faturaVendas, String origem) {
 		List<FaturasDto> faturasDto = new ArrayList<>();
 		for (BaseFatura b : faturaVendas) {
 			faturasDto.add(new FaturasDto(b, origem));

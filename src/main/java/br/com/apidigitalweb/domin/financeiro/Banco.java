@@ -19,7 +19,7 @@ import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

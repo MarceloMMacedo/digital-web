@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import br.com.apidigitalweb.domin.contratos.Contrato;
 import br.com.apidigitalweb.domin.contratos.FaturaContrato;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.dto.financeiro.ContasReceberDto;
@@ -93,9 +93,9 @@ public class ContasReceberService implements Serializable {
 		List<FaturasDto> dtos = new ArrayList<>();
 
 		dtos.clear();
-		List<FaturaVenda> cpsv = faturaVendasRepository
+		List<FaturaVendaLoja> cpsv = faturaVendasRepository
 				.findAllByClienteAndStatusAndDataVencimentoBetweenOrderByDataVencimento(c, status, inicio, fim);
-		for (FaturaVenda f : cpsv) {
+		for (FaturaVendaLoja f : cpsv) {
 			dtos.add(new FaturasDto(f));
 		}
 
@@ -143,9 +143,9 @@ public class ContasReceberService implements Serializable {
 
 		List<FaturasDto> dtos = new ArrayList<>();
 		dtos.clear();
-		List<FaturaVenda> cpsv = faturaVendasRepository
+		List<FaturaVendaLoja> cpsv = faturaVendasRepository
 				.findAllByStatusAndDataVencimentoBetweenOrderByDataVencimento(status, inicio, fim);
-		for (FaturaVenda f : cpsv) {
+		for (FaturaVendaLoja f : cpsv) {
 			dtos.add(new FaturasDto(f));
 		}
 
@@ -176,9 +176,9 @@ public class ContasReceberService implements Serializable {
 	}
 
 	public ReciboDto recibovenda(Long id) {
-		FaturaVenda f = faturaVendasRepository.findById(id).get();
-		ReciboDto dto = new ReciboDto(f.getOrdemVenda(), f);
-		return dto;
+		FaturaVendaLoja f = faturaVendasRepository.findById(id).get();
+	//	ReciboDto dto = new ReciboDto(f.getOrdemVenda(), f);
+		return null;
 	}
 
 	public ReciboDto reciboservico(Long id) {

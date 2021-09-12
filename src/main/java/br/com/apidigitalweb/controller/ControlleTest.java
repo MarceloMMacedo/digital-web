@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.apidigitalweb.domin.financeiro.Banco;
 import br.com.apidigitalweb.domin.financeiro.CentroCusto;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Cliente;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.BancoRepository;
@@ -27,6 +27,7 @@ import br.com.apidigitalweb.repository.FaturaVendasRepository;
 import br.com.apidigitalweb.service.BancoService;
 import br.com.apidigitalweb.service.ContasReceberService;
 import br.com.apidigitalweb.service.ContasaPagarService;
+import br.com.apidigitalweb.service.MainServices;
 import br.com.apidigitalweb.service.componente.ReportFinanceiroService;
 import br.com.apidigitalweb.util.Extenso;
 
@@ -55,15 +56,16 @@ public class ControlleTest implements Serializable {
 	
 	@Autowired
 	ReportFinanceiroService reportFinanceiroService;
-	
+
 	@Autowired
 	ContasReceberService contasReceberService;
+	@Autowired
+	MainServices mainServices;
 
 	@GetMapping(value = "/teste1")
 	public ResponseEntity<?> test1(){
-		Date fim=new DateTime(2023, 01, 01,0,0).toDate();
-		Date inicio=new Date();
-	return	ResponseEntity.ok(contasReceberService.ContasReceberClientebetween((long) 1, inicio, fim, "Aberto"));//new Extenso(100.0).toString().toUpperCase());//(ItemMonthReportDto.itemMonthReportDto(faturaContratoRepository.itemMonthReportDtos(2030,StatusActiv.ABERTO.getId())));
+		 
+	return	ResponseEntity.ok( mainServices.allOpenOrdem("%"));
 		
 	}
 	
@@ -71,7 +73,7 @@ public class ControlleTest implements Serializable {
 	@GetMapping(value = "/teste")
 	public ResponseEntity<List<Banco>> test(
 			@RequestParam(defaultValue = "", value = "nome") String nome, Pageable page) {
-		FaturaVenda ast = new FaturaVenda();
+		FaturaVendaLoja ast = new FaturaVendaLoja();
 		
 		Banco banco=new Banco();
 		banco.setBanco("banco1");
@@ -94,7 +96,7 @@ public class ControlleTest implements Serializable {
 		ast.setBanco(banco);		
 		fatuaraVendasRepository.save(ast);
 		
-		ast = new FaturaVenda();
+		ast = new FaturaVendaLoja();
 		ast.setStatus(StatusActiv.ABERTO.getDescricao());
 		ast.setCliente(c);
 		ast.setValor(23);
@@ -102,7 +104,7 @@ public class ControlleTest implements Serializable {
 		ast.setBanco(banco);		
 		fatuaraVendasRepository.save(ast);
 		
-		ast = new FaturaVenda();
+		ast = new FaturaVendaLoja();
 		ast.setStatus(StatusActiv.ABERTO.getDescricao());
 		ast.setCliente(c);
 		ast.setValor(252);
@@ -110,14 +112,14 @@ public class ControlleTest implements Serializable {
 		ast.setBanco(banco);		
 		fatuaraVendasRepository.save(ast);
 		
-		ast = new FaturaVenda();
+		ast = new FaturaVendaLoja();
 		ast.setStatus(StatusActiv.ABERTO.getDescricao());
 		ast.setCliente(c);
 		ast.setValor(25);
 		ast.setBanco(banco);		
 		fatuaraVendasRepository.save(ast);
 		
-		ast = new FaturaVenda();
+		ast = new FaturaVendaLoja();
 		ast.setStatus(StatusActiv.ABERTO.getDescricao());
 		ast.setCliente(c);
 		ast.setValor(251);

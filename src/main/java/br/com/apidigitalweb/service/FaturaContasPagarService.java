@@ -26,7 +26,7 @@ import br.com.apidigitalweb.domin.financeiro.contaspagar.ContasPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.FaturaContasPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.dto.financeiro.FaturasDto;
 import br.com.apidigitalweb.dto.financeiro.FaturasPagarDto;
 import br.com.apidigitalweb.enuns.StatusActiv;

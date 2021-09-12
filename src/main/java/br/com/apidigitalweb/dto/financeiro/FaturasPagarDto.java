@@ -26,7 +26,7 @@ import br.com.apidigitalweb.domin.financeiro.contaspagar.GrupoContaPagar;
 import br.com.apidigitalweb.domin.financeiro.contaspagar.HistoricoContaPagar;
 import br.com.apidigitalweb.domin.ordem.CentroCustoFatura;
 import br.com.apidigitalweb.domin.ordemservico.FaturaOrdemServico;
-import br.com.apidigitalweb.domin.ordemvenda.FaturaVenda;
+import br.com.apidigitalweb.domin.ordemvendaloja.FaturaVendaLoja;
 import br.com.apidigitalweb.domin.pessoa.Fornecedor;
 import br.com.apidigitalweb.dto.SampleDto;
 import br.com.apidigitalweb.enuns.TipoFaturaEnum;

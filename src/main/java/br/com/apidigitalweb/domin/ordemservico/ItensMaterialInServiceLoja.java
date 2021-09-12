@@ -1,10 +1,16 @@
-package br.com.apidigitalweb.domin.ordemvenda;
+package br.com.apidigitalweb.domin.ordemservico;
 
 import java.io.Serializable;
 
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.converters.ItemOrdemVSCConverter;
 import br.com.apidigitalweb.domin.BaseDomain;
@@ -12,20 +18,26 @@ import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.estoque.AnuncioContrato;
 import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
 import br.com.apidigitalweb.domin.estoque.AnuncioWeb;
-import br.com.apidigitalweb.domin.ordemservico.MaoObra;
 import br.com.apidigitalweb.enuns.ItemOrdemVSCEnum;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
- * Class ItensOrdemVenda
+ * Class ItensMaterialInContratoLoja
  */
-@Data
-@Embeddable
-public class ItensOrdemVenda   implements  Serializable {
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+public class ItensMaterialInServiceLoja  extends BaseDomain  implements BaseEntity, Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private long idProduto;
+	@JoinColumn
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private AnuncioLoja produto;
 	private int quantidade;
 	private double valorUnitario;
 	private double desconto;
@@ -33,8 +45,11 @@ public class ItensOrdemVenda   implements  Serializable {
 	private double valorDesconto;
 	@Transient
 	private double valortotal;
-
-	private String produto;
+	
+	@JoinColumn
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)	
+	private OrdemServico ordem ;
 	/**
 	 * 
 	 * 0-AnuncioWeb 1-AnuncioLoja 2-AnuncioContrato
@@ -66,7 +81,17 @@ public class ItensOrdemVenda   implements  Serializable {
 
 	}
 
-	public ItensOrdemVenda(AnuncioLoja a) {
+	public ItensMaterialInServiceLoja(AnuncioLoja a) {
+		super();
+		this.produto = a ;
+		this.quantidade = 0;
+		this.valorUnitario = a.getValorFinal();
+		this.desconto = a.getDesconto();
+		 setNome( a.getNome());
+		this.origemProduto = ItemOrdemVSCEnum.AnuncioLoja.getDescricao();
+	}
+	/*
+	public ItensMaterialInContratoLoja(AnuncioWeb a) {
 		super();
 		this.idProduto = a.getId();
 		this.quantidade = 0;
@@ -76,17 +101,7 @@ public class ItensOrdemVenda   implements  Serializable {
 		this.origemProduto = ItemOrdemVSCEnum.AnuncioLoja.getDescricao();
 	}
 
-	public ItensOrdemVenda(AnuncioWeb a) {
-		super();
-		this.idProduto = a.getId();
-		this.quantidade = 0;
-		this.valorUnitario = a.getValorFinal();
-		this.desconto = a.getDesconto();
-		this.produto = a.getNome();
-		this.origemProduto = ItemOrdemVSCEnum.AnuncioLoja.getDescricao();
-	}
-
-	public ItensOrdemVenda(AnuncioContrato a) {
+	public ItensMaterialInContratoLoja(AnuncioContrato a) {
 		super();
 		this.idProduto = a.getId();
 		this.quantidade = 0;
@@ -95,7 +110,7 @@ public class ItensOrdemVenda   implements  Serializable {
 		this.produto = a.getNome();
 		this.origemProduto = ItemOrdemVSCEnum.AnuncioLoja.getDescricao();
 	}
-	public ItensOrdemVenda(MaoObra a) {
+	public ItensMaterialInContratoLoja(MaoObra a) {
 		super();
 		this.idProduto = a.getId();
 		this.quantidade = 0;
@@ -104,4 +119,5 @@ public class ItensOrdemVenda   implements  Serializable {
 		this.produto = a.getNome();
 		this.origemProduto = ItemOrdemVSCEnum.MaoObra.getDescricao();
 	}
+	*/
 }
