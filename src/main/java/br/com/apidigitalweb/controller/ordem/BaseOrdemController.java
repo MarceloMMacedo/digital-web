@@ -167,9 +167,13 @@ public class BaseOrdemController<T extends BaseOrdem> implements Serializable {
 
 	}
 
+	public void prenew( T obj) {
+		
+	}
 	@PutMapping(value = "/newobj")
 	public ResponseEntity<?> newobj(@RequestBody T obj) {
 		try {
+			prenew(obj);
 			obj = getService().newobj(obj);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import br.com.apidigitalweb.domin.ordemservico.OrdemServico;
 import br.com.apidigitalweb.dto.ordem.OrdemDto;
 import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.OrdemServicoRepository;
@@ -30,10 +31,13 @@ public class MainServices implements Serializable {
 	private OrdemContratoService ordemContratoService;
 
 	public List<OrdemDto> allOpenOrdem(String nome) {
-		
 		List<OrdemDto> allOpenOrdem = new ArrayList<>();
-		allOpenOrdem.addAll(ordemServicoRepository.allOrdemDto(StatusActiv.ABERTO.getDescricao(),nome));
-
+		List<OrdemServico> ordemServicos = new ArrayList<>();
+		ordemServicos.addAll(ordemServicoRepository
+				.findAllByStatusAndClienteNomeContainingIgnoreCase(StatusActiv.ABERTO.getDescricao(), nome));
+		for (OrdemServico ordemServico : ordemServicos) {
+			allOpenOrdem.add(new OrdemDto(ordemServico));
+		}
 		return allOpenOrdem;
 	}
 }

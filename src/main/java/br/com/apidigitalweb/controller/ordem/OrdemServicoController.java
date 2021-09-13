@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.apidigitalweb.config.security.UserSS;
 import br.com.apidigitalweb.domin.ordemservico.OrdemServico;
 import br.com.apidigitalweb.repository.OrdemServicoRepository;
 import br.com.apidigitalweb.service.BaseServicOrdem;
@@ -24,5 +25,5 @@ public class OrdemServicoController extends BaseOrdemController<OrdemServico> im
 	public BaseServicOrdem<OrdemServico> getService() { 	
 		return  service;
 	}
-
+ 
 }
