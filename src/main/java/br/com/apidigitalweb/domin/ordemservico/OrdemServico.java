@@ -47,12 +47,20 @@ public class OrdemServico extends BaseOrdem implements Serializable {
 	public List<ItensInsOrdemDto> getItensInsOrdemDtos() {
 		List<ItensInsOrdemDto> getItensInsServices = new ArrayList<>();
 
-		for (ItensMaoObraInService itensInsService : getItensMaoObraInServices()) {
-			getItensInsServices.add(new ItensInsOrdemDto(itensInsService));
+		try {
+			for (ItensMaoObraInService itensInsService : getItensMaoObraInServices()) {
+				getItensInsServices.add(new ItensInsOrdemDto(itensInsService));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
-		for (ItensMaterialInServiceLoja itensInsService : getItensmaterialInServiceLojas()) {
-			getItensInsServices.add(new ItensInsOrdemDto(itensInsService));
+		try {
+			for (ItensMaterialInServiceLoja itensInsService : getItensmaterialInServiceLojas()) {
+				getItensInsServices.add(new ItensInsOrdemDto(itensInsService));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
 		return getItensInsServices;

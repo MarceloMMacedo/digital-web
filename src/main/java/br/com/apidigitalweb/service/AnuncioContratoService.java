@@ -3,12 +3,16 @@ package br.com.apidigitalweb.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.apidigitalweb.config.exception.AuthorizationException;
+import br.com.apidigitalweb.config.security.UserSS;
+import br.com.apidigitalweb.config.services.UserService;
 import br.com.apidigitalweb.domin.estoque.AnuncioContrato;
 import br.com.apidigitalweb.domin.estoque.DescricaoAnuncio;
 import br.com.apidigitalweb.domin.estoque.Produto;
@@ -34,7 +38,15 @@ public class AnuncioContratoService extends BaseServic<AnuncioContrato> implemen
 				.map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
 		return baseDtos;
 	}
-
+	@Override
+	public List<BaseDto> getAllsample() {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		return repo.findAll().stream().map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())))
+				.collect(Collectors.toList());
+	}
 	@Override
 	public Page<AnuncioContrato> findallpage(String find, Pageable page) {
 		Page<AnuncioContrato> findallpage = repo.findByNomeContainingIgnoreCase(find, page);

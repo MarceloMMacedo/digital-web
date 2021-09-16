@@ -92,10 +92,7 @@ public class BaseController<T extends BaseEntity> implements Serializable {
 		return ResponseEntity.ok(getService().fingbyid(fingbyid));
 	}
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<T> fingid(@PathVariable Long id) {
-		return ResponseEntity.ok(getService().fingbyid(id));
-	}
+	
 
 	public ResponseEntity<List<T>> fingbynome(
 			@RequestParam(defaultValue = "", value = "fingbynome") String fingbynome) {

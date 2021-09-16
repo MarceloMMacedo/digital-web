@@ -3,12 +3,14 @@ package br.com.apidigitalweb.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.apidigitalweb.config.exception.AuthorizationException;
@@ -20,6 +22,9 @@ import br.com.apidigitalweb.domin.estoque.Produto;
 import br.com.apidigitalweb.domin.estoque.AnuncioLoja;
 import br.com.apidigitalweb.dto.AnuncioLojaDTO;
 import br.com.apidigitalweb.dto.BaseDto;
+import br.com.apidigitalweb.dto.Anuncio.AnuncioDto;
+import br.com.apidigitalweb.enuns.SimNaoEnum;
+import br.com.apidigitalweb.enuns.StatusActiv;
 import br.com.apidigitalweb.repository.AnuncioLojaRepository;
 import br.com.apidigitalweb.repository.ProdutoRepository;
 
@@ -33,6 +38,16 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 	@Autowired
 	ProdutoRepository produtoRepository;
 
+	
+	public  Page<AnuncioDto> anuncios(String find, Pageable page)  {
+		/*List<AnuncioLoja> anuncios=service.getAll();
+		List<AnuncioDto> anuncioDtos=new ArrayList<>();
+		anuncioDtos=anuncios.stream().map(x -> new AnuncioDto(x)).collect(Collectors.toList());*/
+		 Page<AnuncioDto> anuncios= findallpage(find, page)
+					.map(x ->new AnuncioDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
+		 return anuncios;
+	}
+	
 	@Override
 	public Page<BaseDto> findallpagedto(String find, Pageable page) {
 
@@ -41,7 +56,15 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 				new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())));
 		return baseDtos;
 	}
-
+	@Override
+	public List<BaseDto> getAllsample() {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		return repo.findAll().stream().map(x -> new BaseDto(x, downloadFile(x.getImagem() + "." + x.getExtension())))
+				.collect(Collectors.toList());
+	}
 	@Override
 	public Page<AnuncioLoja> findallpage(String find, Pageable page) {
 		Page<AnuncioLoja> findallpage = repo.findByNomeContainingIgnoreCase(find, page);
@@ -88,8 +111,15 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 		return fingbynome;
 	}
 
+	
 	@Override
-	public AnuncioLoja newobj(AnuncioLoja obj) {
+	public void prenew(AnuncioLoja obj) {
+		try {
+			obj.setIsPrecificado(SimNaoEnum.Sim.getDescricao());
+			obj.setStatus(StatusActiv.ATIVO.getDescricao());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		try {
 
 			Produto p = produtoRepository.findById(obj.getItensProduto().get(0).getProduto().getId()).get();
@@ -113,7 +143,8 @@ public class AnuncioLojaService extends BaseServic<AnuncioLoja> implements Seria
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return super.newobj(obj);
 	}
+	
+	 
  
 }

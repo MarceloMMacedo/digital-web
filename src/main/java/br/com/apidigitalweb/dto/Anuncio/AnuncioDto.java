@@ -42,6 +42,7 @@ public class AnuncioDto  implements Serializable {
 	private double comprimento;
 	private double altura;
 	private double desconto;
+	private double saldoDisponivel;
 
 
 	private String isPrecificado;
@@ -82,6 +83,7 @@ public class AnuncioDto  implements Serializable {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
+		saldoDisponivel=b.getSaldoDisponivel();
 		this.dataVencimento = b.getDataVencimento();
 		this.status = b.getStatus();
 		this.saldo = b.getSaldo();
@@ -113,6 +115,11 @@ public class AnuncioDto  implements Serializable {
 		super();
 		 setAnuncioDto(b);
 	}
+	public AnuncioDto(BaseAnuncio b ,String imagemv) {
+		super();
+		 setAnuncioDto(b);
+		 imagemView=imagemv;
+	} 
 	public AnuncioDto(AnuncioContrato b ) {
 		super();
 		 setAnuncioDto(b);

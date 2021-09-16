@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.apidigitalweb.controller.estoque.ListaImagens;
 import br.com.apidigitalweb.converters.SimNaoConverter;
+import br.com.apidigitalweb.converters.StatusConverter;
 import br.com.apidigitalweb.converters.UnidadeProdutoConverter;
 import br.com.apidigitalweb.domin.BaseEntity;
 import br.com.apidigitalweb.domin.financeiro.GrupoFinanceiroAnuncio;
@@ -56,7 +57,7 @@ public class BaseAnuncio  implements Serializable, BaseEntity {
 
 	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
 	protected Date dataVencimento;
-	@Convert(converter = SimNaoConverter.class)
+	@Convert(converter = StatusConverter.class)
 	protected String status;
 	protected Integer saldo = 0;
 	protected Integer saldoMinimo = 0;
