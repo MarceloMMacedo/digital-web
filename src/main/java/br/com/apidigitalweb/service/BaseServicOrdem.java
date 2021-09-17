@@ -36,7 +36,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -75,6 +74,7 @@ import br.com.apidigitalweb.openfaing.ReceitaWsFeignPessoaJuridica;
 import br.com.apidigitalweb.openfaing.ViaCEPClient;
 import br.com.apidigitalweb.repository.ClienteRepository;
 import br.com.apidigitalweb.repository.FuncionarioRepository;
+import br.com.apidigitalweb.repository.ItensMaoObraInServiceRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -114,11 +114,12 @@ public class BaseServicOrdem<T extends BaseOrdem> implements Serializable, BaseS
 
 	@Autowired
 	private ModeloService modeloService;
-	
 
+
+	
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-	
+
 	@SuppressWarnings("unchecked")
 	public Class<T> getClasse() {
 		Class<T> classe = null;
@@ -141,46 +142,50 @@ public class BaseServicOrdem<T extends BaseOrdem> implements Serializable, BaseS
 	public void addequipamentocliente(Long id, EquipamentoCliente equipamentoCliente) {
 		Cliente c = clienteRepository.findById(id).get();
 		try {
-			Modelo m=modeloService.fingbyid(equipamentoCliente.getModelo().getId());
+			Modelo m = modeloService.fingbyid(equipamentoCliente.getModelo().getId());
 			equipamentoCliente.setModelo(m);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		c.getEquipamentos().add(equipamentoCliente);
-		clienteService.saveobj(id,c);
+		clienteService.saveobj(id, c);
 	}
+
 	public List<Endereco> getenderecosclient(Long id) {
 		Cliente c = clienteRepository.findById(id).get();
 		List<Endereco> getenderecosclient = new ArrayList<>();
-		if(c.getEndereco()!=null)getenderecosclient.add(c.getEndereco());
+		if (c.getEndereco() != null)
+			getenderecosclient.add(c.getEndereco());
 		for (Endereco e : c.getEnderecos()) {
 			getenderecosclient.add(e);
 		}
 		return getenderecosclient;
 	}
 
-	public List<?> lisalltecnicosampledto(){
+	public List<?> lisalltecnicosampledto() {
 		return funcionarioRepository.lisAllTecnicoSampleDto();
 	}
+
 	public List<EquipamentoCliente> getequipamentoclient(Long id) {
 		Cliente c = clienteRepository.findById(id).get();
 		List<EquipamentoCliente> equipamentoClientes = new ArrayList<>();
-		equipamentoClientes=c.getEquipamentos();
-		 
+		equipamentoClientes = c.getEquipamentos();
+
 		return equipamentoClientes;
 	}
 
 	public void addContato(Long id, Contato contato) {
 		Cliente c = clienteRepository.findById(id).get();
-		
+
 		c.getContatos().add(contato);
-		clienteService.saveobj(id,c);
+		clienteService.saveobj(id, c);
 	}
 
 	public List<Contato> getcontatoosclient(Long id) {
 		Cliente c = clienteRepository.findById(id).get();
 		List<Contato> getcontatoosclient = new ArrayList<>();
-		if(c.getContato()!=null)getcontatoosclient.add(c.getContato());
+		if (c.getContato() != null)
+			getcontatoosclient.add(c.getContato());
 		for (Contato e : c.getContatos()) {
 			getcontatoosclient.add(e);
 		}
@@ -190,7 +195,7 @@ public class BaseServicOrdem<T extends BaseOrdem> implements Serializable, BaseS
 	public void addAndress(Long id, Endereco endereco) {
 		Cliente c = clienteRepository.findById(id).get();
 		c.getEnderecos().add(endereco);
-		clienteService.saveobj(id,c);
+		clienteService.saveobj(id, c);
 	}
 
 	public Cliente receitaws(String cnpj) {

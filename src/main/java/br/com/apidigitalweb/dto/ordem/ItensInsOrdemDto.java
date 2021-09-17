@@ -32,8 +32,8 @@ public class ItensInsOrdemDto   implements  Serializable {
 	protected String imagem;
 	protected String extension;	 
 	protected String imagemView;	
-	private SampleDto anuncioLoja=new SampleDto();
-	private SampleDto anuncio=new SampleDto();
+	private SampleDto produto=new SampleDto();
+	 private SampleDto maoobra=new SampleDto();
 	private int quantidade;
 	private double valorUnitario;
 	private double desconto;
@@ -72,7 +72,8 @@ public class ItensInsOrdemDto   implements  Serializable {
 
 	public ItensInsOrdemDto(MaoObra a) {
 		super(); 
-		anuncio=new SampleDto(a, "");
+		id=a.getId();
+		maoobra=new SampleDto(a, "");
 		this.quantidade = 0;
 		this.valorUnitario = a.getValorTotal();
 		this.desconto = 0;
@@ -81,7 +82,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	}
 	public ItensInsOrdemDto(ItensMaoObraInService a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		maoobra=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
@@ -92,7 +95,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	
 	public ItensInsOrdemDto(ItensMaterialInServiceLoja a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		produto=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
@@ -103,7 +108,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	
 	public ItensInsOrdemDto(ItensMaterialInVendaWeb a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		produto=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
@@ -115,7 +122,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	
 	public ItensInsOrdemDto(ItensMaterialInVendaLoja a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		produto=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
@@ -128,7 +137,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	
 	public ItensInsOrdemDto(ItensMaterialInContratoLoja a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		produto=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
@@ -138,7 +149,9 @@ public class ItensInsOrdemDto   implements  Serializable {
 	}
 	public ItensInsOrdemDto(ItensMaoObraInContrato a) {
 		super(); 
-		anuncio=new SampleDto(a.getProduto(), "");
+		id=a.getId();
+		this.imagemView=a.getImagemView();
+		maoobra=new SampleDto(a.getProduto(), "");
 		this.quantidade = a.getQuantidade();
 		this.valorUnitario = a.getValorUnitario();
 		this.desconto = a.getDesconto();
